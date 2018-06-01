@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>OAuth</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+        
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/ContextMenu.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js"></script>
+        <script>
+            function toggle_sidebar() {
+                let container = document.getElementById('container');
+                if (container.className.indexOf('aside-hidden') < 0) {
+                    container.className = 'container aside-hidden';
+                } else {
+                    container.className = 'container aside-visible';
+                }
+            }
+
+            var messageHandler = function(e) {
+                // {action:1,data:*}
+                var packet = e.data;
+                switch (packet.action) {
+                    case 0:
+                        context.menu.UnknownSelect(packet.title, packet.url);
+                        break;
+                    case 1://未登录
+                        window.location.href = '/login.html';
+                        break;
+                    default:
+                        alert('not found action:' + packet.action);
+                        break;
+                }
+            };
+            if (window.addEventListener) {
+                window.addEventListener("message", messageHandler, false);
+            } else if (window.attachEvent) {
+                window.attachEvent('onmessage', messageHandler);
+            }
+        </script>
+	</head>
+	
+	<body style="margin: 0;">
+
+        <div class="header unselectable">
+            <div id="nav-home" class="nav-logo">
+                <a class="logo-inner" href="/index.html" title="爱扑网络">
+                    <i class="logo-icon"></i>
+                    <span id="nav-home-title" class="logo-text">爱扑网络</span>
+                </a>
+            </div>
+            <ul id="nav-user" class="nav-user"></ul>
+        </div>
+
+        <div id="container" class="container">
+            <div id="sidebar" class="aside unselectable">
+                <div class="aside-area">
+                    <h2 class="aside-headline">
+                        <span>爱扑开放平台</span>
+                    </h2>
+                    <ul id="aside-menu" class="aside-list"></ul>
+                </div>
+                <div id="retract" class="menu-fold" onclick="toggle_sidebar()"><i></i></div>
+            </div>
+            <div id="main" class="main">
+                <div class="manage-area">
+                    <div class="manage-area-title"><h2 id="main-title">脚本执行</h2></div>
+                    <div class="manage-area-main">
+                        <iframe id="main-content" src="" class="game-cloud-iframe-area"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</body>
+</html>

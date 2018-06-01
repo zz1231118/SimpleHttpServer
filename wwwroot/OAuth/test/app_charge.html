@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth-test</title>
+		<script type="text/javascript" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/oauth.js"></script>
+	</head>
+	<body>
+		<script>
+        function getQuery(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+            var r = window.location.search.substr(1).match(reg);
+            return r != null ? unescape(r[2]) : null;
+        }
+		$.ready(function() {
+            var state = getQuery('state');
+            var auth_token = getQuery('auth_token');
+            window.opener.authorized(auth_token, state);
+            window.opener = null;
+            window.open('', '_self', '');
+            window.close();
+        });
+		</script>
+	</body>
+</html>

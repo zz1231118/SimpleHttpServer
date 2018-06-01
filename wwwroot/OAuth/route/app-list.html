@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+		
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/route.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/dataview.js"></script>
+        
+        <style>
+            .input-outline:focus { outline: 0; }
+        </style>
+	</head>
+	<body>
+
+		<div class="container-fluid">
+			<div class="panel" style="width: 1200px;">
+				<div class="panel-heading">
+					<span class="panel-title">App 列表</span>
+				</div>
+				<div class="panel-body">
+					<div>
+						<p><a href="javascript: window.parent.postMessage({ action: 0, title: '添加应用', url: '/route/new-app.html' }, '*');" class="control-button btn-info"><i class="icon-plus icon-white"></i> 添加</a></p>
+					</div>
+					<table id='app_dataview' class="table">
+						<thead>
+							<tr>
+								<th property="index" order="true">序号</th>
+								<th property="ID" primary="true">AppID</th>
+								<th property="Name">名称</th>
+								<th property="key">AppKey</th>
+								<th property="Domain">Domain</th>
+								<th property="operate">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div id="_showalert" class="modal fade hide in" style="width: 400px;">
+			<div class="modal-header">
+				<a class="close" onclick="win.close();">×</a>
+				<h3 id="_showtitle">修改</h3>
+			</div>
+			<div id="_showbody" class="modal-body">
+				<table style="width: 100%">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>名称：</td>
+							<td><input id="update_app_name" type="text" class="control-input" disabled/></td>
+						</tr>
+						<tr>
+							<td>域名：</td>
+							<td><input id="update_app_domain" type="text" class="control-input" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript: void(0);" class="control-button btn-info" onclick="win.submit();">确定(OK)</a>
+			</div>
+		</div>
+		<script>
+			Core.Account.Integrity(null, p => {
+                if (p.result) {
+                    if (confirm('您的资料不完整，是否前往完善？')) {
+                        window.location.href = '/route/user-info.html';
+                    }
+                }
+			});
+			
+			var dataview = new DataView('app_dataview', (column, obj) => {
+				switch (column.property) {
+					case 'key':
+						var span_key = document.createElement('span');
+						span_key.style.marginLeft = '10px';
+						span_key.innerHTML = '********************************';
+
+						var btn_showhide = document.createElement('input');
+						btn_showhide.type = 'button';
+						btn_showhide.className = 'control-button btn-small btn-info input-outline';
+						btn_showhide.value = '显示';
+						btn_showhide.onclick = p => {
+							if (btn_showhide.value == '显示') {
+								btn_showhide.value = '隐藏';
+								span_key.innerHTML = obj.Key;
+							} else {
+								span_key.innerHTML = '********************************';
+								btn_showhide.value = '显示';
+							}
+						};
+
+						return new Array(btn_showhide, span_key);
+					case 'operate':
+						var btn_update = document.createElement('a');
+						btn_update.className = 'control-button btn-small btn-info';
+						btn_update.target = '_blank';
+						btn_update.style.marginRight = '4px';
+						btn_update.innerHTML = '<i class="icon-edit icon-white"></i>修改';
+						btn_update.onclick = p => {
+							win.app_id = obj.ID;
+							win.name = obj.Name;
+							win.domain = obj.Domain;
+							win.show();
+						};
+						var btn_delete = document.createElement('a');
+						btn_delete.className = 'control-button btn-small btn-danger';
+						btn_delete.innerHTML = '<i class="icon-trash icon-white"></i>删除</a>';
+						btn_delete.onclick = p => {
+							if (confirm('确认删除应用：' + obj.Name + '吗？', '删除提示')) {
+								Core.App.Delete({ app_id: obj.ID }, p => p.result ? dataview.remove(obj) : alert(p.data));
+							}
+						};
+						return new Array(btn_update, btn_delete);
+				}
+			});
+			Core.App.Load(null, p => p.result ? p.data.forEach(q => dataview.append(q)) : alert(p.data));
+		</script>
+		<script>
+			var win = {
+				app_id: 0,
+				name: null,
+				domain: null,
+				show: function() {
+					$('#update_app_name').val(this.name);
+					$('#update_app_domain').val(this.domain);
+					$('#_showalert').show();
+				},
+				close: function() {
+					$('#_showalert').hide();
+				},
+				submit: function() {
+					var app_domain = $('#update_app_domain');
+					if (app_domain.val() === "") {
+						alert("域名不能为空！");
+						return;
+					}
+					
+					var param = {
+						app_id: this.app_id, 
+						app_domain: app_domain.val()
+					};
+					Core.App.Update(param, p => {
+						if (!p.result) {
+							alert(p.data);
+							return;
+						}
+
+						view.update(p.data);
+						win.close();
+					});
+				},
+			};
+		</script>
+	</body>
+</html>

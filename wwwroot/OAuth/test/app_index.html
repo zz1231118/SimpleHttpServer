@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth-test</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+
+		<script type="text/javascript" src="/static/js/jquery.js"></script>
+	</head>
+	<body>
+        
+        <div class="header unselectable">
+            <div id="nav-home" class="nav-logo">
+                <a class="logo-inner" href="/index.html" title="爱扑网络">
+                    <i class="logo-icon"></i>
+                    <span id="nav-home-title" class="logo-text">爱扑开放平台</span>
+                </a>
+            </div>
+            <ul id="nav-user" class="nav-user">
+                <li><a href="/wiki.html" target="_blank"><i class="nav-icon icon-book icon-white"></i> 帮助文档</a></li>
+                <li><a href="/register.html" target="_blank"><i class="nav-icon icon-user icon-white"></i> 注册</a></li>
+                <li><a id="changeinfo" href="javascript: void;"><i class="nav-icon icon-user icon-white"></i></a></li>
+                <li><a href="javascript: logout()"><i class="nav-icon icon-off icon-white"></i> 退出</a></li>
+            </ul>
+        </div>
+
+		<div class="container-fluid">
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">App 列表</span>
+				</div>
+				<div class="panel-body">
+					<p>登录成功</p>
+				</div>
+			</div>
+        </div>
+        
+        <script>
+            $.ready(function() {
+                $.post('/Test/AppAccount.yshx?action=Info', null, function(str) {
+                    var json = $.eval(str);
+                    if (!json.result) {
+                        window.location.href = "/test/app_login.html";
+                        return;
+                    }
+                    var account = json.data;
+                    var info = $('#changeinfo');
+                    info.html('<i class="icon-user icon-white"></i> ' + account.Nickname);
+                });
+            });
+            function logout() {
+                $.post('/Test/AppAccount.yshx?action=Logout', null, function(dst) {
+                    window.location.href = "/test/app_login.html";
+                });
+            }
+        </script>
+	</body>
+</html>

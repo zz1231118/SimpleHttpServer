@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/HelpBase" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/HelpBase" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ResultInfoOfArrayOfstringuHEDJ7Dj">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResultInfoOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/HelpBase" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfstring" Namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+        </GenericType>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsError" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Obj" nillable="true" type="q1:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResultInfoOfArrayOfstringuHEDJ7Dj" nillable="true" type="tns:ResultInfoOfArrayOfstringuHEDJ7Dj" />
+  <xs:complexType name="ResultInfo">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsError" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResultInfo" nillable="true" type="tns:ResultInfo" />
+</xs:schema>

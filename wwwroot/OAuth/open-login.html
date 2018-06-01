@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.md5.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/security.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/uri.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+	</head>
+	<body>
+
+        <div class="header navbar-fixed-top">
+            <div id="nav-home" class="nav-logo">
+                <a class="logo-inner" href="/index.html" title="爱扑网络">
+                    <i class="logo-icon"></i>
+                    <span id="nav-home-title" class="logo-text">爱扑网络</span>
+                </a>
+            </div>
+            <ul id="nav-user" class="nav-user"></ul>
+        </div>
+
+		<div class="container-fluid">
+            <div class="panel" style="width: 350px;">
+                <div class="panel-heading">
+                    <span class="panel-title">登录授权</span>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"></th>
+                                <th style="width: 250px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>App：</td>
+                                <td><input id="app_name" class="control-input" readonly type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td>账号：</td>
+                                <td><input id="user_name" class="control-input" type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td>密码：</td>
+                                <td><input id="user_pwd" class="control-input" type="password" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input id="btn_login" type="button" class="control-button btn-info" value="登录" onclick="login();" disabled="true" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var context = context || { };
+            context.init = function() {
+                function getQuery(name) {
+                    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+                    let r = window.location.search.substr(1).match(reg);
+                    return r != null ? unescape(r[2]) : null;
+                }
+
+                context.app_id = getQuery("app_id");
+                context.state = getQuery('state');
+                context.redirect_uri = getQuery("redirect_uri");
+                if (context.app_id == null || context.state == null || context.redirect_uri == null) {
+                    return false;
+                }
+                return true;
+            };
+            function close_window() {
+                window.opener = null;
+                    window.open('', '_self', '');
+                    window.close();
+                    return;
+                if (navigator.userAgent.indexOf("MSIE") > 0) {
+                    window.location.href = 'about:blank';
+                } else if (navigator.userAgent.indexOf("Chrome") > 0) {
+                    window.location.href = 'about:blank';
+                } else if (navigator.userAgent.indexOf("Firefox") > 0) {
+                    window.location.href = 'about:blank ';
+                } else {
+                    window.opener = null;
+                    window.open('', '_self', '');
+                    window.close();
+                }
+            }
+            $.ready(function() {
+                if (!context.init()) {
+                    close_window();
+                    return;
+                }
+                if (!Uri.match(context.redirect_uri)) {
+                    alert("回调地址格式错误：" + context.redirect_uri);
+                    close_window();
+                    return;
+                }
+                Core.Auth.AppSummary({ app_id: context.app_id }, p => {
+                    if (!p.result) {
+                        alert(p.data);
+                        return;
+                    }
+
+                    let app = p.data;
+                    let uri = new Uri(context.redirect_uri);
+                    if (uri.host != 'manager.localhost' && uri.host != "open.apowogame.com" && uri.host !== app.domain) {
+                        alert("非法回调地址：" + context.redirect_uri);
+                        close_window();
+                        return;
+                    }
+
+                    $('#app_name').val(app.name);
+                    $('#btn_login').attr('disabled', '');
+                });
+            });
+            function login() {
+                let user_name = $('#user_name');
+                let user_pwd = $('#user_pwd');
+                if (user_name.val() === "") {
+                    alert("账号不能为空!");
+                    return false;
+                }
+                if (user_pwd.val() === "") {
+                    alert("密码不能为空!");
+                    return false;
+                }
+                
+                let credential = new ClientCredential(user_name.val(), user_pwd.val());
+                let auth = credential.create();
+                let param = {
+                    app_id: context.app_id,
+                    account: auth.account, 
+                    timestamp: auth.timestamp, 
+                    token: auth.token
+                };
+                Core.Auth.Login(param, p => {
+                    if (!p.result) {
+                        let result = p.data;
+                        if (result.code == 2) {
+                            if (confirm('您的资料不完整，无法登录，是否前往完善？')) {
+                                window.location.href = '/index.html';
+                            } else {
+                                alert('登录失败！');
+                                close_window();
+                            }
+                            return;
+                        } else {
+                            alert(result.data);
+                            return;
+                        }
+                    }
+
+                    let auth = p.data;
+                    window.location.href = context.redirect_uri + "?auth_token=" + auth.auth_token + "&state=" + context.state;
+                });
+            }
+		</script>
+	</body>
+</html>

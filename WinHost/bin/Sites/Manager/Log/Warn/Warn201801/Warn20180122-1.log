@@ -1,0 +1,7 @@
+[19:05:56.745] ScriptHandler file:D:\Svn\Picaworld\tools\SimpleHttpServer\wwwroot\Manager\Ranking\RankingTemplates.aspx error: System.InvalidOperationException: 序列不包含任何元素
+   在 System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   在 SimpleHttpServer.Scripts.Entity.RowAdapter.LoadFirst[T](Expression`1 condition) 位置 D:\Svn\Picaworld\tools\SimpleHttpServer\SimpleHttpServer.Scripts\Entity\RowAdapter.cs:行号 115
+   在 Scripts.Manager.Entity.GameServer.get_Template()
+   在 Scripts.Manager.Ranking.RankingTemplates.Invoke()
+   在 Scripts.Manager.Ranking.RankingTemplatesWindow.Invoke()
+   在 SimpleHttpServer.Scripts.ScriptHandler.Handle(IHandleContext context) 位置 D:\Svn\Picaworld\tools\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptHandler.cs:行号 57

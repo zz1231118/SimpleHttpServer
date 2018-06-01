@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        
+        <script type="text/javascript" charset="utf-8" src="/static/js/route.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/dataview.js"></script>
+
+	</head>
+	<body>
+
+		<div class="container-fluid">
+			<div class="panel" style="width: 100%;">
+				<div class="panel-heading">
+					<span class="panel-title">邀请码 列表</span>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal">
+						<label>数量：</label>
+						<input id="build_count" type="number" class="control-input" value="1" min="1" style="width: 220px;" />
+                        <button class="control-button btn-info" onclick="builder();">生成</a>
+					</div>
+					<br />
+					<table id='dataview' class="table">
+						<thead>
+							<tr>
+								<th property="index" order="true">序号</th>
+								<th property="ID" primary="true">标识符</th>
+								<th property="Code">邀请码</th>
+								<th property="Birth">生成时间</th>
+								<th property="Available">是否可用</th>
+								<th property="UseTime">使用时间</th>
+                                <th property="Account">使用账号</th>
+								<th property="operate">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<script>
+            var dataview = new DataView('dataview', (column, obj) => {
+                switch(column.property) {
+                    case 'operate':
+                        if (obj.Available) {
+                            var btn_delete = document.createElement('a');
+                            btn_delete.className = 'control-button btn-small btn-danger';
+                            btn_delete.innerHTML = '<i class="icon-trash icon-white"></i>删除';
+                            btn_delete.onclick = p => {
+                                Core.Invite.Delete({ id: obj.ID }, p => Result.check(p) ? dataview.remove(obj) : alert(p.data));
+                            };
+                            return btn_delete;
+                        }
+                }
+            });
+            Core.Invite.Load(null, p => Result.check(p) && p.data.forEach(q => dataview.append(q)));
+			function builder() {
+				var count = $('#build_count').val();
+				if (count <= 0) {
+					alert("生成数量不能小于0！");
+					return;
+				}
+                
+                Core.Invite.Build({ count: count }, p => {
+                    if (!Result.check(p)) {
+						alert(p.data);
+						return;
+                    }
+                    
+                    p.data.forEach(q => dataview.append(q));
+					alert("生成成功...");
+                });
+			}
+		</script>
+	</body>
+</html>

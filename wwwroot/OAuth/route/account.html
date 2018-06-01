@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/salt-ui.css" />
+
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/dataview.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/salt-ui.js"></script>
+
+        <style>
+            .input-outline:focus { outline: 0; }
+            .sm-label { width: 25%; float: left; padding-top: 7px; text-align: right; }
+            .sm-control { width: 70%; }
+            .form-horizontal { margin-bottom: 5px; }
+            .sky-checkbox { box-sizing: border-box; margin-top: 5px; margin-left: 0px; height: 20px; width: 20px; }
+            button.control-button { margin-left: 15px; padding: 4px 12px; vertical-align: top; }
+            hr { margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee; }
+        </style>
+	</head>
+	<body>
+
+		<div class="container-fluid">
+			<div class="panel" style="width: 100%;">
+				<div class="panel-heading">
+					<span class="panel-title">帐号 列表</span>
+				</div>
+				<div class="panel-body">
+                    <div class="fieldset mb20 pb15">
+                        <div class="legend">查询条件</div>
+                        <div class="form-horizontal" style="display: table;">
+                            <span class="sent-label" style="display: table-cell;">关键字：</span>
+                            <div id="search-control" class="form-horizontal"></div>
+                        </div>
+                    </div>
+					<table id='dataview' class="table">
+						<thead>
+							<tr>
+								<th property="index" order="true">序号</th>
+								<th property="ID" primary="true">标识符</th>
+								<th property="Name">帐号</th>
+                                <th property="password">密码</th>
+								<th property="Birth">创建时间</th>
+								<th property="OpenID">OpenID</th>
+								<th property="Nickname">昵称</th>
+                                <th property="Realname">实名</th>
+								<th property="gender">性别</th>
+								<th property="Phone">手机</th>
+                                <th property="AdminType">权限</th>
+                                <th property="available">是否可用</th>
+								<th property="operate">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div id="_showalert" class="modal fade hide in" style="width: 400px;">
+			<div class="modal-header">
+				<a class="close" onclick="win.close();">×</a>
+				<h3 id="_showtitle">修改</h3>
+			</div>
+			<div id="_showbody" class="modal-body">
+				<div class="form-horizontal">
+					<span class="sm-label">帐号：</span>
+					<input id="win_name" type="text" class="control-input sm-control" readonly="true" />
+				</div>
+				<div class="form-horizontal">
+					<span class="sm-label">权限：</span>
+					<input id="win_admin_type" type="number" class="control-input sm-control" />
+				</div>
+				<div class="form-horizontal">
+					<span class="sm-label">是否可用：</span>
+					<input id="win_available" type="checkbox" class="sky-checkbox sm-control" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript: void(0);" class="control-button btn-info" onclick="win.submit();">确定(OK)</a>
+			</div>
+		</div>
+
+		<script>
+            new SaltUI.SelectCombox({
+                key: 'search-control',
+                options: [{ key: '帐号', value: 'Name' }, { key: '昵称', value: 'Nickname' }, { key: '实名', value: 'Realname' }],
+                change: function(s, e) { dataview.filter(s.key, s.value); }
+            });
+            let dataview = new DataView('dataview', (column, obj) => {
+                switch(column.property) {
+                    case 'password':
+                        var span_key = document.createElement('span');
+						span_key.style.marginLeft = '10px';
+						span_key.innerHTML = '**********';
+
+						var btn_showhide = document.createElement('input');
+						btn_showhide.type = 'button';
+						btn_showhide.className = 'control-button btn-small btn-info input-outline';
+						btn_showhide.value = '显示';
+						btn_showhide.onclick = p => {
+							if (btn_showhide.value == '显示') {
+								btn_showhide.value = '隐藏';
+								span_key.innerHTML = obj.Password;
+							} else {
+								span_key.innerHTML = '**********';
+								btn_showhide.value = '显示';
+							}
+						};
+
+                        return new Array(btn_showhide, span_key);
+                    case 'gender':
+                        return obj.Gender == 0 ? '' : obj.Gender == 1 ? '男' : '女';
+                    case 'available':
+                        return obj.Available ? '<span style="color: green;">true</span>' : '<span style="color: red;">false</span>';
+                    case 'operate':
+                        var btn_update = document.createElement('a');
+                        btn_update.className = 'control-button btn-small btn-info';
+                        btn_update.target = '_blank';
+                        btn_update.style.marginRight = '4px';
+                        btn_update.innerHTML = '<i class="icon-edit icon-white"></i>修改';
+						btn_update.onclick = p => {
+							win.show(obj);
+						};
+						
+						return btn_update;
+						/*
+                        var btn_delete = document.createElement('a');
+                        btn_delete.className = 'control-button btn-small btn-danger';
+                        btn_delete.innerHTML = '<i class="icon-trash icon-white"></i>删除';
+						btn_delete.onclick = p => {
+							alert('正在开发中，敬请期待！');
+						};
+						return new Array(btn_update, btn_delete);
+						*/
+                }
+            });
+            Core.Account.Load(null, p => {
+				if (!p.result) {
+					alert(p.data);
+					return;
+				}
+
+				let array = p.data;
+				let lh = array.filter(p => p.Available);
+                let rh = array.filter(p => !p.Available);
+                lh.sort((l, r) => r.AdminType - l.AdminType);
+                rh.sort((l, r) => r.AdminType - l.AdminType);
+				lh.forEach(p => dataview.append(p));
+				rh.forEach(p => dataview.append(p));
+			});
+
+			var win = {
+				_key: null,
+				show: function(obj) {
+					this._key = obj.ID;
+					$('#win_name').val(obj.Name);
+					$('#win_admin_type').val(obj.AdminType);
+					$('#win_available').attr('checked', obj.Available);
+					$('#_showalert').show();
+				},
+				close: function() {
+					$('#_showalert').hide();
+				},
+				submit: function() {
+					var admin_type = parseInt($('#win_admin_type').val());
+					var available = $('#win_available').attr('checked');
+					var param = {
+						ID: this._key, 
+						AdminType: admin_type,
+						Available: available,
+					};
+					Core.Account.Update(param, p => {
+						if (!p.result) {
+							alert(p.data);
+							return;
+						}
+
+						dataview.update(p.data);
+						win.close();
+					});
+				},
+			};
+		</script>
+	</body>
+</html>

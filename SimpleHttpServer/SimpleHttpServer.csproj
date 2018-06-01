@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92796D1B-22DF-4155-8C07-87E10A815866}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SimpleHttpServer</RootNamespace>
+    <AssemblyName>SimpleHttpServer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;User_Defined</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LyxFramework">
+      <HintPath>..\lib\LyxFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Handlers\Filters\DefaultHandleFilter.cs" />
+    <Compile Include="Handlers\HandleContext.cs" />
+    <Compile Include="Handlers\HandleProvider.cs" />
+    <Compile Include="Handlers\Filters\HandleFilter.cs" />
+    <Compile Include="Handlers\Handler.cs" />
+    <Compile Include="Handlers\IHandleContext.cs" />
+    <Compile Include="Handlers\Filters\FixedHandleFilter.cs" />
+    <Compile Include="Handlers\StaticHandler.cs" />
+    <Compile Include="Net\AuthenticationSchemes.cs" />
+    <Compile Include="Net\AuthenticationSchemeSelector.cs" />
+    <Compile Include="Net\ChunkedInputStream.cs" />
+    <Compile Include="Net\ChunkStream.cs" />
+    <Compile Include="Net\EndPointListener.cs" />
+    <Compile Include="Net\EndPointManager.cs" />
+    <Compile Include="Net\Extensions.cs" />
+    <Compile Include="Net\HttpConnection.cs" />
+    <Compile Include="Net\HttpListener.cs" />
+    <Compile Include="Net\HttpListenerBasicIdentity.cs" />
+    <Compile Include="Net\HttpListenerContext.cs" />
+    <Compile Include="Net\HttpListenerException.cs" />
+    <Compile Include="Net\HttpListenerPrefixCollection.cs" />
+    <Compile Include="Net\HttpListenerRequest.cs" />
+    <Compile Include="Net\HttpListenerResponse.cs" />
+    <Compile Include="Net\HttpStreamAsyncResult.cs" />
+    <Compile Include="Net\HttpUtility.cs" />
+    <Compile Include="Net\ListenerAsyncResult.cs" />
+    <Compile Include="Net\ListenerPrefix.cs" />
+    <Compile Include="Net\RequestStream.cs" />
+    <Compile Include="Net\ResponseStream.cs" />
+    <Compile Include="Net\WebHeaderCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\HttpSiteActivator.cs" />
+    <Compile Include="HttpServer.cs" />
+    <Compile Include="Web\HttpSite.cs" />
+    <Compile Include="Web\HttpSiteLoader.cs" />
+    <Compile Include="Web\IHttpServer.cs" />
+    <Compile Include="Web\IHttpSite.cs" />
+    <Compile Include="Utility\ContentTypes.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>setlocal enabledelayedexpansion
+set src_path=$(ProjectDir)bin\Debug
+for %25%25i in (Audio, Experiment, Manager, OAuth) do (
+    set dst_path=$(SolutionDir)WinHost\bin\Sites\%25%25i
+    xcopy /r /y /s /e "!src_path!" "!dst_path!"
+    set dst_path=$(SolutionDir)SimpleWebService\bin\Sites\%25%25i
+    xcopy /r /y /s /e "!src_path!" "!dst_path!"
+)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

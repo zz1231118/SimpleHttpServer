@@ -1,0 +1,13 @@
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\Scripts.OAuth.Entity.dll
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\Scripts.OAuth.Entity.pdb
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\LyxFramework.dll
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\SimpleHttpServer.Scripts.dll
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\SimpleHttpServer.dll
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\SimpleHttpServer.Scripts.pdb
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\LyxFramework.pdb
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\bin\Debug\SimpleHttpServer.pdb
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\obj\Debug\Scripts.OAuth.Entity.csproj.CoreCompileInputs.cache
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\obj\Debug\Scripts.OAuth.Entity.csproj.CopyComplete
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\obj\Debug\Scripts.OAuth.Entity.dll
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\obj\Debug\Scripts.OAuth.Entity.pdb
+D:\Svn\Picaworld\tools\SimpleHttpServer\Scripts.OAuth.Entity\obj\Debug\Scripts.OAuth.Entity.csprojAssemblyReference.cache

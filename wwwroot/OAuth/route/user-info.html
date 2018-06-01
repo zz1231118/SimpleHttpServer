@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        
+        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/route.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="panel" style="width: 450px;">
+				<div class="panel-heading">
+					<span class="panel-title">用户信息</span>
+				</div>
+				<div class="panel-body">
+					<table style="width: 100%;">
+						<thead>
+							<th style="width: 10%;"></th>
+							<th style="width: 90%;"></th>
+						</thead>
+                        <tbody>
+							<tr>
+                                <td>OpenID：</td>
+                                <td><input type="text" class="control-input" readonly id="open_id" /></td>
+                            </tr>
+                            <tr>
+                                <td>帐号：</td>
+                                <td><input type="text" class="control-input" readonly id="user_name" /></td>
+                            </tr>
+                            <tr>
+                                <td>昵称：</td>
+                                <td><input type="text" class="control-input" readonly id="nickname" /></td>
+                            </tr>
+							<tr>
+                                <td>实名：</td>
+                                <td><input type="text" class="control-input" id="real_name" /></td>
+                            </tr>
+							<tr>
+                                <td>性别：</td>
+                                <td>
+                                    <div style="display: table; height: 30px; width: 100%;">
+                                        <div style="display: table-cell; vertical-align: middle;">
+                                            <span style="display: inline-block; vertical-align: top;">男：</span><input type="radio" id="sex_man" name="sex" />
+                                        </div>
+                                        <div style="display: table-cell; vertical-align: middle;">
+                                            <span style="display: inline-block; vertical-align: top;">女：</span><input type="radio" id="sex_woman" name="sex" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>出生：</td>
+                                <td><input type="date" class="control-input" id="brith_time" /></td>
+                            </tr>
+                            <tr>
+                                <td>手机：</td>
+                                <td><input type="text" class="control-input" id="phone" /></td>
+                            </tr>
+							<tr>
+                                <td></td>
+                                <td><input type="button" class="control-button btn-info" value="保存" onclick="save();"/></td>
+                            </tr>
+                        </tbody>
+					</table>
+				</div>
+			</div>
+        </div>
+        
+        <script>
+            var account = null;
+            Core.Account.Summary(null, p => {
+                if (!p.result) {
+                    alert(p.data);
+                    return;
+                }
+
+                account = p.data;
+                document.getElementById("user_name").value = account.Name;
+                document.getElementById("nickname").value = account.Nickname;
+                document.getElementById("open_id").value = account.OpenID;
+				document.getElementById('real_name').value = (account.Realname || "");
+                document.getElementById('brith_time').value = account.Birth.split(' ')[0];
+                document.getElementById('phone').value = account.Phone || "";
+				if (account.Gender == 1) {
+					document.getElementById('sex_man').checked = true;
+				} else if (account.Gender == 2) {
+					document.getElementById('sex_woman').checked = true;
+				}
+            });
+            function save() {
+                var real_name = document.getElementById('real_name');
+                var birth = document.getElementById('brith_time');
+                var sex_man = document.getElementById('sex_man');
+                var sex_woman = document.getElementById('sex_woman');
+                var sex = sex_man.checked ? 1 : sex_woman.checked ? 2 : 0;
+                var phone = document.getElementById('phone');
+                if (real_name.value == "") {
+                    alert("真实姓名不能为空！");
+                    return;
+                }
+                if (sex == 0) {
+                    alert("请先选择性别!");
+                    return;
+                }
+                if (!window.confirm('确认修改吗？')) {
+                    return;
+                }
+                var param = {
+                    ID: account.ID,
+                    Realname: real_name.value,
+                    Birth: birth.value.toString(),
+                    Gender: sex,
+                    Phone: phone.value
+                };
+                Core.Account.Save(param, p => alert(p.data));
+            }
+        </script>
+	</body>
+</html>

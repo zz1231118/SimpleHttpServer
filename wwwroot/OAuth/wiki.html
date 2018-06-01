@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+
+		<script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+        <style>
+            .panel { width: 1000px; }
+            .red { color: red; }
+            .h2 { width: 70px; }
+            .sub-head { font-weight: bold; }
+            .center { text-align:center; }
+        </style>
+	</head>
+	<body>
+
+        <div class="header navbar-fixed-top">
+            <div id="nav-home" class="nav-logo">
+                <a class="logo-inner" href="/index.html" title="爱扑网络">
+                    <i class="logo-icon"></i>
+                    <span id="nav-home-title" class="logo-text">爱扑网络</span>
+                </a>
+            </div>
+            <ul id="nav-user" class="nav-user"></ul>
+        </div>
+
+		<div class="container-fluid">
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">OAuth2.0 开发文档</span>
+				</div>
+				<div class="panel-body">
+                    <ul style="list-style-type: decimal;">
+                        <li><a href="/static/js/oauth.js">下载 oauth.js</a></li>
+                        <li><a href="#authorization">获取Authorization Code</a></li>
+                        <li><a href="#access-token">通过Authorization Code获取Access Token</a></li>
+                        <li><a href="#user-info">通过Access Token获取用户信息</a></li>
+                        <li><a href="/test/app_login.html">示例</a></li>
+                    </ul>
+				</div>
+			</div>
+		</div>
+
+        <div class="container-fluid">
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">获取Authorization Code</span>
+				</div>
+				<div class="panel-body">
+                    <a name="authorization"></a>
+                    <p class="sub-head">引用: oauth.js</p>
+                    <p>&lt;script type=&quot;text/javascript&quot; src=&quot;http://open.apowogame.com/static/js/oauth.js&quot;&gt;&lt;/script&gt;</p>
+                    <p class="sub-head">调用登录接口</p>
+                    <textarea style="width: 450px; height: 120px;" readonly>
+OAuth.Login.show({
+    app_id: 1,
+    state: 'test',
+    redirect_uri: 'http://open.apowogame.com/test/app_charge.html',
+    width: 600,
+    height: 400
+});
+                    </textarea>
+                    <p class="sub-head">请求参数：</p>
+                    <table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th class="h2">是否必须</th>
+								<th>含义</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>app_id</td>
+                                <td><span class="red">必须</span></td>
+                                <td>分配给应用的appid。</td>
+                            </tr>
+                            <tr>
+                                <td>state</td>
+                                <td><span class="red">必须</span></td>
+                                <td>client端的状态值。用于第三方应用防止CSRF攻击，成功授权后回调时会原样带回。请务必严格按照流程检查用户与state参数状态的绑定。</td>
+                            </tr>
+                            <tr>
+                                <td>redirect_uri</td>
+                                <td><span class="red">必须</span></td>
+                                <td>成功授权后的回调地址，必须是注册appid时填写的主域名下的地址，建议设置为网站首页或网站的用户中心。<span class="red">注意需要将url进行URLEncode</span>。</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>可选</td>
+                                <td>弹出登录窗口的宽度，默认：600px。</td>
+                            </tr>
+                            <tr>
+                                <td>height</td>
+                                <td>可选</td>
+                                <td>弹出登录窗口的高度，默认：400px。</td>
+                            </tr>
+						</tbody>
+					</table>
+                    <p class="sub-head">返回说明：</p>
+                    <p>1. 如果用户成功登录并授权，则会跳转到指定的回调地址，并在redirect_uri地址后带上Authorization Code和原始的state值。</p>
+                    <p>示例：http://open.apowogame.com/test/app_charge.html?code=9A5F************************06AF&state=test</p>
+                    <table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>code</td>
+                                <td>Authorization Code。</td>
+                            </tr>
+                            <tr>
+                                <td>state</td>
+                                <td>client端的状态值。</td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+        <div class="container-fluid">
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">通过Authorization Code获取Access Token</span>
+				</div>
+				<div class="panel-body">
+                    <a name="access-token"></a>
+                    <p class="sub-head">请求地址：</p>
+                    <p>http://open.apowogame.com/open.yshx?action=Swap</p>
+                    <p class="sub-head">请求方法：</p>
+                    <p>POST</p>
+                    <p class="sub-head">请求参数：</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th class="h2">是否必须</th>
+								<th>含义</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>app_id</td>
+                                <td><span class="red">必须</span></td>
+                                <td>分配给应用的appid。</td>
+                            </tr>
+                            <tr>
+                                <td>app_key</td>
+                                <td><span class="red">必须</span></td>
+                                <td>分配给应用的appkey。</td>
+                            </tr>
+                            <tr>
+                                <td>code</td>
+                                <td><span class="red">必须</span></td>
+                                <td>上一步返回的authorization code。如果用户成功登录并授权，
+                                    则会跳转到指定的回调地址，并在URL中带上Authorization Code。
+                                    例如，回调地址为:http://open.apowogame.com/app_charge.html，则跳转到：
+                                    http://open.apowogame.com/app_charge.html?code=520DD95263C1CFEA087****** 
+                                    <span class="red">注意此code会在5分钟后过期。</span>
+                                </td>
+                            </tr>
+						</tbody>
+					</table>
+                    <p class="sub-head">返回说明：</p>
+                    <p>{"result":true, "data":{"access_token":"520DD95263C1CFEA087******", "expires_in": 3600 } }</p>
+                    <p>如果成功返回：</p>
+                    <table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>access_token</td>
+                                <td>访问令牌。</td>
+                            </tr>
+                            <tr>
+                                <td>expires_in</td>
+                                <td>该access token的有效期，单位为秒。</td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+        <div class="container-fluid">
+			<div class="panel">
+				<div class="panel-heading">
+					<span class="panel-title">通过Access Token获取用户信息</span>
+				</div>
+				<div class="panel-body">
+                    <a name="user-info"></a>
+                    <p class="sub-head">请求地址：</p>
+                    <p>http://open.apowogame.com/open.yshx?action=UserInfo</p>
+                    <p class="sub-head">请求方法：</p>
+                    <p>POST</p>
+                    <p class="sub-head">请求参数：</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th class="h2">是否必须</th>
+								<th>含义</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>access_token</td>
+                                <td><span class="red">必须</span></td>
+                                <td>获取到的access token。</td>
+                            </tr>
+						</tbody>
+					</table>
+                    <p class="sub-head">返回说明：</p>
+                    <p>{"result":true, "data":{"app_id":10000489, "open_id":"520DD95263C1CFEA087******", "nick_name": "xxxx", "real_name": "xxxx", "gender": 0 } }</p>
+                    <p>如果成功则返回：</p>
+                    <table class="table">
+						<thead>
+							<tr>
+								<th>参数</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <tr>
+                                <td>app_id</td>
+                                <td>分配给应用的appid。</td>
+                            </tr>
+                            <tr>
+                                <td>open_id</td>
+                                <td>openid是此网站上唯一对应用户身份的标识，网站可将此ID进行存储便于用户下次登录时辨识其身份，或将其与用户在网站上的原有账号进行绑定。</td>
+                            </tr>
+                            <tr>
+                                <td>nick_name</td>
+                                <td>昵称。</td>
+                            </tr>
+                            <tr>
+                                <td>real_name</td>
+                                <td>实名。</td>
+                            </tr>
+                            <tr>
+                                <td>gender</td>
+                                <td>性别，0：未知， 1：男, 2：女。</td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>

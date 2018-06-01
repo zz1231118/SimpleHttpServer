@@ -1,0 +1,1960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/HelpBase" />
+      <xsd:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://61.155.138.203:7000/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Proto.GameModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="GameProxy_RC_InputMessage">
+    <wsdl:part name="parameters" element="tns:RC" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_RC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RCResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SVNUpdateAsset_InputMessage">
+    <wsdl:part name="parameters" element="tns:SVNUpdateAsset" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SVNUpdateAsset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SVNUpdateAssetResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SVNUpdateConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:SVNUpdateConfig" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SVNUpdateConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SVNUpdateConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ReloadConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReloadConfig" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ReloadConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReloadConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityList" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityData" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteActivity" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplate" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplates_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplates" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplates_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplates2_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplates2" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActivityTemplates2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActivityTemplates2Response" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetEntityTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntityTemplate" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetEntityTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntityTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetEntityPropertyTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntityPropertyTemplate" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetEntityPropertyTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntityPropertyTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CreateActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateActivity" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CreateActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetActivity" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetActivityNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetActivityNew" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetActivityNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetActivityNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ES_InputMessage">
+    <wsdl:part name="parameters" element="tns:ES" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ES_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ESResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GAC_InputMessage">
+    <wsdl:part name="parameters" element="tns:GAC" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GAC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GACResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SAC_InputMessage">
+    <wsdl:part name="parameters" element="tns:SAC" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SAC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SACResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ChangeProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeProperty" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ChangeProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Add_InputMessage">
+    <wsdl:part name="parameters" element="tns:Add" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Add_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DoCommand_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoCommand" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DoCommand_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoCommandResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ActivateAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActivateAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ActivateAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActivateAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_OnlineCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:OnlineCount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_OnlineCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OnlineCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UpdateCharacterAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCharacterAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UpdateCharacterAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCharacterAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ChangeCharacterAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeCharacterAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ChangeCharacterAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeCharacterAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_NewCharacter_InputMessage">
+    <wsdl:part name="parameters" element="tns:NewCharacter" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_NewCharacter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NewCharacterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetCharacters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCharacters" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetCharacters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCharactersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Character_InputMessage">
+    <wsdl:part name="parameters" element="tns:Character" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Character_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CharacterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetCharacterItemList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCharacterItemList" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetCharacterItemList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCharacterItemListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharacterLv_InputMessage">
+    <wsdl:part name="parameters" element="tns:CharacterLv" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharacterLv_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CharacterLvResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Characters_InputMessage">
+    <wsdl:part name="parameters" element="tns:Characters" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Characters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CharactersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CustomerMails_InputMessage">
+    <wsdl:part name="parameters" element="tns:CustomerMails" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CustomerMails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CustomerMailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SearchEmails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchEmails" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SearchEmails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchEmailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Pay_InputMessage">
+    <wsdl:part name="parameters" element="tns:Pay" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_Pay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_BuyByCid_InputMessage">
+    <wsdl:part name="parameters" element="tns:BuyByCid" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_BuyByCid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BuyByCidResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DayStateRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:DayStateRecord" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DayStateRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DayStateRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DayStateRecords_InputMessage">
+    <wsdl:part name="parameters" element="tns:DayStateRecords" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DayStateRecords_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DayStateRecordsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActiveInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveInfo" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetActiveInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetAdminLv_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetAdminLv" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetAdminLv_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetAdminLvResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PaoMaDeng_InputMessage">
+    <wsdl:part name="parameters" element="tns:PaoMaDeng" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PaoMaDeng_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PaoMaDengResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_LvGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:LvGroups" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_LvGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LvGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ObjectChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObjectChange" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ObjectChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObjectChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_OCRecord_InputMessage">
+    <wsdl:part name="parameters" element="tns:OCRecord" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_OCRecord_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OCRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_AllProperties_InputMessage">
+    <wsdl:part name="parameters" element="tns:AllProperties" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_AllProperties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AllPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayRecords_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayRecords" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayRecords_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayRecordsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetFinancialData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFinancialData" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetFinancialData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFinancialDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerOpenStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerOpenStatus" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerOpenStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerOpenStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerOpenStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerOpenStatus" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerOpenStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerOpenStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopChat_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopChat" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopChat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopChatResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopLogin" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopIP_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopIP" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_StopIP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopIPResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UnstopIP_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnstopIP" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UnstopIP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnstopIPResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SystemMails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SystemMails" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SystemMails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SystemMailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendSystemMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendSystemMail" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendSystemMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendSystemMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UpdateSystemMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSystemMail" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_UpdateSystemMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSystemMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByAccountNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByAccountNew" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByAccountNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByAccountNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByID" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByLv_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByLv" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByLv_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByLvResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByLvNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByLvNew" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByLvNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByLvNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByName" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByNameNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByNameNew" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendMailsByNameNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailsByNameNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteSystemMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSystemMail" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteSystemMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSystemMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteSMBT_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSMBT" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteSMBT_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSMBTResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharacterByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:CharacterByName" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharacterByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CharacterByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharactersByAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:CharactersByAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CharactersByAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CharactersByAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCidInternal_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCidInternal" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCidInternal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCidInternalResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCNameInternal_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCNameInternal" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCNameInternal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCNameInternalResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCAccountNameInternal_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCAccountNameInternal" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_PayByCAccountNameInternal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayByCAccountNameInternalResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FreezeUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:FreezeUser" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FreezeUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FreezeUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_KickUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:KickUser" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_KickUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KickUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardAll" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByID" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByLv_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByLv" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByLv_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByLvResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByName" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByNameNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByNameNew" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SendAwardByNameNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAwardByNameNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SilentUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SilentUser" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SilentUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SilentUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetSystemAward_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSystemAward" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetSystemAward_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSystemAwardResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetAllSystemAwards_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllSystemAwards" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetAllSystemAwards_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllSystemAwardsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerBirthTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerBirthTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetServerBirthTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerBirthTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerBirthTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerBirthTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetServerBirthTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetServerBirthTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetOpenLoginTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOpenLoginTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetOpenLoginTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOpenLoginTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetOpenLoginTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetOpenLoginTime" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetOpenLoginTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetOpenLoginTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetOpenLoginMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOpenLoginMessage" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetOpenLoginMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOpenLoginMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetOpenLoginMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetOpenLoginMessage" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_SetOpenLoginMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetOpenLoginMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByPartialName_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByPartialName" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByPartialName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByPartialNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByPartialAccount_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByPartialAccount" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterByPartialAccount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByPartialAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterById_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterById" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_FindCharacterById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindCharacterByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CreateTestItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTestItems" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_CreateTestItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTestItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteStuff_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStuff" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_DeleteStuff_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStuffResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_RandomSceneEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:RandomSceneEvent" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_RandomSceneEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RandomSceneEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetAllItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllItems" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetAllItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ShowAllAwardOrigin_InputMessage">
+    <wsdl:part name="parameters" element="tns:ShowAllAwardOrigin" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ShowAllAwardOrigin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ShowAllAwardOriginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ShowAwardOrigin_InputMessage">
+    <wsdl:part name="parameters" element="tns:ShowAwardOrigin" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ShowAwardOrigin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ShowAwardOriginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_InitAwardSummary_InputMessage">
+    <wsdl:part name="parameters" element="tns:InitAwardSummary" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_InitAwardSummary_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InitAwardSummaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_TestWebJson_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestWebJson" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_TestWebJson_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestWebJsonResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ExcuteScript_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExcuteScript" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_ExcuteScript_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExcuteScriptResponse" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetPromoUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPromoUsers" />
+  </wsdl:message>
+  <wsdl:message name="GameProxy_GetPromoUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPromoUsersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="GameProxy">
+    <wsdl:operation name="RC">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/RC" message="tns:GameProxy_RC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/RCResponse" message="tns:GameProxy_RC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SVNUpdateAsset">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SVNUpdateAsset" message="tns:GameProxy_SVNUpdateAsset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SVNUpdateAssetResponse" message="tns:GameProxy_SVNUpdateAsset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SVNUpdateConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SVNUpdateConfig" message="tns:GameProxy_SVNUpdateConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SVNUpdateConfigResponse" message="tns:GameProxy_SVNUpdateConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReloadConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ReloadConfig" message="tns:GameProxy_ReloadConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ReloadConfigResponse" message="tns:GameProxy_ReloadConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityList">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActivityList" message="tns:GameProxy_GetActivityList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActivityListResponse" message="tns:GameProxy_GetActivityList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityData">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActivityData" message="tns:GameProxy_GetActivityData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActivityDataResponse" message="tns:GameProxy_GetActivityData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DeleteActivity" message="tns:GameProxy_DeleteActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DeleteActivityResponse" message="tns:GameProxy_DeleteActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplate" message="tns:GameProxy_GetActivityTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplateResponse" message="tns:GameProxy_GetActivityTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplates">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplates" message="tns:GameProxy_GetActivityTemplates_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplatesResponse" message="tns:GameProxy_GetActivityTemplates_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplates2">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplates2" message="tns:GameProxy_GetActivityTemplates2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActivityTemplates2Response" message="tns:GameProxy_GetActivityTemplates2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntityTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetEntityTemplate" message="tns:GameProxy_GetEntityTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetEntityTemplateResponse" message="tns:GameProxy_GetEntityTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntityPropertyTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetEntityPropertyTemplate" message="tns:GameProxy_GetEntityPropertyTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetEntityPropertyTemplateResponse" message="tns:GameProxy_GetEntityPropertyTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CreateActivity" message="tns:GameProxy_CreateActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CreateActivityResponse" message="tns:GameProxy_CreateActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetActivity" message="tns:GameProxy_SetActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetActivityResponse" message="tns:GameProxy_SetActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetActivityNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetActivityNew" message="tns:GameProxy_SetActivityNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetActivityNewResponse" message="tns:GameProxy_SetActivityNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ES">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ES" message="tns:GameProxy_ES_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ESResponse" message="tns:GameProxy_ES_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GAC">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GAC" message="tns:GameProxy_GAC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GACResponse" message="tns:GameProxy_GAC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SAC">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SAC" message="tns:GameProxy_SAC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SACResponse" message="tns:GameProxy_SAC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ChangeProperty" message="tns:GameProxy_ChangeProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ChangePropertyResponse" message="tns:GameProxy_ChangeProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/Add" message="tns:GameProxy_Add_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/AddResponse" message="tns:GameProxy_Add_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoCommand">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DoCommand" message="tns:GameProxy_DoCommand_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DoCommandResponse" message="tns:GameProxy_DoCommand_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActivateAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ActivateAccount" message="tns:GameProxy_ActivateAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ActivateAccountResponse" message="tns:GameProxy_ActivateAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnlineCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/OnlineCount" message="tns:GameProxy_OnlineCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/OnlineCountResponse" message="tns:GameProxy_OnlineCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCharacterAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/UpdateCharacterAccount" message="tns:GameProxy_UpdateCharacterAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/UpdateCharacterAccountResponse" message="tns:GameProxy_UpdateCharacterAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeCharacterAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ChangeCharacterAccount" message="tns:GameProxy_ChangeCharacterAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ChangeCharacterAccountResponse" message="tns:GameProxy_ChangeCharacterAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NewCharacter">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/NewCharacter" message="tns:GameProxy_NewCharacter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/NewCharacterResponse" message="tns:GameProxy_NewCharacter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCharacters">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetCharacters" message="tns:GameProxy_GetCharacters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetCharactersResponse" message="tns:GameProxy_GetCharacters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Character">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/Character" message="tns:GameProxy_Character_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CharacterResponse" message="tns:GameProxy_Character_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCharacterItemList">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetCharacterItemList" message="tns:GameProxy_GetCharacterItemList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetCharacterItemListResponse" message="tns:GameProxy_GetCharacterItemList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CharacterLv">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CharacterLv" message="tns:GameProxy_CharacterLv_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CharacterLvResponse" message="tns:GameProxy_CharacterLv_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Characters">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/Characters" message="tns:GameProxy_Characters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CharactersResponse" message="tns:GameProxy_Characters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CustomerMails">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CustomerMails" message="tns:GameProxy_CustomerMails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CustomerMailsResponse" message="tns:GameProxy_CustomerMails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchEmails">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SearchEmails" message="tns:GameProxy_SearchEmails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SearchEmailsResponse" message="tns:GameProxy_SearchEmails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Pay">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/Pay" message="tns:GameProxy_Pay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PayResponse" message="tns:GameProxy_Pay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BuyByCid">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/BuyByCid" message="tns:GameProxy_BuyByCid_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/BuyByCidResponse" message="tns:GameProxy_BuyByCid_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DayStateRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DayStateRecord" message="tns:GameProxy_DayStateRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DayStateRecordResponse" message="tns:GameProxy_DayStateRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DayStateRecords">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DayStateRecords" message="tns:GameProxy_DayStateRecords_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DayStateRecordsResponse" message="tns:GameProxy_DayStateRecords_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetActiveInfo" message="tns:GameProxy_GetActiveInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetActiveInfoResponse" message="tns:GameProxy_GetActiveInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetAdminLv">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetAdminLv" message="tns:GameProxy_SetAdminLv_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetAdminLvResponse" message="tns:GameProxy_SetAdminLv_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PaoMaDeng">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/PaoMaDeng" message="tns:GameProxy_PaoMaDeng_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PaoMaDengResponse" message="tns:GameProxy_PaoMaDeng_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LvGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/LvGroups" message="tns:GameProxy_LvGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/LvGroupsResponse" message="tns:GameProxy_LvGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObjectChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ObjectChange" message="tns:GameProxy_ObjectChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ObjectChangeResponse" message="tns:GameProxy_ObjectChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OCRecord">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/OCRecord" message="tns:GameProxy_OCRecord_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/OCRecordResponse" message="tns:GameProxy_OCRecord_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AllProperties">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/AllProperties" message="tns:GameProxy_AllProperties_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/AllPropertiesResponse" message="tns:GameProxy_AllProperties_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayRecords">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/PayRecords" message="tns:GameProxy_PayRecords_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PayRecordsResponse" message="tns:GameProxy_PayRecords_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinancialData">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetFinancialData" message="tns:GameProxy_GetFinancialData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetFinancialDataResponse" message="tns:GameProxy_GetFinancialData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerOpenStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetServerOpenStatus" message="tns:GameProxy_GetServerOpenStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetServerOpenStatusResponse" message="tns:GameProxy_GetServerOpenStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetServerOpenStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetServerOpenStatus" message="tns:GameProxy_SetServerOpenStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetServerOpenStatusResponse" message="tns:GameProxy_SetServerOpenStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StopChat">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/StopChat" message="tns:GameProxy_StopChat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/StopChatResponse" message="tns:GameProxy_StopChat_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StopLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/StopLogin" message="tns:GameProxy_StopLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/StopLoginResponse" message="tns:GameProxy_StopLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StopIP">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/StopIP" message="tns:GameProxy_StopIP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/StopIPResponse" message="tns:GameProxy_StopIP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnstopIP">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/UnstopIP" message="tns:GameProxy_UnstopIP_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/UnstopIPResponse" message="tns:GameProxy_UnstopIP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SystemMails">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SystemMails" message="tns:GameProxy_SystemMails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SystemMailsResponse" message="tns:GameProxy_SystemMails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSystemMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendSystemMail" message="tns:GameProxy_SendSystemMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendSystemMailResponse" message="tns:GameProxy_SendSystemMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSystemMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/UpdateSystemMail" message="tns:GameProxy_UpdateSystemMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/UpdateSystemMailResponse" message="tns:GameProxy_UpdateSystemMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByAccount" message="tns:GameProxy_SendMailsByAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByAccountResponse" message="tns:GameProxy_SendMailsByAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByAccountNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByAccountNew" message="tns:GameProxy_SendMailsByAccountNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByAccountNewResponse" message="tns:GameProxy_SendMailsByAccountNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByID" message="tns:GameProxy_SendMailsByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByIDResponse" message="tns:GameProxy_SendMailsByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByLv">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByLv" message="tns:GameProxy_SendMailsByLv_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByLvResponse" message="tns:GameProxy_SendMailsByLv_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByLvNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByLvNew" message="tns:GameProxy_SendMailsByLvNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByLvNewResponse" message="tns:GameProxy_SendMailsByLvNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByName" message="tns:GameProxy_SendMailsByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByNameResponse" message="tns:GameProxy_SendMailsByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByNameNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendMailsByNameNew" message="tns:GameProxy_SendMailsByNameNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendMailsByNameNewResponse" message="tns:GameProxy_SendMailsByNameNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSystemMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DeleteSystemMail" message="tns:GameProxy_DeleteSystemMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DeleteSystemMailResponse" message="tns:GameProxy_DeleteSystemMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSMBT">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DeleteSMBT" message="tns:GameProxy_DeleteSMBT_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DeleteSMBTResponse" message="tns:GameProxy_DeleteSMBT_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CharacterByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CharacterByName" message="tns:GameProxy_CharacterByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CharacterByNameResponse" message="tns:GameProxy_CharacterByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CharactersByAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CharactersByAccount" message="tns:GameProxy_CharactersByAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CharactersByAccountResponse" message="tns:GameProxy_CharactersByAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayByCidInternal">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/PayByCidInternal" message="tns:GameProxy_PayByCidInternal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PayByCidInternalResponse" message="tns:GameProxy_PayByCidInternal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayByCNameInternal">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/PayByCNameInternal" message="tns:GameProxy_PayByCNameInternal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PayByCNameInternalResponse" message="tns:GameProxy_PayByCNameInternal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayByCAccountNameInternal">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/PayByCAccountNameInternal" message="tns:GameProxy_PayByCAccountNameInternal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/PayByCAccountNameInternalResponse" message="tns:GameProxy_PayByCAccountNameInternal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FreezeUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/FreezeUser" message="tns:GameProxy_FreezeUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/FreezeUserResponse" message="tns:GameProxy_FreezeUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KickUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/KickUser" message="tns:GameProxy_KickUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/KickUserResponse" message="tns:GameProxy_KickUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardAll">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardAll" message="tns:GameProxy_SendAwardAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardAllResponse" message="tns:GameProxy_SendAwardAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardByAccount" message="tns:GameProxy_SendAwardByAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardByAccountResponse" message="tns:GameProxy_SendAwardByAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByID">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardByID" message="tns:GameProxy_SendAwardByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardByIDResponse" message="tns:GameProxy_SendAwardByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByLv">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardByLv" message="tns:GameProxy_SendAwardByLv_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardByLvResponse" message="tns:GameProxy_SendAwardByLv_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardByName" message="tns:GameProxy_SendAwardByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardByNameResponse" message="tns:GameProxy_SendAwardByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByNameNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SendAwardByNameNew" message="tns:GameProxy_SendAwardByNameNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SendAwardByNameNewResponse" message="tns:GameProxy_SendAwardByNameNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SilentUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SilentUser" message="tns:GameProxy_SilentUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SilentUserResponse" message="tns:GameProxy_SilentUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemAward">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetSystemAward" message="tns:GameProxy_GetSystemAward_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetSystemAwardResponse" message="tns:GameProxy_GetSystemAward_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllSystemAwards">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetAllSystemAwards" message="tns:GameProxy_GetAllSystemAwards_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetAllSystemAwardsResponse" message="tns:GameProxy_GetAllSystemAwards_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetServerTime" message="tns:GameProxy_GetServerTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetServerTimeResponse" message="tns:GameProxy_GetServerTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetServerTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetServerTime" message="tns:GameProxy_SetServerTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetServerTimeResponse" message="tns:GameProxy_SetServerTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServerBirthTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetServerBirthTime" message="tns:GameProxy_GetServerBirthTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetServerBirthTimeResponse" message="tns:GameProxy_GetServerBirthTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetServerBirthTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetServerBirthTime" message="tns:GameProxy_SetServerBirthTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetServerBirthTimeResponse" message="tns:GameProxy_SetServerBirthTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOpenLoginTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetOpenLoginTime" message="tns:GameProxy_GetOpenLoginTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetOpenLoginTimeResponse" message="tns:GameProxy_GetOpenLoginTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetOpenLoginTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetOpenLoginTime" message="tns:GameProxy_SetOpenLoginTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetOpenLoginTimeResponse" message="tns:GameProxy_SetOpenLoginTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOpenLoginMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetOpenLoginMessage" message="tns:GameProxy_GetOpenLoginMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetOpenLoginMessageResponse" message="tns:GameProxy_GetOpenLoginMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetOpenLoginMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/SetOpenLoginMessage" message="tns:GameProxy_SetOpenLoginMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/SetOpenLoginMessageResponse" message="tns:GameProxy_SetOpenLoginMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByPartialName">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByPartialName" message="tns:GameProxy_FindCharacterByPartialName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByPartialNameResponse" message="tns:GameProxy_FindCharacterByPartialName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByAccount" message="tns:GameProxy_FindCharacterByAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByAccountResponse" message="tns:GameProxy_FindCharacterByAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByPartialAccount">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByPartialAccount" message="tns:GameProxy_FindCharacterByPartialAccount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByPartialAccountResponse" message="tns:GameProxy_FindCharacterByPartialAccount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterById">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/FindCharacterById" message="tns:GameProxy_FindCharacterById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/FindCharacterByIdResponse" message="tns:GameProxy_FindCharacterById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateTestItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/CreateTestItems" message="tns:GameProxy_CreateTestItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/CreateTestItemsResponse" message="tns:GameProxy_CreateTestItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStuff">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/DeleteStuff" message="tns:GameProxy_DeleteStuff_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/DeleteStuffResponse" message="tns:GameProxy_DeleteStuff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RandomSceneEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/RandomSceneEvent" message="tns:GameProxy_RandomSceneEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/RandomSceneEventResponse" message="tns:GameProxy_RandomSceneEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetAllItems" message="tns:GameProxy_GetAllItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetAllItemsResponse" message="tns:GameProxy_GetAllItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ShowAllAwardOrigin">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ShowAllAwardOrigin" message="tns:GameProxy_ShowAllAwardOrigin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ShowAllAwardOriginResponse" message="tns:GameProxy_ShowAllAwardOrigin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ShowAwardOrigin">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ShowAwardOrigin" message="tns:GameProxy_ShowAwardOrigin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ShowAwardOriginResponse" message="tns:GameProxy_ShowAwardOrigin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InitAwardSummary">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/InitAwardSummary" message="tns:GameProxy_InitAwardSummary_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/InitAwardSummaryResponse" message="tns:GameProxy_InitAwardSummary_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TestWebJson">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/TestWebJson" message="tns:GameProxy_TestWebJson_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/TestWebJsonResponse" message="tns:GameProxy_TestWebJson_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExcuteScript">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/ExcuteScript" message="tns:GameProxy_ExcuteScript_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/ExcuteScriptResponse" message="tns:GameProxy_ExcuteScript_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPromoUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/GameProxy/GetPromoUsers" message="tns:GameProxy_GetPromoUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/GameProxy/GetPromoUsersResponse" message="tns:GameProxy_GetPromoUsers_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_GameProxy" type="tns:GameProxy">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RC">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/RC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SVNUpdateAsset">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SVNUpdateAsset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SVNUpdateConfig">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SVNUpdateConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReloadConfig">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ReloadConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityList">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActivityList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityData">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActivityData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteActivity">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DeleteActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplate">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActivityTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplates">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActivityTemplates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActivityTemplates2">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActivityTemplates2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntityTemplate">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetEntityTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntityPropertyTemplate">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetEntityPropertyTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateActivity">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CreateActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetActivity">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetActivityNew">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetActivityNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ES">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ES" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GAC">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SAC">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeProperty">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ChangeProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/Add" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoCommand">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DoCommand" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivateAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ActivateAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnlineCount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/OnlineCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCharacterAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/UpdateCharacterAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeCharacterAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ChangeCharacterAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewCharacter">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/NewCharacter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCharacters">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetCharacters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Character">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/Character" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCharacterItemList">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetCharacterItemList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CharacterLv">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CharacterLv" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Characters">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/Characters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CustomerMails">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CustomerMails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchEmails">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SearchEmails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Pay">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/Pay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuyByCid">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/BuyByCid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DayStateRecord">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DayStateRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DayStateRecords">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DayStateRecords" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveInfo">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetActiveInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetAdminLv">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetAdminLv" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PaoMaDeng">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/PaoMaDeng" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LvGroups">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/LvGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObjectChange">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ObjectChange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OCRecord">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/OCRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AllProperties">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/AllProperties" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayRecords">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/PayRecords" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinancialData">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetFinancialData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerOpenStatus">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetServerOpenStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetServerOpenStatus">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetServerOpenStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopChat">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/StopChat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopLogin">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/StopLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopIP">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/StopIP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnstopIP">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/UnstopIP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SystemMails">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SystemMails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSystemMail">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendSystemMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSystemMail">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/UpdateSystemMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByAccountNew">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByAccountNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByID">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByLv">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByLv" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByLvNew">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByLvNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByName">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMailsByNameNew">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendMailsByNameNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSystemMail">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DeleteSystemMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSMBT">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DeleteSMBT" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CharacterByName">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CharacterByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CharactersByAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CharactersByAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayByCidInternal">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/PayByCidInternal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayByCNameInternal">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/PayByCNameInternal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayByCAccountNameInternal">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/PayByCAccountNameInternal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FreezeUser">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/FreezeUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KickUser">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/KickUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardAll">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardByAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByID">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByLv">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardByLv" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByName">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAwardByNameNew">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SendAwardByNameNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SilentUser">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SilentUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemAward">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetSystemAward" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllSystemAwards">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetAllSystemAwards" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetServerTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetServerTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetServerTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServerBirthTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetServerBirthTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetServerBirthTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetServerBirthTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOpenLoginTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetOpenLoginTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetOpenLoginTime">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetOpenLoginTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOpenLoginMessage">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetOpenLoginMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetOpenLoginMessage">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/SetOpenLoginMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByPartialName">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/FindCharacterByPartialName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/FindCharacterByAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterByPartialAccount">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/FindCharacterByPartialAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCharacterById">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/FindCharacterById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTestItems">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/CreateTestItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStuff">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/DeleteStuff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RandomSceneEvent">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/RandomSceneEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllItems">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetAllItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShowAllAwardOrigin">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ShowAllAwardOrigin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShowAwardOrigin">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ShowAwardOrigin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InitAwardSummary">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/InitAwardSummary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestWebJson">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/TestWebJson" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExcuteScript">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/ExcuteScript" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPromoUsers">
+      <soap:operation soapAction="http://tempuri.org/GameProxy/GetPromoUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="service">
+    <wsdl:port name="BasicHttpBinding_GameProxy" binding="tns:BasicHttpBinding_GameProxy">
+      <soap:address location="http://61.155.138.203:7000/Action" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

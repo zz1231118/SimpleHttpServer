@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<title>OAuth-test</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+
+		<script type="text/javascript" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/oauth.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+	</head>
+	<body>
+
+        <div class="header navbar-fixed-top">
+            <div id="nav-home" class="nav-logo">
+                <a class="logo-inner" href="/index.html" title="爱扑网络">
+                    <i class="logo-icon"></i>
+                    <span id="nav-home-title" class="logo-text">爱扑网络</span>
+                </a>
+            </div>
+            <ul id="nav-user" class="nav-user"></ul>
+        </div>
+
+        <div class="container-fluid">
+            <div class="panel" style="width: 350px;">
+                <div class="panel-heading">
+                    <span class="panel-title">登录</span>
+                </div>
+                <div class="panel-body">
+                    <input type="button" class="control-button btn-info" value="登录" onclick="login();"/>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function login() {
+                var redirect_uri = 'http://' + window.location.host + '/test/app_charge.html';
+                //var redirect_uri = "http://localhost:5590/test/app_charge.html";
+                OAuth.Login.show({
+                    app_id: 14,
+                    state: 'test',
+                    redirect_uri: redirect_uri,
+                });
+            }
+            function authorized(auth_token, state) {
+                var app_url = '/Test/AppAccount.yshx?action=Login';
+                $.post(app_url, { auth_token: auth_token }, function(str) {
+                    var json = $.eval(str);
+                    if (!json.result) {
+                        alert(json.data);
+                        return;
+                    }
+    
+                    window.location.href = "/test/app_index.html";
+                });
+            }
+        </script>
+	</body>
+</html>
