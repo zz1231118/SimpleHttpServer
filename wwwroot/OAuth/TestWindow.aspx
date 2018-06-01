@@ -4,7 +4,7 @@
 	</head>
 	<body>
         <script>
-            let str = '<% Response.Write("HelloWorld!"); %>';
+            let str = '<% Response.Write(Content); %>';
             console.log(str);
         </script>
 
