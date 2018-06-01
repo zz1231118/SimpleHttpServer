@@ -1,9 +1,0 @@
-D:\Git\CSharp\SimpleHttpServer\OAuth\bin\Debug\OAuth.dll
-D:\Git\CSharp\SimpleHttpServer\OAuth\bin\Debug\OAuth.pdb
-D:\Git\CSharp\SimpleHttpServer\OAuth\bin\Debug\LyxFramework.dll
-D:\Git\CSharp\SimpleHttpServer\OAuth\bin\Debug\LyxFramework.pdb
-D:\Git\CSharp\SimpleHttpServer\OAuth\obj\Debug\OAuth.csprojAssemblyReference.cache
-D:\Git\CSharp\SimpleHttpServer\OAuth\obj\Debug\OAuth.csproj.CoreCompileInputs.cache
-D:\Git\CSharp\SimpleHttpServer\OAuth\obj\Debug\OAuth.csproj.CopyComplete
-D:\Git\CSharp\SimpleHttpServer\OAuth\obj\Debug\OAuth.dll
-D:\Git\CSharp\SimpleHttpServer\OAuth\obj\Debug\OAuth.pdb
