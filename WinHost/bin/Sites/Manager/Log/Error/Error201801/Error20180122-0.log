@@ -1,6 +1,0 @@
-[17:48:00.885] Compile assembly: error:
-File:c:\Users\Chen Guangxu\AppData\Local\Temp\on5mjulq.0.cs, Line:11
-Message:未能找到类型或命名空间名称“OAuth”(是否缺少 using 指令或程序集引用?)
-[17:48:22.446] Compile assembly: error:
-File:c:\Users\Chen Guangxu\AppData\Local\Temp\qfu2fdbs.0.cs, Line:11
-Message:未能找到类型或命名空间名称“OAuth”(是否缺少 using 指令或程序集引用?)

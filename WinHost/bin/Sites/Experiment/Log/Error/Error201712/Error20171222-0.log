@@ -1,4 +1,0 @@
-[14:44:54.995] ProcessAccept error:System.Net.ProtocolViolationException: 写入流的字节超出指定的 Content-Length 字节大小。
-   在 System.Net.HttpResponseStream.Write(Byte[] buffer, Int32 offset, Int32 size)
-   在 SimpleHttpServer.Web.HttpSite.SetupResponse(HttpListenerContext context) 位置 D:\Svn\Picaworld\tools\SimpleHttpServer\SimpleHttpServer\Web\HttpSite.cs:行号 163
-   在 SimpleHttpServer.Web.HttpSite.SetupContext(Object obj) 位置 D:\Svn\Picaworld\tools\SimpleHttpServer\SimpleHttpServer\Web\HttpSite.cs:行号 121
