@@ -5,7 +5,7 @@
 
 ## 一：功能介绍
 
-### 1.支持简单的 GET,POST 请求
+### 1.支持简单的 GET、POST 请求,文件上传。
 ### 2.支持像asp 一样的简单型混编
 ```C#
 public class TestWindow : CSharpScript
