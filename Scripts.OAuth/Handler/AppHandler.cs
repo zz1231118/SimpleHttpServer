@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using LyxFramework.Jsons;
@@ -65,15 +66,51 @@ namespace Scripts.OAuth.Handler
             return json;
         }
 
+        void UploadIcon()
+        {
+            if (Files.Count != 1)
+            {
+                WrapResult(false, "icon file not found!");
+                return;
+            }
+
+            var file = Files.First();
+            if (file.Length > 80 * 1024)
+            {
+                WrapResult(false, "file size error!");
+                return;
+            }
+            var extension = Path.GetExtension(file.FileName);
+            if (extension != ".png")
+            {
+                WrapResult(false, "file format error!");
+                return;
+            }
+
+            var uri = "/icons/" + _account.OpenID + "/";
+            var dirPath = Path.Combine(Application.Current.BaseDirectory, "icons", _account.OpenID);
+            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+
+            var name = Guid.NewGuid().ToString("N") + extension;
+            var path = Path.Combine(dirPath, name);
+            byte[] bytes = new byte[Math.Min(file.Length, 1024)];
+            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                file.Stream.CopyTo(fs);
+
+            uri += name;
+            WrapResult(true, uri);
+        }
         void New()
         {
             var name = Form.Find("app_name");
             var domain = Form.Find("app_domain");
+            var icon = Form.Find("icon");
 
             var app = RowAdapter.Create<App>();
             app.OwnerID = _account.ID;
             app.Name = name;
             app.Domain = domain;
+            app.IconURL = icon;
             app.Save();
 
             var json = new JsonObject();
@@ -83,7 +120,8 @@ namespace Scripts.OAuth.Handler
         void Update()
         {
             long id = Form.Find<long>("app_id");
-            string domain = Form.Find<string>("app_domain");
+            var name = Form.Find("app_name");
+            var domain = Form.Find("app_domain");
 
             var apps = RowAdapter.Load<App>(p => p.OwnerID == _account.ID && p.Deleted == false && p.ID == id);
             var app = apps.FirstOrDefault();
@@ -93,6 +131,7 @@ namespace Scripts.OAuth.Handler
                 return;
             }
 
+            app.Name = name;
             app.Domain = domain;
             app.Save();
             WrapResult(true, FromApp(app));

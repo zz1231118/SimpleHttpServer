@@ -80,55 +80,66 @@ namespace Scripts.OAuth.Handler
             var json = new JsonObject();
             json["name"] = app.Name;
             json["domain"] = app.Domain;
+            json["icon"] = app.IconURL;
             WrapResult(true, json);
         }
         void Login()
         {
-            var appID = Form.Find<long>("app_id");
-            var name = Form.Find("account");
-            var timestamp = Form.Find<long>("timestamp");
-            var token = Form.Find("token");
+            string token, name;
+            long appID, timestamp;
+            if (!Form.TryGet("token", out token) ||
+                !Form.TryGet("account", out name) ||
+                !Form.TryGet("app_id", out appID) ||
+                !Form.TryGet("timestamp", out timestamp))
+            {
+                WrapResult(ResultCode.InvalidParam, "invalid param!");
+                return;
+            }
             if (string.IsNullOrEmpty(name))
             {
-                WrapResult(false, ErrorResult(1, "账号不能为空！"));
+                WrapResult(ResultCode.InvalidParam, "账号不能为空！");
                 return;
             }
             if (string.IsNullOrEmpty(token))
             {
-                WrapResult(false, ErrorResult(1, "Token 不能为空！"));
+                WrapResult(ResultCode.InvalidParam, "Token 不能为空！");
                 return;
             }
 
             var time = DateTimeExtension.ConvertFromTimestamp(timestamp);
             if (Math.Abs((DateTime.Now - time).TotalSeconds) > Interval.TotalSeconds)
             {
-                WrapResult(false, ErrorResult(1, "Token 已过期！"));
+                WrapResult(ResultCode.InvalidParam, "Token 已过期！");
                 return;
             }
 
             var app = RowAdapter.LoadFirstOrDefault<App>(p => p.ID == appID && p.Deleted == false);
             if (app == null)
             {
-                WrapResult(false, ErrorResult(1, "not found app!"));
+                WrapResult(ResultCode.InvalidParam, "指定应用未找到！");
                 return;
             }
-
+            if (!app.AccessRestriction.Security(Request.RemoteEndPoint.Address))
+            {
+                WrapResult(ResultCode.InvalidParam, "限制访问！");
+                return;
+            }
             var account = RowAdapter.LoadFirstOrDefault<Account>(p => p.Name == name);
             if (account == null)
             {
-                WrapResult(false, ErrorResult(1, "指定帐号不存在！"));
+                WrapResult(ResultCode.InvalidParam, "指定帐号不存在！");
                 return;
             }
             if (!account.Available)
             {
-                WrapResult(false, ErrorResult(1, "该帐号不可用！"));
+                WrapResult(ResultCode.InvalidAction, "该帐号不可用！");
                 return;
             }
 
             account.CheckErrorReset();
             if (account.TodayErrorTimes >= MaxErrorTimes)
             {
-                WrapResult(false, ErrorResult(1, "您的账号已被限制登录！"));
+                WrapResult(ResultCode.InvalidAction, "您的账号已被限制登录！");
                 return;
             }
 
@@ -139,12 +150,12 @@ namespace Scripts.OAuth.Handler
                 account.TodayErrorTimes++;
                 account.TotalErrorTimes++;
                 account.Save();
-                WrapResult(false, ErrorResult(1, "无效的Token！"));
+                WrapResult(ResultCode.InvalidAction, "无效的Token！");
                 return;
             }
             if (string.IsNullOrEmpty(account.Realname) || string.IsNullOrEmpty(account.Phone))
             {
-                WrapResult(false, ErrorResult(2, "帐号信息不完善，请先完善帐号信息！"));
+                WrapResult((byte)ResultError.Incompletion, "帐号信息不完善，请先完善帐号信息！");
                 return;
             }
 
@@ -169,7 +180,7 @@ namespace Scripts.OAuth.Handler
             var json = new JsonObject();
             json["auth_token"] = auth.Token;
             json["expires_in"] = (auth.DeathLine - DateTime.Now).TotalSeconds;
-            WrapResult(true, json);
+            WrapResult(ResultCode.OK, json);
         }
         void Token()
         {
@@ -199,6 +210,11 @@ namespace Scripts.OAuth.Handler
             if (app == null)
             {
                 WrapResult(false, "not found app!");
+                return;
+            }
+            if (!app.AccessRestriction.Security(Request.RemoteEndPoint.Address))
+            {
+                WrapResult(ResultCode.InvalidParam, "限制访问！");
                 return;
             }
 
@@ -264,6 +280,11 @@ namespace Scripts.OAuth.Handler
                 WrapResult(false, "not found app!");
                 return;
             }
+            if (!app.AccessRestriction.Security(Request.RemoteEndPoint.Address))
+            {
+                WrapResult(ResultCode.InvalidParam, "restricted access!");
+                return;
+            }
             if (!app.Key.Equals(appKey))
             {
                 WrapResult(false, "invaild app key!");
@@ -271,6 +292,7 @@ namespace Scripts.OAuth.Handler
             }
 
             var auth = RowAdapter.LoadFirstOrDefault<Authorization>(p => p.AppID == appID && p.Token == authToken);
+            LyxFramework.Log.LogManager.Info.Log("ID:{0} Key:{1} Token:{2}", appID, appKey, authToken);
             if (auth == null)
             {
                 WrapResult(false, "invaild code!");
@@ -406,6 +428,11 @@ namespace Scripts.OAuth.Handler
             }
 
             WrapResult(true, array);
+        }
+
+        enum ResultError : byte
+        {
+            Incompletion = 5,
         }
     }
 }

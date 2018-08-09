@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 		<title>OAuth</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
@@ -14,9 +15,21 @@
         <script type="text/javascript" charset="utf-8" src="/static/js/uri.js"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+        <style>
+            .pm-label { margin-left:25px; width: 50px; float: left; padding-top: 5px; text-align: right; }
+            .pm-content { width:260px; }
+            .form-horizontal { display: flex; margin-bottom: 5px; }
+            img {
+                width: 64px;
+                height: 64px;
+                display: inline-block; 
+            }
+            @media screen and (max-width:600px) {
+               .nav-user { display: none; }
+            }
+        </style>
 	</head>
 	<body>
-
         <div class="header navbar-fixed-top">
             <div id="nav-home" class="nav-logo">
                 <a class="logo-inner" href="/index.html" title="爱扑网络">
@@ -28,39 +41,35 @@
         </div>
 
 		<div class="container-fluid">
-            <div class="panel" style="width: 350px;">
+            <div class="panel" style="width: 400px;">
                 <div class="panel-heading">
                     <span class="panel-title">登录授权</span>
                 </div>
                 <div class="panel-body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;"></th>
-                                <th style="width: 250px;"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>App：</td>
-                                <td><input id="app_name" class="control-input" readonly type="text" /></td>
-                            </tr>
-                            <tr>
-                                <td>账号：</td>
-                                <td><input id="user_name" class="control-input" type="text" /></td>
-                            </tr>
-                            <tr>
-                                <td>密码：</td>
-                                <td><input id="user_pwd" class="control-input" type="password" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <input id="btn_login" type="button" class="control-button btn-info" value="登录" onclick="login();" disabled="true" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: block; width: 210px; margin: 0 auto;">
+                            <img id="app-icon" style="margin-right: 5px;" />
+                            <img src="/static/img/interchange.png" />
+                            <img src="/static/img/logo.png" style="margin-left: 5px;" />
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">名称：</span>
+                        <input id="app_name" class="control-input pm-content" readonly type="text" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">账号：</span>
+                        <input id="user_name" class="control-input pm-content" type="text" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">密码：</span>
+                        <input id="user_pwd" class="control-input pm-content" type="password" />
+                    </div>
+                    <hr class="mt10 mb15">
+                    <div class="form-horizontal">
+                        <b class="pm-label"></b>
+                        <button id="btn_login" type="button" class="control-button btn-info" onclick="login();" disabled="true">登录</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,6 +132,7 @@
                         return;
                     }
 
+                    $('#app-icon').attr('src', app.icon);
                     $('#app_name').val(app.name);
                     $('#btn_login').attr('disabled', '');
                 });
@@ -148,24 +158,23 @@
                     token: auth.token
                 };
                 Core.Auth.Login(param, p => {
-                    if (!p.result) {
-                        let result = p.data;
-                        if (result.code == 2) {
+                    switch (p.code) {
+                        case 0:
+                            let auth = p.data;
+                            window.location.href = context.redirect_uri + "?auth_token=" + auth.auth_token + "&state=" + context.state;
+                            break;
+                        case 5:
                             if (confirm('您的资料不完整，无法登录，是否前往完善？')) {
                                 window.location.href = '/index.html';
                             } else {
                                 alert('登录失败！');
                                 close_window();
                             }
-                            return;
-                        } else {
-                            alert(result.data);
-                            return;
-                        }
+                            break;
+                        default:
+                            alert(p.data);
+                            break;
                     }
-
-                    let auth = p.data;
-                    window.location.href = context.redirect_uri + "?auth_token=" + auth.auth_token + "&state=" + context.state;
                 });
             }
 		</script>

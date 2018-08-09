@@ -548,11 +548,14 @@
 				} catch (ex) {
 					xhr = new ActiveXObject("Msxml2.XMLHTTP");
 				}
-		　　}
+        　　}
 
 			xhr.open(obj.type, obj.url, obj.async);
-			xhr.setRequestHeader("Cache-Control","no-cache");
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Cache-Control", "no-cache");
+            if (obj.contentType != false) {
+                let contentType = obj.contentType || "application/x-www-form-urlencoded";
+                xhr.setRequestHeader("Content-type", contentType);
+            }
 			if (obj.async) {
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4) {
@@ -594,9 +597,9 @@
 		post: function(url, data, callback) {
 			this.ajax({
 				url: url,
-				type: "POST",
+				type: 'POST',
 				async: true,
-				data: jQuery.joinParam(data),
+                data: jQuery.joinParam(data),
 				complete: function(xhr, status, responseText) {
 					if (status == 200) {
 						callback(responseText);

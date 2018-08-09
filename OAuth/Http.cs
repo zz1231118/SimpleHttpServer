@@ -42,6 +42,7 @@ namespace OAuth
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Post;
+            request.ContentType = "application/x-www-form-urlencoded";
             if (header != null)
             {
                 foreach (var key in header.Keys)

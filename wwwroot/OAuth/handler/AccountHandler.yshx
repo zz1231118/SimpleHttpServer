@@ -80,13 +80,20 @@ namespace Scripts.OAuth.Handler
 
         void List()
         {
+            var account = JsonSerializer.Deserialize<Account>(Session["account"]);
+            if (account.AdminType <= AdminType.普通)
+            {
+                WrapResult(false, "无权操作!");
+                return;
+            }
+
             var accounts = RowAdapter.Load<Account>(p => p.Deleted == false);
             WrapResult(true, accounts);
         }
         void Update()
         {
             var id = Form.Find<long>("ID");
-            var account = RowAdapter.Load<Account>(p => p.ID == id && p.Deleted == false).FirstOrDefault();
+            var account = RowAdapter.LoadFirstOrDefault<Account>(p => p.ID == id && p.Deleted == false);
             if (account == null)
             {
                 WrapResult(false, "未找到指定账号！");
@@ -127,6 +134,43 @@ namespace Scripts.OAuth.Handler
             account.Delete();
             WrapResult(true);
         }
+        void ChangePassword()
+        {
+            var oldPassword = Form.Find("old_password");
+            var newPassword = Form.Find("new_password");
+            var account = JsonSerializer.Deserialize<Account>(Session["account"]);
+            account = RowAdapter.LoadFirst<Account>(p => p.ID == account.ID);
+            if (account == null)
+            {
+                WrapResult(false, "指定帐号不存在！");
+                return;
+            }
+            if (!account.Available)
+            {
+                WrapResult(false, "该帐号不可用！");
+                return;
+            }
+            account.CheckErrorReset();
+            if (account.TodayErrorTimes >= MaxErrorTimes)
+            {
+                WrapResult(false, "您的账号已被限制登录！");
+                return;
+            }
+            if (account.Password != oldPassword)
+            {
+                account.TodayErrorTimes++;
+                account.TotalErrorTimes++;
+                account.Save();
+                WrapResult(false, "密码错误！");
+                return;
+            }
+
+            account.Password = newPassword;
+            account.ResetError();
+            account.Save();
+            Session["account"] = JsonSerializer.Serialize(account);
+            WrapResult(true, "修改成功");
+        }
 
         [NonLogin]
         void New()
@@ -134,6 +178,10 @@ namespace Scripts.OAuth.Handler
             var name = Form.Find("user_name");
             var password = Form.Find("user_pwd");
             var nickname = Form.Find("nick_name");
+            var realname = Form.Find("realname");
+            var birth = Form.Find("birth");
+            var gender = Form.Find<int>("gender");
+            var phone = Form.Find("phone");
             var inviteCode = Form.Find("invite_code");
             if (string.IsNullOrEmpty(name))
             {
@@ -186,6 +234,10 @@ namespace Scripts.OAuth.Handler
             account.Name = name;
             account.Password = password;
             account.Nickname = nickname;
+            account.Realname = realname;
+            account.Birth = DateTime.Parse(birth);
+            account.Gender = (Gender)gender;
+            account.Phone = phone;
             account.Save();
             WrapResult(true, "ok");
         }

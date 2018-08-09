@@ -1,5 +1,11 @@
+function get_query(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg);
+    return r != null ? unescape(r[2]) : null;
+}
+
 var context = context || { };
-context.isDebug = false;
+context.isDebug = Boolean(get_query('debug'));;
 
 class Guaranty {
 
@@ -83,13 +89,18 @@ function buildSidebar(login, admin) {
         {
             login: true,
             admin: 0,
-            url: '<a id="changeinfo" href="javascript: context.menu.UnknownSelect(\'用户信息\', \'/route/user-info.html\');"><i class="nav-icon icon-user icon-white"></i> </a>'
-        },
-        {
-            login: true,
-            admin: 0,
-            url: '<a href="javascript: logout()"><i class="nav-icon icon-off icon-white"></i> 退出</a>'
-        },
+            url: '<a href="javascript:;">\
+                    <i class="nav-icon icon-user icon-white"></i>\
+                    <span id="changeinfo" style="display: inline-block;"></span>\
+                    <i class="nav-arrows"></i>\
+                </a>\
+                <ul class="nav-user-menu">\
+                    <li><a href="javascript: context.menu.UnknownSelect(\'用户信息\', \'/route/user-info.html\');"><span><i class="nav-icon icon-list-alt icon-white"></i>详细信息</span></a></li>\
+                    <li><a href="javascript: context.menu.UnknownSelect(\'修改密码\', \'/route/change-password.html\');"><span><i class="nav-icon icon-pencil icon-white"></i>修改密码</span></a></li>\
+                    <li><span class="user-info-line"></span></li>\
+                    <li><a href="javascript: logout()"><span><i class="nav-icon icon-off icon-white"></i>退出</span></a></li>\
+                </ul>'
+        }
     ];
     let root = document.getElementById('nav-user');
     for (let i = 0; i < array.length; i++) {
@@ -102,6 +113,7 @@ function buildSidebar(login, admin) {
 
         if (obj.admin <= admin) {
             let li = document.createElement('li');
+            li.className = 'nav-user-li';
             li.innerHTML = obj.url;
             root.appendChild(li);
         }

@@ -111,20 +111,27 @@ namespace SimpleHttpServer.Scripts
                 if (request.ContentType == null)
                     throw new InvalidOperationException("content type error!");
 
-                var ts = request.ContentType.Split(';');
-                var bytes = new byte[request.ContentLength64];
-                Utility.HttpHelper.Read(request.InputStream, bytes, 0, bytes.Length);
-                switch (ts[0].ToLower())
+                var array = request.ContentType.Split(';');
+                var contentType = array[0].ToLower();
+                switch (contentType)
                 {
-                    case "multipart/form-data'":
+                    case "multipart/form-data":
                         _files.Resolve(request);
                         break;
                     case "application/json":
-                        ParseJsonQuery(_form, encoding.GetString(bytes));
+                        {
+                            var bytes = new byte[request.ContentLength64];
+                            Utility.HttpHelper.Read(request.InputStream, bytes, 0, bytes.Length);
+                            ParseJsonQuery(_form, encoding.GetString(bytes));
+                        }
                         break;
                     default:
-                        //application/x-www-form-urlencoded
-                        ParseUrlEncodedQuery(_form, encoding.GetString(bytes));
+                        {
+                            //application/x-www-form-urlencoded
+                            var bytes = new byte[request.ContentLength64];
+                            Utility.HttpHelper.Read(request.InputStream, bytes, 0, bytes.Length);
+                            ParseUrlEncodedQuery(_form, encoding.GetString(bytes));
+                        }
                         break;
                 }
             }
@@ -248,9 +255,11 @@ namespace SimpleHttpServer.Scripts
 
             _response.Write(json.Normalizing());
         }
-        protected void WrapResult(ResultCode code, object data = null)
+        protected void WrapResult(Enum code, object data = null)
         {
-            WrapResult((byte)code, data);
+            var underlyingType = Enum.GetUnderlyingType(code.GetType());
+            var enval = Convert.ChangeType(code, underlyingType);
+            WrapResult(Convert.ToInt32(enval), data);
         }
         protected override void Dispose(bool disposing)
         {

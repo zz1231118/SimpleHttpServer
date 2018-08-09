@@ -4,13 +4,18 @@ namespace SimpleHttpServer.Scripts.Utility
 {
     internal static class HttpHelper
     {
-        public static void Read(Stream dst, byte[] bytes, int offset, int count)
+        public static int Read(Stream dst, byte[] bytes, int offset, int count)
         {
-            int len = 0;
-            while (len < count)
+            int length = 0;
+            while (length < count)
             {
-                len += dst.Read(bytes, offset + len, count - len);
+                var len = dst.Read(bytes, offset + length, count - length);
+                if (len == 0)
+                    break;
+
+                length += len;
             }
+            return length;
         }
     }
 }

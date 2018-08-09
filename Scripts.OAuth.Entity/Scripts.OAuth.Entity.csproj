@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Access.cs" />
+    <Compile Include="AccessRecord.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="AdminType.cs" />
     <Compile Include="App.cs" />

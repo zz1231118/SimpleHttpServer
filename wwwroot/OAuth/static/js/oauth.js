@@ -12,8 +12,8 @@
                     throw  new Error('not found state');
 
                 let app_id = data.app_id;
-                let width = data.width || 600;
-                let height = data.height || 400;
+                let width = data.width || 650;
+                let height = data.height || 500;
                 let top = (window.screen.availHeight - 30 - height) / 2;
                 let left = (window.screen.availWidth - 10 - width) / 2;
                 if (top >= 240) top -= 120;

@@ -55,7 +55,7 @@ namespace SimpleHttpServer.Scripts.Entity
             if (commandStruct == null)
                 throw new ArgumentNullException(nameof(commandStruct));
 
-            var rows = DbExtension.Load<T>(dbProvider, commandStruct);
+            var rows = DbHelper.Load<T>(dbProvider, commandStruct);
             foreach (var row in rows)
             {
                 row._saveUsage = SaveUsage.Update;
@@ -145,10 +145,10 @@ namespace SimpleHttpServer.Scripts.Entity
                 case SaveUsage.Unknown:
                     throw new InvalidOperationException("Unknown SaveUsage");
                 case SaveUsage.Update:
-                    DbExtension.Update(dbProvider, new object[] { this });
+                    DbHelper.Update(dbProvider, new object[] { this });
                     break;
                 case SaveUsage.Insert:
-                    DbExtension.Insert(dbProvider, new object[] { this });
+                    DbHelper.Insert(dbProvider, new object[] { this });
                     break;
             }
         }

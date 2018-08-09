@@ -3,7 +3,8 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-		<title>OAuth</title>
+        <title>OAuth</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/frame.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
 		<link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
 		
@@ -61,7 +62,7 @@
 					<tbody>
 						<tr>
 							<td>名称：</td>
-							<td><input id="update_app_name" type="text" class="control-input" disabled/></td>
+							<td><input id="update_app_name" type="text" class="control-input"/></td>
 						</tr>
 						<tr>
 							<td>域名：</td>
@@ -144,14 +145,20 @@
 					$('#_showalert').hide();
 				},
 				submit: function() {
+                    var name = $('#update_app_name');
 					var app_domain = $('#update_app_domain');
+                    if (name.val() == '') {
+                        alert("名称不能为空！");
+						return;
+                    }
 					if (app_domain.val() === "") {
 						alert("域名不能为空！");
 						return;
 					}
 					
 					var param = {
-						app_id: this.app_id, 
+						app_id: this.app_id,
+                        app_name: name.val(),
 						app_domain: app_domain.val()
 					};
 					Core.App.Update(param, p => {
@@ -160,7 +167,7 @@
 							return;
 						}
 
-						view.update(p.data);
+						dataview.update(p.data);
 						win.close();
 					});
 				},

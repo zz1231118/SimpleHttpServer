@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 		<title>OAuth</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
@@ -13,6 +14,11 @@
         <script type="text/javascript" charset="utf-8" src="/static/js/security.js"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
+        <style>
+            .pm-label { margin-left:25px; width: 40px; float: left; padding-top: 5px; text-align: right; }
+            .pm-content { width:230px; }
+            .form-horizontal { display: flex; margin-bottom: 5px; }
+        </style>
 	</head>
 	<body>
 
@@ -32,22 +38,20 @@
                     <span class="panel-title">登录</span>
                 </div>
                 <div class="panel-body">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>账号：</td>
-                                <td><input id="user_name" class="control-input" type="text" /></td>
-                            </tr>
-                            <tr>
-                                <td>密码：</td>
-                                <td><input id="user_pwd" class="control-input" type="password" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="button" class="control-button btn-info" value="登录" onclick="login();"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="form-horizontal">
+                        <span class="pm-label">账号：</span>
+                        <input id="user_name" type="text" class="control-input pm-content" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">密码：</span>
+                        <input id="user_pwd" type="password" class="control-input pm-content" />
+                    </div>
+                    <hr class="mt10 mb15">
+                    <div class="form-horizontal">
+                        <span class="pm-label"></span>
+                        <button class="control-button btn-info" onclick="login();">登录</button>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -70,7 +74,6 @@
                 let auth = credential.create();
                 let param = { account: auth.account, timestamp: auth.timestamp, token: auth.token };
                 Core.Account.Login(param, p => p.result ? window.location.href = "/index.html" : alert(p.data));
-                return true;
             }
         </script>
 	</body>

@@ -9,13 +9,9 @@ body {
     color: #333;
     background-color: #fff;
 }
-a {
-    color: #0088cc;
-    text-decoration: none;
-}
-li {
-    line-height: 18px;
-}
+a { color: #0088cc; text-decoration: none; }
+li { line-height: 18px; }
+hr { margin-top: 20px; margin-bottom: 20px; border: 0; border-top: 1px solid #eee; }
 
 .container-fluid {
     padding-left: 20px;
@@ -118,13 +114,8 @@ li {
     border: 1px solid #ddd;
 }
 
-.pb15 {
-    padding-bottom: 15px !important;
-}
-
-.mb20 {
-    margin-bottom: 20px !important;
-}
+.pb15 { padding-bottom: 15px !important; }
+.mb20 { margin-bottom: 20px !important; }
 
 /*-----------control-file---------*/
 .control-file { 

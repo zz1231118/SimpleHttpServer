@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 		<title>OAuth</title>
         <link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
@@ -11,6 +12,11 @@
         <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
         <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+        <style>
+            .pm-label { margin-left:25px; width: 80px; float: left; padding-top: 5px; text-align: right; }
+            .pm-content { width:300px; }
+            .form-horizontal { display: flex; margin-bottom: 5px; }
+        </style>
 	</head>
 	<body>
 
@@ -25,49 +31,88 @@
         </div>
 
         <div class="container-fluid">
-            <div class="panel" style="width: 450px;">
+            <div class="panel" style="width: 500px;">
                 <div class="panel-heading">
                     <span class="panel-title">注册账号</span>
                 </div>
                 <div class="panel-body">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>账号(*)：</td>
-                                <td><input id="user_name" class="control-input" type="text" autocomplete="off" /></td>
-                            </tr>
-                            <tr>
-                                <td>密码(*)：</td>
-                                <td><input id="user_pwd" class="control-input" onfocus="this.type='password'" autocomplete="off" /></td>
-                            </tr>
-                            <tr>
-                                <td>密码确认(*)：</td>
-                                <td><input id="user_pwd_confirm" class="control-input" onfocus="this.type='password'" autocomplete="off" /></td>
-                            </tr>
-                            <tr>
-                                <td>昵称(*)：</td>
-                                <td><input id="nick_name" class="control-input" type="text" autocomplete="off" /></td>
-                            </tr>
-                            <tr>
-                                <td>邀请码(*)：</td>
-                                <td><input id="invite_code" class="control-input" type="text" autocomplete="off" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="button" class="control-button btn-info" value="注册" onclick="register();"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="form-horizontal">
+                        <span class="pm-label">账号(*)：</span>
+                        <input id="user_name" class="control-input pm-content" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">密码(*)：</span>
+                        <input id="user_pwd" class="control-input pm-content" onfocus="this.type='password'" autocomplete="off" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">密码确认(*)：</span>
+                        <input id="user_pwd_confirm" class="control-input pm-content" onfocus="this.type='password'" autocomplete="off" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">昵称(*)：</span>
+                        <input id="nick_name" class="control-input pm-content" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">实名(*)：</span>
+                        <input id="real_name" class="control-input  pm-content" type="text" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">性别(*)：</span>
+                        <div class="pm-content" style="height: 30px; display: flex;">
+                            <div style="display: inline-block; width: 100px; line-height: 30px;">
+                                <span>男：</span>
+                                <input type="radio" id="sex_man" name="sex" style="margin: 0; vertical-align: middle;" />
+                            </div>
+                            <div style="display: inline-block; width: 100px; line-height: 30px;">
+                                <span>女：</span>
+                                <input type="radio" id="sex_woman" name="sex" style="margin: 0; vertical-align: middle;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">出生(*)：</span>
+                        <input id="brith_time" class="control-input pm-content" type="date" value="2000-01-01">
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">手机：</span>
+                        <input id="phone" class="control-input pm-content" type="text" autocomplete="off" />
+                    </div>
+                    <div class="form-horizontal">
+                        <span class="pm-label">邀请码(*)：</span>
+                        <input id="invite_code" class="control-input pm-content" type="text" autocomplete="off" />
+                    </div>
+                    <hr class="mt10 mb15">
+                    <div class="form-horizontal">
+                        <b class="pm-label"></b>
+                        <input type="button" class="control-button btn-info" value="注册" onclick="register();"/>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script>
+            function getQuery(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+                var r = window.location.search.substr(1).match(reg);
+                return r != null ? unescape(r[2]) : null;
+            }
+            function isPhoneAvailable(phoneNumber) {
+                var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                return reg.test(phoneNumber);
+            }
+            
             function register() {
                 var user_name = document.getElementById("user_name");
                 var user_pwd = document.getElementById('user_pwd');
                 var pwd_confirm = document.getElementById('user_pwd_confirm');
                 var nick_name = document.getElementById('nick_name');
+                var real_name = document.getElementById('real_name');
+                var birth = document.getElementById('brith_time');
+                var sex_man = document.getElementById('sex_man');
+                var sex_woman = document.getElementById('sex_woman');
+                var sex = sex_man.checked ? 1 : sex_woman.checked ? 2 : 0;
+                var phone = document.getElementById('phone');
+
                 var invite_code = document.getElementById('invite_code');
                 if (user_name.value === "") {
                     alert("账号不能为空!");
@@ -85,6 +130,18 @@
                     alert("昵称不能为空!");
                     return false;
                 }
+                if (real_name.value == "") {
+                    alert("真实姓名不能为空！");
+                    return;
+                }
+                if (sex == 0) {
+                    alert("请先选择性别!");
+                    return;
+                }
+                if (phone.value.length > 0 && !isPhoneAvailable(phone.value)) {
+                    alert("请输入有效的手机号!");
+                    return;
+                }
                 if (invite_code === "") {
                     alert("邀请码不能为空！");
                     return false;
@@ -94,6 +151,10 @@
                     user_name: user_name.value, 
                     user_pwd: user_pwd.value,
                     nick_name: nick_name.value,
+                    realname: real_name.value,
+                    birth: birth.value.toString(),
+                    gender: sex,
+                    phone: phone.value,
                     invite_code: invite_code.value,
                 };
                 Core.Account.Create(param, p => {
@@ -103,7 +164,8 @@
                     }
 
                     alert(p.data);
-                    window.location.href = "/login.html"; 
+                    let url = getQuery('redirect') || "/login.html";
+                    window.location.href = url; 
                 });
                 return true;
             }

@@ -41,5 +41,7 @@ namespace SimpleHttpServer.Scripts
             }
         }
         public long ContentLength => _request.ContentLength64;
+        public IPEndPoint LocalEndPoint => _request.LocalEndPoint;
+        public IPEndPoint RemoteEndPoint => _request.RemoteEndPoint;
     }
 }

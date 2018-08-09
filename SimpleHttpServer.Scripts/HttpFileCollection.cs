@@ -41,9 +41,9 @@ namespace SimpleHttpServer.Scripts
         }
         public int Count => _httpFiles.Count;
 
-        private static bool IsMatch(byte[] lhs, int offset, byte[] rhs)
+        private static bool IsMatch(byte[] lhs, int offset, int count, byte[] rhs)
         {
-            if (lhs.Length - offset < rhs.Length)
+            if (count < rhs.Length)
                 return false;
 
             for (int i = 0; i < rhs.Length; i++)
@@ -53,15 +53,17 @@ namespace SimpleHttpServer.Scripts
             }
             return true;
         }
-        private static int Find(byte[] lhs, int offset, byte[] rhs)
+        private static int Find(byte[] lhs, int offset, int count, byte[] rhs)
         {
-            int end = lhs.Length - rhs.Length;
-            for (int i = offset; i < end; i++)
+            if (count > rhs.Length)
             {
-                if (IsMatch(lhs, i, rhs))
-                    return i;
+                int end = count - rhs.Length;
+                for (int i = 0; i < end; i++)
+                {
+                    if (IsMatch(lhs, offset + i, count - i, rhs))
+                        return offset + i;
+                }
             }
-
             return -1;
         }
         private string GetBoundary(HttpListenerRequest request)
@@ -105,18 +107,18 @@ namespace SimpleHttpServer.Scripts
             var newLineByteLength = encoding.GetByteCount(Environment.NewLine);
             var minLength = byteArrayForStartBounary.Length + newLineByteLength + byteArrayForEndBounary.Length;
             var buffer = new byte[request.ContentLength64];
-            Utility.HttpHelper.Read(request.InputStream, buffer, 0, buffer.Length);
-            if (IsMatch(buffer, 0, byteArrayForEndBounary))
+            var length = Utility.HttpHelper.Read(request.InputStream, buffer, 0, buffer.Length);
+            if (IsMatch(buffer, 0, length, byteArrayForEndBounary))
                 return;
 
-            for (int i = 0; i < buffer.Length; i++)
+            for (int i = 0; i < length; i++)
             {
-                if (!IsMatch(buffer, i, byteArrayForStartBounary))
+                if (!IsMatch(buffer, i, length - i, byteArrayForStartBounary))
                     continue;
 
                 var headLength = 0;
                 var header = new NameValueCollection();
-                using (var mStream = new MemoryStream(buffer, i, buffer.Length - i))
+                using (var mStream = new MemoryStream(buffer, i, length - i))
                 {
                     using (var reader = new StreamReader(mStream, encoding))
                     {
@@ -132,7 +134,7 @@ namespace SimpleHttpServer.Scripts
                     }
                 }
                 int offset = i + headLength;
-                int end = Find(buffer, offset, byteArrayForStartBounary);
+                int end = Find(buffer, offset, length - offset, byteArrayForStartBounary);
                 if (end == -1)
                     throw new ArgumentException("not found end bounary");
 
@@ -140,7 +142,7 @@ namespace SimpleHttpServer.Scripts
                 var fStream = new MemoryStream(buffer, offset, count);
                 _httpFiles.Add(new HttpFile(header, fStream));
                 i = end - 1;
-                if (buffer.Length - end <= minLength)
+                if (length - end <= minLength)
                 {
                     break;
                 }

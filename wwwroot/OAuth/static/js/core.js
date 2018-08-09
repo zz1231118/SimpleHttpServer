@@ -64,6 +64,7 @@ Core._account = new InvokeManager('/handler/AccountHandler.yshx', [
     { action: 'Save' },
     { action: 'Integrity' },
     { action: 'Login' },
+    { action: 'ChangePassword' },
 ]);
 Core._invite = new InvokeManager('/handler/InviteHandler.yshx', [
     { action: 'List', name: 'Load' },
@@ -76,7 +77,7 @@ Core._app = new InvokeManager('/handler/AppHandler.yshx', [
     { action: 'Update' },
     { action: 'Delete' },
 ]);
-Core._auth = new InvokeManager('/handler/OpenHandler.yshx', [
+Core._auth = new InvokeManager('/handler/AuthHandler.yshx', [
     { action: 'AppInfo', name: 'AppSummary' },
     { action: 'Login' },
 ]);
