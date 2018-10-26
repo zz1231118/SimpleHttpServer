@@ -14,6 +14,7 @@ namespace SimpleHttpServer.Scripts
     public class ScriptEngines
     {
         private const bool DefaultIsDebug = false;
+        private const long DefaultMaxUploadFileLength = 100 * 1024 * 1024;
 
         private const string IsDebugProperty = "IsDebug";
         private const string SessionDirectoryProperty = "SessionDirectory";
@@ -22,8 +23,11 @@ namespace SimpleHttpServer.Scripts
         private const string DefaultSession = "Session";
         private const string NamespaceProperty = "Namespace";
         private const string ReferencesProperty = "References";
+        private const string MaxUploadFileLengthProperty = "MaxUploadFileLength";
 
-        internal const string GlobalExtension = ".ysax";
+        internal const string GlobalExtension = ".asax";
+        internal const string HandleExtension = ".ashx";
+        internal const string WindowExtension = ".aspx";
         internal const string GlobalScript = "Global" + GlobalExtension;
 
         private readonly TimeSpan DefaultSessionCheckInterval = TimeSpan.FromMinutes(5);
@@ -35,6 +39,7 @@ namespace SimpleHttpServer.Scripts
         private List<string> _referencedAssemblyNames = new List<string>();
         private bool _isDebug;
         private string _sessionDirectory;
+        private long _maxUploadFileLength;
         private Timer _timer;
         private TimeSpan _sessionTimeout;
         private string _namespace;
@@ -50,6 +55,7 @@ namespace SimpleHttpServer.Scripts
             _sessionDirectory = conf.GetString(SessionDirectoryProperty, DefaultSession);
             _sessionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _sessionDirectory);
             _sessionTimeout = conf.GetTimeSpan(SessionTimeoutProperty, DefaultSessionTimeout);
+            _maxUploadFileLength = conf.GetLong(MaxUploadFileLengthProperty, DefaultMaxUploadFileLength);
             if (Directory.Exists(_sessionDirectory))
             {
                 Directory.Delete(_sessionDirectory, true);
@@ -62,6 +68,7 @@ namespace SimpleHttpServer.Scripts
 
         public bool IsDebug => _isDebug;
         public string SessionDirectory => _sessionDirectory;
+        public long MaxUploadFileLength => _maxUploadFileLength;
         public IReadOnlyList<string> ReferencedAssemblyNames => _referencedAssemblyNames;
         public string BaseDirectory => _httpSite.BaseDirectory;
         public string Namespace => _namespace;
@@ -84,25 +91,18 @@ namespace SimpleHttpServer.Scripts
                 AddSysReferencedAssembly(reference);
             }
 
-            _appScriptAssembly = new AppScriptAssembly(this, Path.Combine(BaseDirectory, AppScriptAssembly.AssemblyName));
-            var handleScript = new HandleScriptAssembly(this, BaseDirectory);
-            var windowScript = new WindowScriptAssembly(this, BaseDirectory);
-            _scriptAssemblys[".cs"] = handleScript;
-            _scriptAssemblys[handleScript.Extension] = handleScript;
-            _scriptAssemblys[windowScript.Extension] = windowScript;
-            var globalPath = Path.Combine(_httpSite.BaseDirectory, GlobalScript);
-            if (File.Exists(globalPath))
+            var scriptBaseDirectory = Path.Combine(BaseDirectory, AppScriptAssembly.AssemblyName);
+            if (!Directory.Exists(scriptBaseDirectory))
             {
-                var obj = handleScript.CreateInstance(globalPath, null);
-                Application.Current = obj as Application;
-            }
-            else
-            {
-                Application.Current = new App();
+                Directory.CreateDirectory(scriptBaseDirectory);
             }
 
-            Application.Current.BaseDirectory = _httpSite.BaseDirectory;
-            Application.Current.OnStartup();
+            _appScriptAssembly = new AppScriptAssembly(this, scriptBaseDirectory);
+            var handleScript = new HandleScriptAssembly(this, BaseDirectory);
+            var windowScript = new WindowScriptAssembly(this, BaseDirectory);
+            _scriptAssemblys[GlobalExtension] = handleScript;
+            _scriptAssemblys[handleScript.Extension] = handleScript;
+            _scriptAssemblys[windowScript.Extension] = windowScript;
         }
         internal void AddSysReferencedAssembly(params string[] assemblys)
         {
@@ -120,7 +120,9 @@ namespace SimpleHttpServer.Scripts
             _scriptAssemblys.TryGetValue(extension, out InvokeScriptAssembly assembly);
             return assembly?.CreateInstance(path, typename, args);
         }
-        internal void Shutdown()
+        internal void Start()
+        { }
+        internal void Close()
         {
             _timer.Dispose();
             Directory.Delete(_sessionDirectory, true);

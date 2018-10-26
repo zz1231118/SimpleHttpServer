@@ -9,6 +9,8 @@ namespace SimpleHttpServer.Scripts.Utility
 {
     public static class Http
     {
+        private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3569.0 Safari/537.36";
+
         private static Encoding GetEncoding(HttpWebResponse response)
         {
             var encodingText = response.ContentEncoding;
@@ -25,6 +27,7 @@ namespace SimpleHttpServer.Scripts.Utility
 
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Post;
+            request.UserAgent = DefaultUserAgent;
             request.ContentType = "application/x-www-form-urlencoded";
             if (header != null)
             {
@@ -81,6 +84,7 @@ namespace SimpleHttpServer.Scripts.Utility
 
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Post;
+            request.UserAgent = DefaultUserAgent;
             request.ContentType = "application/x-www-form-urlencoded";
             if (header != null)
             {
@@ -156,6 +160,7 @@ namespace SimpleHttpServer.Scripts.Utility
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Get;
+            request.UserAgent = DefaultUserAgent;
             request.ContentType = "application/x-www-form-urlencoded";
             if (header != null)
             {
@@ -205,6 +210,7 @@ namespace SimpleHttpServer.Scripts.Utility
             request.AllowAutoRedirect = true;
             request.Method = WebRequestMethods.Http.Post;
             string boundary = DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+            request.UserAgent = DefaultUserAgent;
             request.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
             byte[] itemBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
             byte[] endBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");

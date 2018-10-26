@@ -62,10 +62,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>setlocal enabledelayedexpansion
-for /f "delims=\" %25%25i in ('dir /b /a-d /o-d "$(ProjectDir)*.cs"') do (
-	copy "$(ProjectDir)%25%25i" "$(SolutionDir)wwwroot\OAuth\AppScript\%25%25i"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

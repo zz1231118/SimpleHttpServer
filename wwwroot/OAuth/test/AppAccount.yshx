@@ -14,10 +14,6 @@ namespace Scripts.OAuth.Test
         private const long AppID = 14;
         private const string AppKey = "3c2e3f96821e4358ab63c0f257bb3b51";
 
-        public AppAccount(IScriptContext context)
-            : base(context)
-        { }
-
         public override void Invoke()
         {
             var action = Query.Find("action");

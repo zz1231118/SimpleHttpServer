@@ -15,7 +15,6 @@ namespace SimpleHttpServer.Scripts
         private const string SessCookieName = "SHSSESSID";
 
         private static ConcurrentDictionary<string, string> _skv = new ConcurrentDictionary<string, string>();
-        protected readonly string FileName;
         private IScriptContext _context;
         private HttpRequest _request;
         private HttpResponse _response;
@@ -23,19 +22,6 @@ namespace SimpleHttpServer.Scripts
         private Dictionary<string, string> _form;
         private Dictionary<string, Json> _session;
         private HttpFileCollection _files;
-
-        public CSharpScript(IScriptContext context)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            FileName = context.FileInfo.FullName;
-
-            _context = context;
-            _request = new HttpRequest(context.HttpContext.Request);
-            _response = new HttpResponse(context.HttpContext.Response);
-            Initialize();
-        }
 
         protected HttpRequest Request => _request;
         protected HttpResponse Response => _response;
@@ -53,6 +39,7 @@ namespace SimpleHttpServer.Scripts
         }
         protected HttpFileCollection Files => _files;
         protected bool IsSessionEnabled => _session != null;
+        protected string FileName { get; private set; }
 
         private static void ParseUrlEncodedQuery(IDictionary<string, string> kv, string query)
         {
@@ -61,9 +48,12 @@ namespace SimpleHttpServer.Scripts
                 if (!string.IsNullOrEmpty(str))
                 {
                     var ts = str.Split('=');
-                    var key = HttpUtility.UrlDecode(ts[0]);
-                    var value = HttpUtility.UrlDecode(ts[1]);
-                    kv[key] = value;
+                    if (ts.Length == 2)
+                    {
+                        var key = HttpUtility.UrlDecode(ts[0]);
+                        var value = HttpUtility.UrlDecode(ts[1]);
+                        kv[key] = value;
+                    }
                 }
             }
         }
@@ -85,8 +75,45 @@ namespace SimpleHttpServer.Scripts
 
         public abstract void Invoke();
 
-        private void Initialize()
+        private void SaveSession()
         {
+            if (!IsSessionEnabled)
+                return;
+            if (_session.Count == 0)
+                return;
+
+            var request = _context.HttpContext.Request;
+            var cookie = request.Cookies[SessCookieName];
+            if (cookie == null)
+            {
+                //第一次创建
+                var response = _context.HttpContext.Response;
+                cookie = response.Cookies[SessCookieName];
+            }
+            else if (cookie.Expired)
+            {
+                return;
+            }
+
+            var json = new JsonObject();
+            foreach (var key in _session.Keys)
+                json[key] = _session[key];
+
+            var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+            var path = Path.Combine(sessionDirectory, cookie.Value);
+            FileSystem.GetOrCreate(path).Update(json.ToString());
+        }
+
+        internal void Initialize(IScriptContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            FileName = context.FileInfo.FullName;
+
+            _context = context;
+            _request = new HttpRequest(context.HttpContext.Request);
+            _response = new HttpResponse(context.HttpContext.Response);
             _query = new Dictionary<string, string>();
             _form = new Dictionary<string, string>();
             _files = new HttpFileCollection();
@@ -99,14 +126,16 @@ namespace SimpleHttpServer.Scripts
                 response.Headers.Set(HttpResponseHeader.ContentEncoding, encoding.BodyName);
             }
 
-            var query = request.Url.Query;
-            if (query?.StartsWith("?") == true)
+            var rawUrl = context.HttpContext.RawUrl;
+            var index = rawUrl.IndexOf("?");
+            if (index >= 0 && index < rawUrl.Length - 1)
             {
-                ParseUrlEncodedQuery(_query, query.TrimStart('?'));
+                var query = rawUrl.Substring(index + 1, rawUrl.Length - index - 1);
+                ParseUrlEncodedQuery(_query, query);
             }
             if (request.HttpMethod == WebRequestMethods.Http.Post)
             {
-                if (request.ContentLength64 > _context.UploadMaxFileSize)
+                if (request.ContentLength64 > Application.Current.ScriptEngines.MaxUploadFileLength)
                     throw new InvalidOperationException("upload file size limited");
                 if (request.ContentType == null)
                     throw new InvalidOperationException("content type error!");
@@ -135,33 +164,6 @@ namespace SimpleHttpServer.Scripts
                         break;
                 }
             }
-        }
-        private void SaveSession()
-        {
-            if (!IsSessionEnabled)
-                return;
-            if (_session.Count == 0)
-                return;
-
-            var request = _context.HttpContext.Request;
-            var cookie = request.Cookies[SessCookieName];
-            if (cookie == null)
-            {
-                //第一次创建
-                var response = _context.HttpContext.Response;
-                cookie = response.Cookies[SessCookieName];
-            }
-            else if (cookie.Expired)
-            {
-                return;
-            }
-
-            var json = new JsonObject();
-            foreach (var key in _session.Keys)
-                json[key] = _session[key];
-
-            var path = Path.Combine(_context.SessionDirectory, cookie.Value);
-            FileSystem.GetOrCreate(path).Update(json.ToString());
         }
 
         public void Header(string key, string value)
@@ -203,7 +205,8 @@ namespace SimpleHttpServer.Scripts
             }
             else
             {
-                var path = Path.Combine(_context.SessionDirectory, cookie.Value);
+                var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+                var path = Path.Combine(sessionDirectory, cookie.Value);
                 if (FileSystem.TryGet(path, out VFile file))
                 {
                     var json = Json.Parse<JsonObject>(file.Content);
@@ -228,7 +231,8 @@ namespace SimpleHttpServer.Scripts
                 if (Guid.TryParse(cookie.Value, out sessionID))
                 {
                     var value = sessionID.ToString("N");
-                    var path = Path.Combine(_context.SessionDirectory, value);
+                    var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+                    var path = Path.Combine(sessionDirectory, value);
                     FileSystem.Remove(path);
                 }
             }

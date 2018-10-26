@@ -14,10 +14,6 @@ namespace Scripts.OAuth.Handler
     {
         private Account _account;
 
-        public AppHandler(IScriptContext context)
-            : base(context)
-        { }
-
         public override void Invoke()
         {
             var action = Query.Find("action");

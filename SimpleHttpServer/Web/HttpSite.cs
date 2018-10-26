@@ -6,7 +6,10 @@ using System.Threading;
 using LyxFramework.Configuration;
 using LyxFramework.Configuration.Hocon;
 using LyxFramework.Log;
-using SimpleHttpServer.Handlers;
+using SimpleHttpServer.Web.Bundles;
+using SimpleHttpServer.Web.Routes;
+using SimpleHttpServer.Utility;
+using SimpleHttpServer.Web.Processors;
 
 #if UserDefined
 using SimpleHttpServer.Net;
@@ -19,45 +22,44 @@ namespace SimpleHttpServer.Web
     public class HttpSite : MarshalByRefObject, IHttpSite
     {
         private const string BundlesProperty = "Bundles";
-        private const string HandlersProperty = "Handlers";
         private const string HostsProperty = "Hosts";
         private const string RootProperty = "Root";
         private const string NotFoundProperty = "NotFound";
-        private const string ForwardSlashString = "/";
-        private const char ForwardSlashChar = '/';
-        private const string BackSlashString = @"\";
-        private const char BackSlashChar = '\\';
+        private const string ProcessorsProperty = "Processors";
 
-        private List<HandleProvider> _handleProviders = new List<HandleProvider>();
-        private HttpListener _httpListener;
-        private Config _conf;
-        private bool _activated;
-        private List<string> _hosts;
-        private string _root;
-        private string _notFound;
-        private DirectoryInfo _baseDir;
+        private HttpListener httpListener;
+        private Config conf;
+        private bool activated;
+        private string root;
+        private string notFound;
+        private DirectoryInfo baseDir;
+        private List<Processor> processors = new List<Processor>();
+        private List<BundleActivator> bundles = new List<BundleActivator>();
 
         public HttpSite(Config conf)
         {
             if (conf == null)
                 throw new ArgumentNullException(nameof(conf));
 
-            _conf = conf;
-            _hosts = conf.GetStringList(HostsProperty);
-            _root = conf.GetString(RootProperty);
-            _notFound = conf.GetString(NotFoundProperty);
-            if (_notFound != null && !_notFound.StartsWith(ForwardSlashString))
-                _notFound = ForwardSlashString + _notFound;
+            this.conf = conf;
+            root = conf.GetString(RootProperty);
+            notFound = conf.GetString(NotFoundProperty);
+            if (notFound != null && !notFound.StartsWith(HttpUtility.ForwardSlashString))
+            {
+                notFound = HttpUtility.ForwardSlashString + notFound;
+            }
 
-            var dirPath = _root.Contains(":") ? _root : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _root);
-            _baseDir = new DirectoryInfo(dirPath);
-            if (!_baseDir.Exists)
-                _baseDir.Create();
+            var dirPath = root.Contains(":") ? root : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, root);
+            baseDir = new DirectoryInfo(dirPath);
+            if (!baseDir.Exists)
+            {
+                baseDir.Create();
+            }
         }
 
-        public bool Activated => _activated;
-        public string BaseDirectory => _baseDir.FullName;
-        public Config Conf => _conf;
+        public bool Activated => activated;
+        public string BaseDirectory => baseDir.FullName;
+        public Config Config => conf;
 
         public sealed override object InitializeLifetimeService()
         {
@@ -66,57 +68,80 @@ namespace SimpleHttpServer.Web
 
         public void Start()
         {
-            if (_activated)
+            if (activated)
                 throw new InvalidOperationException();
 
             LogManager.Assign(FileLogFactory.Default);
 
-            _activated = true;
-            _httpListener = new HttpListener();
+            activated = true;
+            httpListener = new HttpListener();
 
-            foreach (var host in _hosts)
-                _httpListener.Prefixes.Add(host);
+            var hosts = conf.GetStringList(HostsProperty);
+            foreach (var host in hosts)
+            {
+                httpListener.Prefixes.Add(host);
+            }
 
-            LoadHandleProviders();
-            foreach (var provider in _handleProviders)
-                provider.Start();
+            LoadProcessors();
+            LoadBundles();
+            foreach (var bundle in bundles)
+            {
+                bundle.OnStart();
+            }
 
-            _httpListener.Start();
+            httpListener.Start();
             PostAccept();
         }
         public void Stop()
         {
-            if (!_activated)
+            if (!activated)
                 return;
 
-            _activated = false;
-            _httpListener.Stop();
-            _httpListener.Close();
-
-            foreach (var provider in _handleProviders)
-                provider.Stop();
+            activated = false;
+            httpListener.Stop();
+            httpListener.Close();
+            foreach (var bundle in bundles)
+            {
+                bundle.OnStop();
+            }
 
             LogManager.Shutdown();
         }
 
-        private void LoadHandleProviders()
+        private void LoadProcessors()
         {
-            var hconf = _conf.GetConfig(HandlersProperty);
+            var hconf = conf.GetConfig(ProcessorsProperty);
             var obj = hconf.Root.GetObject();
             foreach (var val in obj.Items.Values)
             {
                 var acf = new Config(new HoconRoot(val));
-                var adapter = new HandleProvider(this, acf);
-                _handleProviders.Add(adapter);
+                var processor = Processor.Parse(acf);
+                processors.Add(processor);
             }
         }
+        private void LoadBundles()
+        {
+            var hconf = conf.GetConfig(BundlesProperty);
+            if (hconf != null)
+            {
+                var obj = hconf.Root.GetObject();
+                foreach (var val in obj.Items.Values)
+                {
+                    var acf = new Config(new HoconRoot(val));
+                    var bundle = BundleActivator.Parse(acf);
+                    bundle.Initialize(this);
+                    bundles.Add(bundle);
+                }
+            }
+        }
+
         private void PostAccept()
         {
-            _httpListener.BeginGetContext(new AsyncCallback(ProcessAccept), null);
+            httpListener.BeginGetContext(new AsyncCallback(ProcessAccept), null);
         }
         private void ProcessAccept(IAsyncResult ar)
         {
-            var context = _httpListener.EndGetContext(ar);
+            var context = httpListener.EndGetContext(ar);
             ThreadPool.QueueUserWorkItem(new WaitCallback(SetupContext), context);
             PostAccept();
         }
@@ -134,78 +159,69 @@ namespace SimpleHttpServer.Web
                 LogManager.Error.Log("{0} error:{1}", nameof(ProcessAccept), ex);
             }
         }
-        private void SetupResponse(HttpListenerContext context)
+        private void SetupResponse(HttpListenerContext httpContext)
         {
-            var request = context.Request;
-            var response = context.Response;
-            var path = request.Url.LocalPath;
-            if (!TryGetHandler(path, out Handler handler, out FileInfo fileInfo))
+            var request = httpContext.Request;
+            var response = httpContext.Response;
+            var rawUrl = request.RawUrl;
+            if (RouteManager.TryGet(rawUrl, out IRouteHandler routeHandler))
             {
-                //404
-                path = Path.Combine(_baseDir.FullName, _notFound.TrimStart(ForwardSlashChar));
-                if (_notFound != null && File.Exists(path))
-                {
-                    response.Redirect(_notFound);
-                    response.StatusCode = (int)System.Net.HttpStatusCode.Redirect;
-                }
-                else
-                {
-                    response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
-                }
+                rawUrl = routeHandler.GetRawUrl(rawUrl);
             }
-            else
+            if (rawUrl.EndsWith(HttpUtility.ForwardSlashString))
+            {
+                rawUrl += "index.html";
+            }
+            if (rawUrl.StartsWith(HttpUtility.ForwardSlashString))
+            {
+                rawUrl = rawUrl.TrimStart(HttpUtility.ForwardSlashChar);
+            }
+            if (TryGetProcessor(rawUrl, out Processor processor))
             {
                 try
                 {
-                    var handleContext = new HandleContext(context, fileInfo);
-                    handler?.Handle(handleContext);
+                    var context = new HttpContext(this, httpContext, rawUrl);
+                    processor.Handle(this, context);
+                }
+                catch (FileNotFoundException)
+                {
+                    goto NotFound;
                 }
                 catch (Exception ex)
                 {
                     //500
                     var encoding = request.ContentEncoding ?? Encoding.UTF8;
                     var bytes = encoding.GetBytes(ex.Message);
-                    response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     response.ContentEncoding = encoding;
                     response.OutputStream.Write(bytes, 0, bytes.Length);
                 }
+
+                goto EndResponse;
             }
 
-            context.Response.KeepAlive = false;
-            context.Response.Close();
+            //404
+            NotFound:
+            rawUrl = Path.Combine(baseDir.FullName, notFound.TrimStart(HttpUtility.ForwardSlashChar));
+            if (notFound != null && File.Exists(rawUrl))
+            {
+                response.Redirect(notFound);
+                response.StatusCode = (int)HttpStatusCode.Redirect;
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+
+            //End
+            EndResponse:
+            httpContext.Response.KeepAlive = false;
+            httpContext.Response.Close();
         }
-        private bool TryGetHandler(string rawUrl, out Handler handler, out FileInfo fileInfo)
+        private bool TryGetProcessor(string rawUrl, out Processor processor)
         {
-            var path = rawUrl.Replace(ForwardSlashString, BackSlashString);
-            if (path.EndsWith(BackSlashString))
-                path += "index.html";
-            if (path.StartsWith(BackSlashString))
-                path = path.TrimStart(BackSlashChar);
-
-            try
-            {
-                var files = _baseDir.GetFiles(path);
-                if (files.Length == 1)
-                {
-                    var file = files[0];
-                    var extension = Path.GetExtension(file.Name);
-                    var provider = _handleProviders.Find(p => p.IsMatch(extension));
-                    if (provider != null)
-                    {
-                        handler = provider.Handler;
-                        fileInfo = file;
-                        return true;
-                    }
-                }
-            }
-            catch (DirectoryNotFoundException)
-            {
-                LogManager.Warn.Log("directory not found:" + path);
-            }
-
-            handler = null;
-            fileInfo = null;
-            return false;
+            processor = processors.Find(p => p.IsMath(rawUrl));
+            return (processor != null);
         }
     }
 }

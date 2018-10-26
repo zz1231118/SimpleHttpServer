@@ -16,10 +16,6 @@ namespace Scripts.OAuth.Handler
         private const int MaxErrorTimes = 10;
         private static readonly TimeSpan Interval = TimeSpan.FromMinutes(5);
 
-        public AuthHandler(IScriptContext context)
-            : base(context)
-        { }
-        
         public override void Invoke()
         {
             var action = Query.Find("action");

@@ -61,6 +61,7 @@
     <Compile Include="HttpResponse.cs" />
     <Compile Include="IScriptContext.cs" />
     <Compile Include="Assemblies\ScriptAssembly.cs" />
+    <Compile Include="ScriptBundleActivator.cs" />
     <Compile Include="Utility\Crypto.cs" />
     <Compile Include="Utility\DateTimeExtension.cs" />
     <Compile Include="Utility\Extensions.cs" />
@@ -81,16 +82,11 @@
       <Name>SimpleHttpServer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>setlocal enabledelayedexpansion
-set src_path=$(ProjectDir)bin\Debug
-for %25%25i in (Audio, Experiment, Manager, OAuth) do (
-    set dst_path=$(SolutionDir)WinHost\bin\Sites\%25%25i
-    xcopy /r /y /s /e "!src_path!" "!dst_path!"
-    set dst_path=$(SolutionDir)SimpleWebService\bin\Sites\%25%25i
-    xcopy /r /y /s /e "!src_path!" "!dst_path!"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

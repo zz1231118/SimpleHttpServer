@@ -18,7 +18,7 @@ namespace SimpleHttpServer.Scripts.Assemblies
             _watcher.EnableRaisingEvents = true;
         }
 
-        public override string Extension => ".aspx";
+        public override string Extension => ScriptEngines.WindowExtension;
         public override string Filter => "*" + Extension;
 
         protected override ScriptMetadata CreateScriptMetadata(string path)

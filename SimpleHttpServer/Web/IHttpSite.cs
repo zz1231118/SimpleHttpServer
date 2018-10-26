@@ -1,4 +1,5 @@
-﻿using LyxFramework.Configuration;
+﻿using System.IO;
+using LyxFramework.Configuration;
 
 namespace SimpleHttpServer.Web
 {
@@ -6,7 +7,7 @@ namespace SimpleHttpServer.Web
     {
         bool Activated { get; }
         string BaseDirectory { get; }
-        Config Conf { get; }
+        Config Config { get; }
 
         void Start();
         void Stop();

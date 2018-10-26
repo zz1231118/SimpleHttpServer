@@ -22,7 +22,7 @@ namespace SimpleHttpServer.Scripts.Assemblies
             }
         }
 
-        public override string Extension => ".yshx";
+        public override string Extension => ScriptEngines.HandleExtension;
         public override string Filter => "*" + Extension;
 
         protected override ScriptMetadata CreateScriptMetadata(string path)

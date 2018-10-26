@@ -69,18 +69,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>setlocal enabledelayedexpansion
-copy "$(ProjectDir)Global.cs" "$(SolutionDir)wwwroot\OAuth\Global.ysax"
-for %25%25i in (Handler\AppHandler.cs, Handler\AccountHandler.cs, Handler\InviteHandler.cs, Handler\AuthHandler.cs, Test\AppAccount.cs) do (
-    set name=%25%25i
-    set path=$(SolutionDir)wwwroot\OAuth\!name:~0,-3!.yshx
-    copy "$(ProjectDir)%25%25i" "!path!"
-)
-for %25%25i in (TestWindow.cs) do (
-	set name=%25%25i
-	set path=$(SolutionDir)wwwroot\OAuth\!name:~0,-3!.aspx.cs
-    copy "$(ProjectDir)%25%25i" "!path!"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

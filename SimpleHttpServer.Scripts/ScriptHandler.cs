@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using LyxFramework.Log;
-using SimpleHttpServer.Handlers;
 using SimpleHttpServer.Utility;
 using SimpleHttpServer.Web;
 
@@ -14,54 +12,30 @@ using System.Net;
 
 namespace SimpleHttpServer.Scripts
 {
-    public class ScriptHandler : Handler
+    public class ScriptHandler : IHttpHandler
     {
-        private const string ScriptProperty = "Script";
-        private const string UploadMaxFileSizeProperty = "UploadMaxFileSize";
-        private const long DefaultUploadMaxFileSize = 100 * 1024 * 1024;
-        private ScriptEngines _scriptEngines;
-        private long _uploadMaxFileSize;
-
-        public ScriptHandler(IHttpSite site)
-            : base(site)
-        { }
-
-        protected override void OnStart()
+        public void Handle(IHttpContext context)
         {
-            ContentTypes.SetContentType(".cs", "text/plain");
-            ContentTypes.SetContentType(".yshx", "text/plain");
-            ContentTypes.SetContentType(".aspx", "text/html");
-            var conf = HttpSite.Conf.GetConfig(ScriptProperty);
-            _uploadMaxFileSize = conf.GetLong(UploadMaxFileSizeProperty, DefaultUploadMaxFileSize);
+            var request = context.Request;
+            var response = context.Response;
+            var rawUrl = context.RawUrl;
+            var file = HttpUtility.GetFileInfo(context.Site, rawUrl);
+            if (file == null)
+                throw new FileNotFoundException(rawUrl);
 
-            _scriptEngines = new ScriptEngines(HttpSite, conf);
-            _scriptEngines.AddSysReferencedAssembly(Assembly.GetExecutingAssembly().Location);
-            _scriptEngines.AddSysReferencedAssembly(typeof(Handler).Assembly.Location);
-            _scriptEngines.AddSysReferencedAssembly(typeof(LogManager).Assembly.Location);
-            _scriptEngines.AddSysReferencedAssembly("System.ServiceModel.dll");
-            _scriptEngines.AddSysReferencedAssembly("System.Runtime.Serialization.dll");
-            _scriptEngines.Initialize();
-        }
-        protected override void OnStop()
-        {
-            _scriptEngines.Shutdown();
-        }
-
-        public override void Handle(IHandleContext context)
-        {
-            var extension = Path.GetExtension(context.FileInfo.Name);
-            var response = context.HttpContext.Response;
+            var extension = Path.GetExtension(file.Name);
             response.ContentType = ContentTypes.GetContentType(extension);
             response.StatusCode = (int)HttpStatusCode.OK;
 
             try
             {
-                var scriptContext = new CSharpScriptContext(this, context.HttpContext, context.FileInfo);
-                var obj = _scriptEngines.CreateInstance(context.FileInfo.FullName, null, scriptContext);
+                var obj = Application.Current.ScriptEngines.CreateInstance(file.FullName, null);
                 var script = (CSharpScript)obj;
 
                 try
                 {
+                    var scriptContext = new CSharpScriptContext(this, context, file);
+                    script.Initialize(scriptContext);
                     script.Invoke();
                 }
                 finally
@@ -71,8 +45,8 @@ namespace SimpleHttpServer.Scripts
             }
             catch (Exception ex)
             {
-                LogManager.Warn.Log("{0} file:{1} error: {2}", nameof(ScriptHandler), context.FileInfo.FullName, ex);
-                if (_scriptEngines.IsDebug)
+                LogManager.Warn.Log("{0} file:{1} error: {2}", nameof(ScriptHandler), file.FullName, ex);
+                if (Application.Current.ScriptEngines.IsDebug)
                     throw;
 
                 throw new InvalidOperationException("Internal Server Error");
@@ -81,21 +55,19 @@ namespace SimpleHttpServer.Scripts
 
         class CSharpScriptContext : IScriptContext
         {
-            private ScriptHandler _handler;
+            private ScriptHandler handler;
 
-            public CSharpScriptContext(ScriptHandler handler, HttpListenerContext context, FileInfo fileInfo)
+            public CSharpScriptContext(ScriptHandler handler, IHttpContext context, FileInfo fileInfo)
             {
-                _handler = handler;
+                this.handler = handler;
 
                 HttpContext = context;
                 FileInfo = fileInfo;
             }
 
-            public HttpListenerContext HttpContext { get; }
-            public Handler Handler => _handler;
+            public IHttpContext HttpContext { get; }
+            public IHttpHandler Handler => handler;
             public FileInfo FileInfo { get; }
-            public string SessionDirectory => _handler._scriptEngines.SessionDirectory;
-            public long UploadMaxFileSize => _handler._uploadMaxFileSize;
         }
     }
 }

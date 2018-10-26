@@ -47,14 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\Filters\DefaultHandleFilter.cs" />
-    <Compile Include="Handlers\HandleContext.cs" />
-    <Compile Include="Handlers\HandleProvider.cs" />
-    <Compile Include="Handlers\Filters\HandleFilter.cs" />
-    <Compile Include="Handlers\Handler.cs" />
-    <Compile Include="Handlers\IHandleContext.cs" />
-    <Compile Include="Handlers\Filters\FixedHandleFilter.cs" />
-    <Compile Include="Handlers\StaticHandler.cs" />
+    <Compile Include="Web\Bundles\BundleActivator.cs" />
+    <Compile Include="Web\Handlers\ReadOnlyHttpHandler.cs" />
+    <Compile Include="Web\HttpContext.cs" />
+    <Compile Include="Utility\HttpUtility.cs" />
+    <Compile Include="Web\IHttpContext.cs" />
     <Compile Include="Net\AuthenticationSchemes.cs" />
     <Compile Include="Net\AuthenticationSchemeSelector.cs" />
     <Compile Include="Net\ChunkedInputStream.cs" />
@@ -82,20 +79,21 @@
     <Compile Include="HttpServer.cs" />
     <Compile Include="Web\HttpSite.cs" />
     <Compile Include="Web\HttpSiteLoader.cs" />
+    <Compile Include="Web\IHttpHandler.cs" />
     <Compile Include="Web\IHttpServer.cs" />
     <Compile Include="Web\IHttpSite.cs" />
     <Compile Include="Utility\ContentTypes.cs" />
+    <Compile Include="Web\Processors\PassProcessor.cs" />
+    <Compile Include="Web\Processors\Processor.cs" />
+    <Compile Include="Web\Processors\SuffixProcessor.cs" />
+    <Compile Include="Web\Routes\IRouteHandler.cs" />
+    <Compile Include="Web\Routes\RouteHandler.cs" />
+    <Compile Include="Web\Routes\RouteManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>setlocal enabledelayedexpansion
-set src_path=$(ProjectDir)bin\Debug
-for %25%25i in (Audio, Experiment, Manager, OAuth) do (
-    set dst_path=$(SolutionDir)WinHost\bin\Sites\%25%25i
-    xcopy /r /y /s /e "!src_path!" "!dst_path!"
-    set dst_path=$(SolutionDir)SimpleWebService\bin\Sites\%25%25i
-    xcopy /r /y /s /e "!src_path!" "!dst_path!"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
