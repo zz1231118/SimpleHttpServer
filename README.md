@@ -10,10 +10,6 @@
 ```C#
 public class TestWindow : CSharpScript
 {
-	public TestWindow(IScriptContext context)
-		: base(context)
-	{ }
-
 	public string Content { get; set; }
 	public int Count { get; private set; }
 
