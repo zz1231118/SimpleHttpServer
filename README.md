@@ -1,6 +1,4 @@
-# SimpleHttpServer
-
-简单的http服务器
+# 简单的http服务器（SimpleHttpServer）
 ====================
 
 ## 一：功能介绍
