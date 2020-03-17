@@ -1,6 +1,4 @@
-# SimpleHttpServer
-
-## 更新日志
+# SimpleHttpServer（更新日志）
 
 ### 2020-03-17
 1. 脚本动态编译改为 Roslyn
