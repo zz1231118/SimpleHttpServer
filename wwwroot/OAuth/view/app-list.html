@@ -1,0 +1,52 @@
+<style>
+	.sky-checkbox { box-sizing: border-box; margin-top: 5px; margin-left: 0px; height: 20px; width: 20px; }
+	.sm-label { margin-left: 10px; width: 80px; float: left; text-align: right; padding-top: 7px; padding-right: 5px; }
+	.sm-content { display: flex; width: 250px; }
+	.form-horizontal { margin-top: 5px; }
+</style>
+<div class="wui-container-fluid">
+	<div class="wui-panel" style="width: 1200px;">
+		<div class="wui-panel-heading">
+			<span class="wui-panel-title">App 列表</span>
+		</div>
+		<div class="wui-panel-body">
+			<div>
+				<p><a id="btn-add-apply" href="javascript:;" class="wui-btn wui-btn-default"><i class="icon-plus"></i> 添加</a></p>
+			</div>
+			<table id='app_dataview' class="wui-table">
+				<thead>
+					<tr>
+						<th property="index" order="true">序号</th>
+						<th property="ID" primary="true">AppID</th>
+						<th property="Name">名称</th>
+						<th property="key">AppKey</th>
+						<th property="Domain">Domain</th>
+						<th property="operate">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div id="_showalert" class="modal fade hide in" style="width: 400px;">
+	<div class="modal-header">
+		<span id="_showtitle">修改</span>
+		<a id="win-close" class="aui-close"></a>
+	</div>
+	<div id="_showbody" class="modal-body">
+		<div class="form-horizontal">
+			<span class="sm-label">名称：</span>
+			<input id="update_app_name" type="text" class="wui-input sm-content"/>
+		</div>
+		<div class="form-horizontal">
+			<span class="sm-label">域名：</span>
+			<input id="update_app_domain" type="text" class="wui-input sm-content" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a id="win-submit" href="javascript: void(0);" class="wui-btn wui-btn-default">确定(OK)</a>
+	</div>
+</div>

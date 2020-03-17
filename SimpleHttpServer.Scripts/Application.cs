@@ -5,15 +5,27 @@ namespace SimpleHttpServer.Scripts
     public abstract class Application
     {
         public static Application Current { get; internal set; }
-        public IHttpSite Site { get; internal set; }
-        public ScriptEngines ScriptEngines { get; internal set; }
-        public string BaseDirectory { get; internal set; }
 
-        protected internal virtual void OnStartup()
+        public IHttpSite Site { get; internal set; }
+
+        public ApplicationSetting Setting { get; internal set; }
+
+        public string BaseDirectory => Site.BaseDirectory;
+
+        internal void Startup()
+        {
+            OnStartup();
+        }
+
+        internal void Exit()
+        {
+            OnExit();
+        }
+
+        protected virtual void OnStartup()
         { }
-        protected internal virtual void OnExit()
+
+        protected virtual void OnExit()
         { }
     }
-    internal class App : Application
-    { }
 }

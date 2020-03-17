@@ -1,4 +1,4 @@
-(function(window) {
+define((require) => {
     var Uri = function(url) {
         if (url == null) {
             throw 'argument null';
@@ -22,8 +22,12 @@
         if (reg.test(url)) {
             return true;
         }
-        var reg = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+        reg = /(http|https):\/\/((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))(:\d+)?/;
+        if (reg.test(url)) {
+            return true;
+        }
+        reg = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
         return reg.test(url);
     }
-    window.Uri = Uri;
-})(window);
+    return Uri;
+});

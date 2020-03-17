@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
-using LyxFramework.Utility;
+using Framework;
+using System.IO;
 
 #if UserDefined
 using SimpleHttpServer.Net;
@@ -12,25 +13,36 @@ namespace SimpleHttpServer.Scripts
 {
     public class HttpResponse : BaseDisposed
     {
-        private HttpListenerResponse _response;
+        private HttpListenerResponse response;
 
         internal HttpResponse(HttpListenerResponse response)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
 
-            _response = response;
+            this.response = response;
+        }
+
+        public HttpListenerResponse Response => response;
+
+        public Stream OutputStream => response.OutputStream;
+
+        public HttpStatusCode StatusCode 
+        {
+            get => (HttpStatusCode)response.StatusCode;
+            set => response.StatusCode = (int)value;
         }
 
         public string ContentType
         {
-            get => _response.ContentType;
-            set => _response.ContentType = value;
+            get => response.ContentType;
+            set => response.ContentType = value;
         }
+
         public long ContentLength
         {
-            get => _response.ContentLength64;
-            set => _response.ContentLength64 = value;
+            get => response.ContentLength64;
+            set => response.ContentLength64 = value;
         }
 
         public void Header(string key, string value)
@@ -41,36 +53,55 @@ namespace SimpleHttpServer.Scripts
                 throw new ArgumentNullException(nameof(value));
 
             if (key.Equals("Content-Encoding", StringComparison.CurrentCultureIgnoreCase))
-                _response.ContentEncoding = Encoding.GetEncoding(value);
+                response.ContentEncoding = Encoding.GetEncoding(value);
 
-            _response.Headers.Set(key, value);
+            response.Headers.Set(key, value);
         }
+
         public void Header(System.Net.HttpResponseHeader key, string value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
             if (key == System.Net.HttpResponseHeader.ContentEncoding)
-                _response.ContentEncoding = Encoding.GetEncoding(value);
+                response.ContentEncoding = Encoding.GetEncoding(value);
 
-            _response.Headers.Set(key, value);
+            response.Headers.Set(key, value);
         }
 
         public void Write(string text)
         {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-
-            var bytes = _response.ContentEncoding.GetBytes(text);
-            _response.OutputStream.Write(bytes, 0, bytes.Length);
+            if (text != null)
+            {
+                var bytes = response.ContentEncoding.GetBytes(text);
+                response.OutputStream.Write(bytes, 0, bytes.Length);
+            }
         }
+
+        public void Write(string format, params object[] args)
+        {
+            if (format == null)
+                throw new ArgumentNullException(nameof(format));
+
+            Write(string.Format(format, args));
+        }
+
+        public void Write(object obj)
+        {
+            if (!object.ReferenceEquals(obj, null))
+            {
+                Write(obj.ToString());
+            }
+        }
+
         public void Write(byte[] array)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
 
-            _response.OutputStream.Write(array, 0, array.Length);
+            response.OutputStream.Write(array, 0, array.Length);
         }
+
         public void Write(byte[] array, int offset, int length)
         {
             if (array == null)
@@ -80,7 +111,7 @@ namespace SimpleHttpServer.Scripts
             if (length < 0 || offset + length > array.Length)
                 throw new ArgumentOutOfRangeException(nameof(length));
 
-            _response.OutputStream.Write(array, offset, length);
+            response.OutputStream.Write(array, offset, length);
         }
 
         public void Redirect(string url)
@@ -88,7 +119,7 @@ namespace SimpleHttpServer.Scripts
             if (url == null)
                 throw new ArgumentNullException(nameof(url));
 
-            _response.Redirect(url);
+            response.Redirect(url);
         }
 
         protected override void Dispose(bool disposing)
@@ -97,7 +128,7 @@ namespace SimpleHttpServer.Scripts
             {
                 try
                 {
-                    _response = null;   
+                    response = null;   
                 }
                 finally
                 {

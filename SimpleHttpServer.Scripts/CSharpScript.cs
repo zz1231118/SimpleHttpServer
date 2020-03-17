@@ -3,140 +3,119 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Web;
-using LyxFramework.Jsons;
-using LyxFramework.Utility;
+using System.Reflection;
+using Framework.JavaScript;
+using SimpleHttpServer.Scripts.Behaviours;
 using SimpleHttpServer.Scripts.VFS;
+using SimpleHttpServer.Web;
 
 namespace SimpleHttpServer.Scripts
 {
-    public abstract class CSharpScript : BaseDisposed
+    public abstract class CSharpScript : IDisposable
     {
         private const string SessCookieName = "SHSSESSID";
 
         private static ConcurrentDictionary<string, string> _skv = new ConcurrentDictionary<string, string>();
-        private IScriptContext _context;
-        private HttpRequest _request;
-        private HttpResponse _response;
-        private Dictionary<string, string> _query;
-        private Dictionary<string, string> _form;
-        private Dictionary<string, Json> _session;
-        private HttpFileCollection _files;
+        private bool isDisposed;
+        private ScriptEngines scriptEngines;
+        private IHttpContext httpContext;
+        private HttpRequest httpRequest;
+        private HttpResponse httpResponse;
+        private Dictionary<string, string> query;
+        private Dictionary<string, string> form;
+        private Dictionary<string, Json> session;
+        private HttpFileCollection files;
 
-        protected HttpRequest Request => _request;
-        protected HttpResponse Response => _response;
-        protected IReadOnlyDictionary<string, string> Query => _query;
-        protected IReadOnlyDictionary<string, string> Form => _form;
-        protected IDictionary<string, Json> Session
+        protected bool IsDisposed => isDisposed;
+
+        public HttpRequest Request => httpRequest;
+
+        public HttpResponse Response => httpResponse;
+
+        public IReadOnlyDictionary<string, string> Query => query;
+
+        public IReadOnlyDictionary<string, string> Form => form;
+
+        public IDictionary<string, Json> Session
         {
             get
             {
-                if (_session == null)
+                if (session == null)
                     throw new InvalidOperationException("not open session!");
 
-                return _session;
-            }
-        }
-        protected HttpFileCollection Files => _files;
-        protected bool IsSessionEnabled => _session != null;
-        protected string FileName { get; private set; }
-
-        private static void ParseUrlEncodedQuery(IDictionary<string, string> kv, string query)
-        {
-            foreach (var str in query.Split('&'))
-            {
-                if (!string.IsNullOrEmpty(str))
-                {
-                    var ts = str.Split('=');
-                    if (ts.Length == 2)
-                    {
-                        var key = HttpUtility.UrlDecode(ts[0]);
-                        var value = HttpUtility.UrlDecode(ts[1]);
-                        kv[key] = value;
-                    }
-                }
-            }
-        }
-        private static void ParseJsonQuery(IDictionary<string, string> kv, string query)
-        {
-            var json = Json.Parse(query);
-            if (json is JsonObject job)
-            {
-                foreach (var key in job.Keys)
-                {
-                    kv[key] = job[key].ToString();
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("invalid json format:" + json.GetType().Name);
+                return session;
             }
         }
 
-        public abstract void Invoke();
+        public IHttpFileCollection Files => files;
+
+        public bool IsSessionEnabled => session != null;
+
+        public string FileName { get; private set; }
 
         private void SaveSession()
         {
-            if (!IsSessionEnabled)
+            if (session.Count == 0)
+            {
+                //没有任何数据
                 return;
-            if (_session.Count == 0)
-                return;
-
-            var request = _context.HttpContext.Request;
+            }
+            var request = httpContext.Request;
             var cookie = request.Cookies[SessCookieName];
             if (cookie == null)
             {
                 //第一次创建
-                var response = _context.HttpContext.Response;
+                var response = httpContext.Response;
                 cookie = response.Cookies[SessCookieName];
             }
             else if (cookie.Expired)
             {
+                //cookie 已过期
                 return;
             }
 
             var json = new JsonObject();
-            foreach (var key in _session.Keys)
-                json[key] = _session[key];
-
-            var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+            foreach (var key in session.Keys)
+            {
+                json[key] = session[key];
+            }
+            var sessionDirectory = scriptEngines.SessionDirectory;
             var path = Path.Combine(sessionDirectory, cookie.Value);
-            FileSystem.GetOrCreate(path).Update(json.ToString());
+            FileSystem.GetFile(path, true).Update(json.ToString());
         }
 
-        internal void Initialize(IScriptContext context)
+        internal void Initialize(ScriptEngines scriptEngines, IHttpContext httpContext, FileInfo fileInfo)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            this.scriptEngines = scriptEngines;
+            this.httpContext = httpContext;
 
-            FileName = context.FileInfo.FullName;
+            FileName = fileInfo.FullName;
 
-            _context = context;
-            _request = new HttpRequest(context.HttpContext.Request);
-            _response = new HttpResponse(context.HttpContext.Response);
-            _query = new Dictionary<string, string>();
-            _form = new Dictionary<string, string>();
-            _files = new HttpFileCollection();
-            var request = _context.HttpContext.Request;
-            var response = _context.HttpContext.Response;
-            var encoding = _request.ContentEncoding;
+            httpRequest = new HttpRequest(httpContext.Request);
+            httpResponse = new HttpResponse(httpContext.Response);
+            query = new Dictionary<string, string>();
+            form = new Dictionary<string, string>();
+            files = new HttpFileCollection();
+            var request = this.httpContext.Request;
+            var response = this.httpContext.Response;
+            var encoding = httpRequest.ContentEncoding;
             if (response.ContentEncoding == null)
             {
                 response.ContentEncoding = encoding;
                 response.Headers.Set(HttpResponseHeader.ContentEncoding, encoding.BodyName);
             }
 
-            var rawUrl = context.HttpContext.RawUrl;
+            var rawUrl = httpContext.RawUrl;
             var index = rawUrl.IndexOf("?");
             if (index >= 0 && index < rawUrl.Length - 1)
             {
-                var query = rawUrl.Substring(index + 1, rawUrl.Length - index - 1);
-                ParseUrlEncodedQuery(_query, query);
+                var queryText = rawUrl.Substring(index + 1, rawUrl.Length - index - 1);
+                Utility.HttpUtility.ResolveUrlEncoded(query, queryText);
             }
             if (request.HttpMethod == WebRequestMethods.Http.Post)
             {
-                if (request.ContentLength64 > Application.Current.ScriptEngines.MaxUploadFileLength)
-                    throw new InvalidOperationException("upload file size limited");
+                if (request.ContentLength64 > Application.Current.Setting.MaxPostLength)
+                    throw new InvalidOperationException("post size limited");
                 if (request.ContentType == null)
                     throw new InvalidOperationException("content type error!");
 
@@ -144,43 +123,34 @@ namespace SimpleHttpServer.Scripts
                 var contentType = array[0].ToLower();
                 switch (contentType)
                 {
-                    case "multipart/form-data":
-                        _files.Resolve(request);
-                        break;
-                    case "application/json":
+                    case "application/x-www-form-urlencoded":
                         {
-                            var bytes = new byte[request.ContentLength64];
-                            Utility.HttpHelper.Read(request.InputStream, bytes, 0, bytes.Length);
-                            ParseJsonQuery(_form, encoding.GetString(bytes));
+                            var arraySegment = Utility.HttpUtility.ReadToEnd(request);
+                            var postBodyText = encoding.GetString(arraySegment.Array, arraySegment.Offset, arraySegment.Count);
+                            Utility.HttpUtility.ResolveUrlEncoded(form, postBodyText);
                         }
+                        break;
+                    case "multipart/form-data":
+                        files.Resolve(request);
                         break;
                     default:
-                        {
-                            //application/x-www-form-urlencoded
-                            var bytes = new byte[request.ContentLength64];
-                            Utility.HttpHelper.Read(request.InputStream, bytes, 0, bytes.Length);
-                            ParseUrlEncodedQuery(_form, encoding.GetString(bytes));
-                        }
                         break;
                 }
             }
+
+            HttpBehaviour behaviour;
+            Type scriptType = GetType();
+            foreach (var behaviourAttribute in scriptType.GetCustomAttributes<HttpBehaviourAttribute>(true))
+            {
+                behaviour = (HttpBehaviour)Activator.CreateInstance(behaviourAttribute.BehaviourType);
+                behaviour.Handle(this);
+            }
         }
 
-        public void Header(string key, string value)
+        protected void CheckDisposed()
         {
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            _response.Header(key, value);
-        }
-        public void Header(HttpResponseHeader key, string value)
-        {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            _response.Header(key, value);
+            if (isDisposed)
+                throw new ObjectDisposedException(GetType().FullName);
         }
 
         protected void StartSession()
@@ -188,11 +158,11 @@ namespace SimpleHttpServer.Scripts
             if (IsSessionEnabled)
                 return;
 
-            _session = new Dictionary<string, Json>();
+            session = new Dictionary<string, Json>();
 
             Guid sessionID;
-            var request = _context.HttpContext.Request;
-            var response = _context.HttpContext.Response;
+            var request = httpContext.Request;
+            var response = httpContext.Response;
             var cookie = request.Cookies[SessCookieName];
             if (cookie == null || !Guid.TryParse(cookie.Value, out sessionID))
             {
@@ -205,24 +175,25 @@ namespace SimpleHttpServer.Scripts
             }
             else
             {
-                var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+                var sessionDirectory = scriptEngines.SessionDirectory;
                 var path = Path.Combine(sessionDirectory, cookie.Value);
                 if (FileSystem.TryGet(path, out VFile file))
                 {
                     var json = Json.Parse<JsonObject>(file.Content);
                     foreach (var key in json.Keys)
-                        _session[key] = json[key];
+                        session[key] = json[key];
                 }
             }
         }
+
         protected void DestroySession()
         {
-            _session = null;
-            var cookie = _context.HttpContext.Request.Cookies[SessCookieName];
+            session = null;
+            var cookie = httpContext.Request.Cookies[SessCookieName];
             if (cookie?.Expired == false)
             {
-                var rcookie = _context.HttpContext.Response.Cookies[SessCookieName];
-                if (rcookie == null) _context.HttpContext.Response.Cookies.Add(cookie);
+                var rcookie = httpContext.Response.Cookies[SessCookieName];
+                if (rcookie == null) httpContext.Response.Cookies.Add(cookie);
                 else cookie = rcookie;
 
                 cookie.Expired = true;
@@ -231,69 +202,48 @@ namespace SimpleHttpServer.Scripts
                 if (Guid.TryParse(cookie.Value, out sessionID))
                 {
                     var value = sessionID.ToString("N");
-                    var sessionDirectory = Application.Current.ScriptEngines.SessionDirectory;
+                    var sessionDirectory = scriptEngines.SessionDirectory;
                     var path = Path.Combine(sessionDirectory, value);
                     FileSystem.Remove(path);
                 }
             }
         }
-        protected void WrapResult(bool result, object data = null)
+
+        protected virtual void Dispose(bool disposing)
         {
-            var json = new JsonObject();
-            json["result"] = result;
-            if (data != null)
+            if (!isDisposed)
             {
-                json["data"] = JsonSerializer.Serialize(data);
+                try
+                {
+                    if (IsSessionEnabled)
+                    {
+                        SaveSession();
+                    }
+                    if (files != null)
+                    {
+                        files.Dispose();
+                        files = null;
+                    }
+
+                    httpContext = null;
+                    httpResponse = null;
+                    query = null;
+                    form = null;
+                    session = null;
+                }
+                finally
+                {
+                    isDisposed = true;
+                }
             }
-
-            _response.Write(json.Normalizing());
         }
-        protected void WrapResult(int code, object data = null)
+
+        public abstract void Invoke();
+
+        public void Dispose()
         {
-            var json = new JsonObject();
-            json["code"] = code;
-            if (data != null)
-            {
-                json["data"] = JsonSerializer.Serialize(data);
-            }
-
-            _response.Write(json.Normalizing());
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
-        protected void WrapResult(Enum code, object data = null)
-        {
-            var underlyingType = Enum.GetUnderlyingType(code.GetType());
-            var enval = Convert.ChangeType(code, underlyingType);
-            WrapResult(Convert.ToInt32(enval), data);
-        }
-        protected override void Dispose(bool disposing)
-        {
-            if (IsDisposed)
-                return;
-
-            base.Dispose(disposing);
-            if (IsSessionEnabled)
-                SaveSession();
-
-            if (_files != null)
-            {
-                _files.Dispose();
-                _files = null;
-            }
-
-            _context = null;
-            _response = null;
-            _query = null;
-            _form = null;
-            _session = null;
-        }
-    }
-
-    public enum ResultCode : byte
-    {
-        OK = 0,
-        NotLoin,
-        ServerError,
-        InvalidParam,
-        InvalidAction,
     }
 }

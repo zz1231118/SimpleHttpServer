@@ -1,0 +1,109 @@
+﻿@charset "utf-8";
+
+/********** ContextMenu **********/
+.aui-context-menu {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    box-shadow: 1px 0 1px 1px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    border-color: #ddd;
+    display: table;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 999999;
+}
+
+.aui-menu-container {
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 10px;
+    transition: height 0.2s;
+}
+
+.aui-context-menu .aui-menu-view {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.aui-menu-item {
+    display: block;
+    margin: 0;
+    padding: 0 15px;
+    line-height: 22px;
+}
+
+.aui-menu-item:hover {
+    color: #ffffff;
+    background-color: #017acd;
+}
+
+.aui-menu-item-head {
+    display: flex;
+}
+
+.aui-menu-item-header {
+    flex: 1;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: default;
+}
+
+
+/********** TreeView **********/
+.aui-tree-view {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    transition: height 0.2s;
+}
+
+.aui-tree-view-container {
+}
+
+.aui-tree-view-container .aui-tree-view {
+    padding-left: 15px;
+}
+
+.aui-tree-item {
+    margin: 0;
+    line-height: 22px;
+}
+
+.aui-tree-item-head {
+    display: flex;
+}
+
+.aui-tree-item-header {
+    flex: 1;
+    display: inline-block;
+    margin-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+
+.aui-tree-item-header-selected {
+    color: #ffffff;
+    background-color: #017acd;
+    position: relative;
+    text-decoration: none;
+}
+
+.aui-tree-item-toggle {
+    display: inline-block;
+    margin-top: 2px;
+    height: 14px;
+    width: 14px;
+}
+
+.aui-tree-item-toggle-open {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMVJREFUeNpi/P//PwMlgImBQsCCS4IRCCIjI8HOW758OVwc3cWM2LxQXVUFFrx95w4LEPxFNgRdPV4vqKqo/Hn+/DkHiA10DWlh0NrWxgiirSwtv3/9+pUXlyGEAhFsiI629qcfP34IkxULMJdoami8+fTpkyDJBgADFM5+8eLFF3LSASxG2N3d3H6TagBY87Hjx1mBMfILayDhSwewtADUDE4Lbe3tpKUDoAZmZM2kJGVGoAbGqsrK//g04/QCXXMjQIABAM8CWSvfWX3mAAAAAElFTkSuQmCC) no-repeat;
+}
+
+.aui-tree-item-toggle-close {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGJJREFUeNpi/P//PwMlgImBQkCxASzInOqqKlzq9Frb2i6R5QKgRhB1EWj4f5INAGnGpZGgAcRoxmkAsZqxGkCKZgwDYJpBiYuRkZF0A2A2gzQTm0IpTkiMQz8vUGwAQIABAKziK1Q0HElMAAAAAElFTkSuQmCC) no-repeat;
+}

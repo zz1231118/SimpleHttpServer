@@ -1,18 +1,30 @@
 ﻿using System;
 using System.IO;
-using LyxFramework.Utility;
+using System.Reflection;
+using Framework;
 
 namespace SimpleHttpServer.Web
 {
     public class HttpSiteActivator : BaseDisposed
     {
-        private AppDomain _appDomain;
-        private IHttpSite _httpSite;
+        private AppDomain appDomain;
+        private IHttpSite httpSite;
+        private string name;
 
-        private HttpSiteActivator(AppDomain appDomain, IHttpSite httpSite)
+        private HttpSiteActivator()
+        { }
+
+        public string Name => name;
+
+        private static Assembly AppDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
-            _appDomain = appDomain;
-            _httpSite = httpSite;
+            if (e.Name.Contains(","))
+            {
+                var name = e.Name.Split(',')[0];
+                return Assembly.Load(e.Name);
+            }
+
+            return null;
         }
 
         private static void Unload(AppDomain appDomain)
@@ -31,9 +43,13 @@ namespace SimpleHttpServer.Web
 
         public static HttpSiteActivator Load(DirectoryInfo dir)
         {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var setup = new AppDomainSetup();
             setup.ApplicationBase = dir.FullName;
+            //setup.PrivateBinPath = (baseDirectory.EndsWith(Path.DirectorySeparatorChar.ToString()) ? baseDirectory.TrimEnd(Path.DirectorySeparatorChar) : baseDirectory) + Path.PathSeparator;
+
             var appDomain = AppDomain.CreateDomain(dir.Name + "-AppDomain", null, setup);
+            //appDomain.AssemblyResolve += new ResolveEventHandler(AppDomain_AssemblyResolve);
             var assemblyName = typeof(HttpSiteLoader).Assembly.FullName;
             var typeName = typeof(HttpSiteLoader).FullName;
             var obj = appDomain.CreateInstanceAndUnwrap(assemblyName, typeName);
@@ -41,24 +57,17 @@ namespace SimpleHttpServer.Web
 
             try
             {
-                var httpSite = loader.Load(dir.FullName);
-                return new HttpSiteActivator(appDomain, httpSite);
+                var activator = new HttpSiteActivator();
+                activator.name = dir.Name;
+                activator.appDomain = appDomain;
+                activator.httpSite = loader.Load(dir.FullName);
+                return activator;
             }
             catch
             {
                 Unload(appDomain);
                 throw;
             }
-        }
-        public void Start()
-        {
-            CheckDisposed();
-            _httpSite.Start();
-        }
-        public void Stop()
-        {
-            CheckDisposed();
-            _httpSite.Stop();
         }
 
         protected override void Dispose(bool disposing)
@@ -67,16 +76,28 @@ namespace SimpleHttpServer.Web
             {
                 try
                 {
-                    if (_httpSite.Activated)
-                        _httpSite.Stop();
+                    if (httpSite.IsActivated)
+                        httpSite.Stop();
 
-                    Unload(_appDomain);
+                    Unload(appDomain);
                 }
                 finally
                 {
                     base.Dispose(disposing);
                 }
             }
+        }
+
+        public void Start()
+        {
+            CheckDisposed();
+            httpSite.Start();
+        }
+
+        public void Stop()
+        {
+            CheckDisposed();
+            httpSite.Stop();
         }
     }
 }

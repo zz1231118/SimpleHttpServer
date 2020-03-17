@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using LyxFramework.Log;
+using Framework.Log;
 using SimpleHttpServer;
 
 namespace WinHost
@@ -12,12 +12,18 @@ namespace WinHost
 
         [DllImport("kernel32.dll")]
         private static extern bool SetConsoleCtrlHandler(ControlCtrlHandler handler, bool add);
+
+        private static ILogger logger;
         private static ControlCtrlHandler _handler;
         private static HttpServer _httpService;
         
         static void Main(string[] args)
         {
-            LogManager.Assign(FileLogFactory.Default);
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider<FileLoggerProvider>();
+            Logger.LoggerFactory = loggerFactory;
+            logger = Logger.GetLogger<Program>();
+
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _handler = new ControlCtrlHandler(HandlerRoutine);
             SetConsoleCtrlHandler(_handler, true);
@@ -35,9 +41,9 @@ namespace WinHost
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var appDomain = sender as AppDomain;
-            LogManager.Fatal.Log("AppDomain:{0} UnhandledException:{1}", appDomain, e.ExceptionObject);
+            logger.Fatal("AppDomain:{0} UnhandledException:{1}", appDomain, e.ExceptionObject);
             if (e.IsTerminating)
-                LogManager.Shutdown();
+                Logger.Shutdown();
         }
         static bool HandlerRoutine(int type)
         {
@@ -58,7 +64,7 @@ namespace WinHost
         private static void Shutdown()
         {
             _httpService.Stop();
-            LogManager.Shutdown();
+            Logger.Shutdown();
         }
     }
 

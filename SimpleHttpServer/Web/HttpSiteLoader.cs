@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using LyxFramework.Configuration;
+using Framework.Configuration;
 
 namespace SimpleHttpServer.Web
 {

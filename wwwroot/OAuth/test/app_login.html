@@ -27,7 +27,7 @@
         <div class="container-fluid">
             <div class="panel" style="width: 350px;">
                 <div class="panel-heading">
-                    <span class="panel-title">登录</span>
+                    <span class="panel-title">示例登录</span>
                 </div>
                 <div class="panel-body">
                     <input type="button" class="control-button btn-info" value="登录" onclick="login();"/>
@@ -46,7 +46,7 @@
                 });
             }
             function authorized(auth_token, state) {
-                var app_url = '/Test/AppAccount.yshx?action=Login';
+                var app_url = '/Test/AppAccount.ashx?action=Login';
                 $.post(app_url, { auth_token: auth_token }, function(str) {
                     var json = $.eval(str);
                     if (!json.result) {

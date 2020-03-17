@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Text;
-using LyxFramework.Utility;
+using Framework;
 
 #if UserDefined
 using SimpleHttpServer.Net;
@@ -15,12 +13,11 @@ using System.Net;
 
 namespace SimpleHttpServer.Scripts
 {
-    public class HttpFileCollection : BaseDisposed, IReadOnlyCollection<HttpFile>
+    internal class HttpFileCollection : BaseDisposed, IHttpFileCollection
     {
-        private const long MaxFileLength = 10 * 1024 * 1024;
-        private List<HttpFile> _httpFiles = new List<HttpFile>();
+        private List<HttpFile> files = new List<HttpFile>();
 
-        public HttpFileCollection()
+        internal HttpFileCollection()
         { }
 
         public HttpFile this[int index]
@@ -28,137 +25,309 @@ namespace SimpleHttpServer.Scripts
             get
             {
                 CheckDisposed();
-                return _httpFiles[index];
+                return files[index];
             }
         }
+
         public HttpFile this[string key]
         {
             get
             {
                 CheckDisposed();
-                return _httpFiles.FirstOrDefault(p => p.Key == key);
+                return files.Find(p => p.Key == key);
             }
         }
-        public int Count => _httpFiles.Count;
 
-        private static bool IsMatch(byte[] lhs, int offset, int count, byte[] rhs)
-        {
-            if (count < rhs.Length)
-                return false;
-
-            for (int i = 0; i < rhs.Length; i++)
-            {
-                if (lhs[offset + i] != rhs[i])
-                    return false;
-            }
-            return true;
-        }
-        private static int Find(byte[] lhs, int offset, int count, byte[] rhs)
-        {
-            if (count > rhs.Length)
-            {
-                int end = count - rhs.Length;
-                for (int i = 0; i < end; i++)
-                {
-                    if (IsMatch(lhs, offset + i, count - i, rhs))
-                        return offset + i;
-                }
-            }
-            return -1;
-        }
-        private string GetBoundary(HttpListenerRequest request)
-        {
-            var contentType = request.Headers.Get("Content-Type");
-            // multipart/form-data; boundary=----WebKitFormBoundarybwuLrLBGufffONo5
-            var muls = contentType.Split(';');
-            foreach (var mul in muls)
-            {
-                var ts = mul.Split('=');
-                if (ts.Length != 2)
-                    continue;
-
-                if (ts[0].TrimStart().Equals("Boundary", StringComparison.CurrentCultureIgnoreCase))
-                    return ts[1];
-            }
-            throw new InvalidOperationException();
-        }
+        public int Count => files.Count;
 
         public IEnumerator<HttpFile> GetEnumerator()
         {
-            return _httpFiles.GetEnumerator();
+            return files.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        internal void Resolve(HttpListenerRequest request)
+        internal void Resolve(HttpListenerRequest httpRequest)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-            if (request.ContentLength64 > MaxFileLength)
-                throw new ArgumentException("file too large");
-
-            var startBoundary = "--" + GetBoundary(request);
-            var endBounary = startBoundary + "--";
-            var encoding = Encoding.UTF8;
-            var byteArrayForStartBounary = encoding.GetBytes(startBoundary);
-            var byteArrayForEndBounary = encoding.GetBytes(endBounary);
-            var newLineByteLength = encoding.GetByteCount(Environment.NewLine);
-            var minLength = byteArrayForStartBounary.Length + newLineByteLength + byteArrayForEndBounary.Length;
-            var buffer = new byte[request.ContentLength64];
-            var length = Utility.HttpHelper.Read(request.InputStream, buffer, 0, buffer.Length);
-            if (IsMatch(buffer, 0, length, byteArrayForEndBounary))
-                return;
-
-            for (int i = 0; i < length; i++)
+            HttpFile file;
+            Reader reader = new Reader(httpRequest, Encoding.UTF8);
+            while (!reader.EndOfReader)
             {
-                if (!IsMatch(buffer, i, length - i, byteArrayForStartBounary))
-                    continue;
-
-                var headLength = 0;
-                var header = new NameValueCollection();
-                using (var mStream = new MemoryStream(buffer, i, length - i))
+                try
                 {
-                    using (var reader = new StreamReader(mStream, encoding))
-                    {
-                        var str = reader.ReadLine();
-                        headLength += byteArrayForStartBounary.Length + newLineByteLength;
-                        while ((str = reader.ReadLine()) != string.Empty)
-                        {
-                            var ts = str.Split(':');
-                            headLength += encoding.GetByteCount(str) + newLineByteLength;
-                            header[ts[0]] = ts[1];
-                        }
-                        headLength += newLineByteLength;
-                    }
+                    file = reader.Read();
                 }
-                int offset = i + headLength;
-                int end = Find(buffer, offset, length - offset, byteArrayForStartBounary);
-                if (end == -1)
-                    throw new ArgumentException("not found end bounary");
-
-                int count = end - offset - newLineByteLength;
-                var fStream = new MemoryStream(buffer, offset, count);
-                _httpFiles.Add(new HttpFile(header, fStream));
-                i = end - 1;
-                if (length - end <= minLength)
+                catch
                 {
-                    break;
+                    files.ForEach(p => p.Dispose());
+                    files.Clear();
+                    throw;
                 }
+
+                files.Add(file);
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (IsDisposed)
-                return;
+            if (!IsDisposed)
+            {
+                try
+                {
+                    foreach (var multimedia in files)
+                    {
+                        multimedia.Dispose();
+                    }
 
-            base.Dispose(disposing);
-            foreach (var multimedia in _httpFiles)
-                multimedia.Dispose();
-
-            _httpFiles = null;
+                    files.Clear();
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
+
+        class Reader
+        {
+            private readonly HttpListenerRequest httpRequest;
+            private readonly Encoding encoding;
+            private readonly Stream stream;
+            private readonly string beginBounaryText;
+            private readonly byte[] byteArrayForBeginBounary;
+            private readonly byte[] byteArrayForEndBounary;
+            private readonly byte[] byteArrayForNewLine;
+            private readonly int halfLength;
+            private byte[] buffer;
+            private int bufferOffset;
+            private int bufferCount;
+            private bool endOfStream;
+            private bool endOfReader;
+
+            public Reader(HttpListenerRequest httpRequest, Encoding encoding)
+            {
+                this.httpRequest = httpRequest;
+                this.encoding = encoding;
+                this.stream = httpRequest.InputStream;
+
+                var separatorText = "--";
+                var boundaryText = GetBoundary();
+                beginBounaryText = separatorText + boundaryText;
+                byteArrayForBeginBounary = encoding.GetBytes(beginBounaryText);
+                byteArrayForEndBounary = encoding.GetBytes(beginBounaryText + separatorText);
+                byteArrayForNewLine = encoding.GetBytes("\r\n");
+                halfLength = Math.Max(5120, byteArrayForBeginBounary.Length + byteArrayForEndBounary.Length);
+                buffer = new byte[halfLength * 2];
+            }
+
+            public bool EndOfReader => endOfReader;
+
+            private string GetBoundary()
+            {
+                // multipart/form-data; boundary=----WebKitFormBoundarybwuLrLBGufffONo5
+                foreach (var pair in httpRequest.ContentType.Split(';'))
+                {
+                    var array = pair.Split('=');
+                    if (array.Length == 2)
+                    {
+                        var name = array[0].TrimStart();
+                        if (name.Equals("Boundary", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            return array[1];
+                        }
+                    }
+                }
+                throw new InvalidOperationException();
+            }
+
+            private bool IsMatch(int offset, byte[] bytes)
+            {
+                if (bufferCount - offset < bytes.Length)
+                {
+                    //缓存字节不够
+                    return false;
+                }
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    if (buffer[bufferOffset + offset + i] != bytes[i])
+                        return false;
+                }
+                return true;
+            }
+
+            private int Find(byte[] bytes)
+            {
+                if (bufferCount > bytes.Length)
+                {
+                    int endSentinel = bufferCount - bytes.Length;
+                    for (int i = 0; i < endSentinel; i++)
+                    {
+                        if (IsMatch(i, bytes))
+                            return bufferOffset + i;
+                    }
+                }
+                return -1;
+            }
+
+            private void EnsureBuffer()
+            {
+                if (!endOfStream)
+                {
+                    if (bufferOffset >= halfLength)
+                    {
+                        if (bufferCount > 0)
+                        {
+                            Array.Copy(buffer, bufferOffset, buffer, 0, bufferCount);
+                        }
+                        bufferOffset = 0;
+                    }
+
+                    int length;
+                    int remainder = buffer.Length - bufferOffset - bufferCount;
+                    while (remainder > 0)
+                    {
+                        if ((length = stream.Read(buffer, bufferOffset, buffer.Length - bufferOffset)) <= 0)
+                        {
+                            endOfStream = true;
+                            return;
+                        }
+
+                        bufferCount += length;
+                        remainder -= length;
+                    }
+                }
+            }
+
+            private string ReadLine()
+            {
+                int index;
+                var length = 0;
+                var bytes = new byte[1024];
+                do
+                {
+                    EnsureBuffer();
+                    index = Find(byteArrayForNewLine);
+                    var influenced = index == -1 ? bufferCount : index - bufferOffset;
+                    var estimated = influenced + length;
+                    if (estimated > bytes.Length)
+                    {
+                        var newLength = bytes.Length * 2;
+                        if (newLength < estimated) newLength = estimated;
+                        Array.Resize(ref bytes, newLength);
+                    }
+
+                    Array.Copy(buffer, bufferOffset, bytes, length, influenced);
+                    bufferCount -= influenced;
+                    bufferOffset += influenced;
+                    length += influenced;
+                    if (index != -1)
+                    {
+                        bufferCount -= byteArrayForNewLine.Length;
+                        bufferOffset += byteArrayForNewLine.Length;
+                        break;
+                    }
+                } while (!endOfStream);
+                return encoding.GetString(bytes, 0, length);
+            }
+
+            public HttpFile Read()
+            {
+                var lineText = ReadLine();
+                if (!lineText.StartsWith(beginBounaryText, StringComparison.Ordinal))
+                    throw new InvalidOperationException("begin bounary match failed.");
+
+                var header = new Dictionary<string, string>();
+                while (!(lineText = ReadLine()).Equals(string.Empty))
+                {
+                    var array = lineText.Split(':');
+                    header[array[0]] = array[1].TrimStart();
+                }
+
+                int influenced;
+                var inputPath = Path.GetTempFileName();
+                var inputStream = new FileStream(inputPath, FileMode.Create, FileAccess.ReadWrite);
+                try
+                {
+                    do
+                    {
+                        EnsureBuffer();
+                        var index = Find(byteArrayForBeginBounary);
+                        if (index != -1)
+                        {
+                            //找到了结束标识
+                            if (index - byteArrayForNewLine.Length < bufferOffset)
+                            {
+                                //说明开始符号和结束符号之间没换行
+                                throw new InvalidOperationException("start and end bounary match failed.");
+                            }
+
+                            influenced = index - bufferOffset - byteArrayForNewLine.Length;
+                        }
+                        else
+                        {
+                            //文件没结束
+                            influenced = bufferCount;
+                        }
+                        if (inputStream.Length + influenced > Application.Current.Setting.MaxUploadFileLength)
+                        {
+                            //文件超过配置最大长度
+                            throw new FileLengthOutOfSettingException("file too large");
+                        }
+                        inputStream.Write(buffer, bufferOffset, influenced);
+                        bufferCount -= influenced;
+                        bufferOffset += influenced;
+                        if (index != -1)
+                        {
+                            //跳过文件内容到分隔标识的换行
+                            bufferCount -= byteArrayForNewLine.Length;
+                            bufferOffset += byteArrayForNewLine.Length;
+
+                            EnsureBuffer();
+                            if (IsMatch(0, byteArrayForEndBounary))
+                            {
+                                //结束了
+                                endOfReader = true;
+                                bufferCount -= byteArrayForEndBounary.Length;
+                                bufferOffset += byteArrayForEndBounary.Length;
+                            }
+
+                            inputStream.Position = 0;
+                            return new HttpFile(encoding, header, inputStream, inputPath);
+                        }
+
+                    } while (!endOfStream);
+
+                    throw new InvalidOperationException("file stream error.");
+                }
+                catch
+                {
+                    inputStream.Dispose();
+                    try
+                    {
+                        File.Delete(inputPath);
+                    }
+                    catch
+                    { }
+                    throw;
+                }
+            }
+        }
+
+        class FileLengthOutOfSettingException : Exception
+        {
+            public FileLengthOutOfSettingException(string message)
+                : base(message)
+            { }
+        }
+    }
+
+    public interface IHttpFileCollection : IReadOnlyCollection<HttpFile>
+    {
+        HttpFile this[int index] { get; }
+
+        HttpFile this[string key] { get; }
     }
 }

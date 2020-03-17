@@ -1,0 +1,59 @@
+<style>
+    .pm-label { margin-left: 25px; float: left; padding-top: 7px; text-align: right; }
+    .pm-content { width:350px; }
+    .pm-button { margin-left: 10px; }
+    .wui-combo-box-input select { width: 105px; }
+    .wui-combo-box-input input { padding-left: 113px; }
+    input[type="file"] {
+        position: absolute!important;
+        clip: rect(1px 1px 1px 1px);
+    }
+    img {
+        border: 1px solid #ccc;
+        width: 64px;
+        height: 64px;
+        display: block;
+        box-sizing: content-box;
+    }
+    img:hover {
+        border-color: #66afe9;
+        outline: 0;
+    }
+</style>
+
+<div class="wui-container-fluid">
+    <div class="wui-panel" style="width: 750px;">
+        <div class="wui-panel-heading">
+            <span class="wui-panel-title">添加应用</span>
+        </div>
+        <div class="wui-panel-body">
+            <div class="wui-fieldset wui-mb20 wui-pb15">
+                <div class="wui-legend">详细</div>
+                <div class="wui-horizontal">
+                    <span class="pm-label">名称(*)：</span>
+                    <input id="app_name" class="wui-input pm-content" type="text" />
+                </div>
+                <div class="wui-horizontal">
+                    <span class="pm-label">域名(*)：</span>
+                    <input id="app_domain" class="wui-input pm-content" type="text" />
+                </div>
+                <div class="wui-horizontal">
+                    <span class="pm-label">图标(*)：</span>
+                    <div class="pm-content" style="display: inline-block;">
+                        <input id="app_icon_file" class="wui-input pm-content" type="file" accept="image/jpeg,image/jpg,image/png" onchange="uploadFile(this);" />
+                        <img id="app_icon" src="/static/img/upload-file.png" />
+                        <span style="display: block; margin-top: 15px;">尺寸：64x64</span>
+                        <span style="display: block;">大小：80K以内</span>
+                        <span style="display: block;">格式：JPEG、JPG、PNG</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="wui-mt10 wui-mb15">
+            <div class="wui-horizontal">
+                <b class="pm-label"></b>
+                <button id="btn-submit" class="wui-btn wui-btn-default"><i class="icon-plus"></i>添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+

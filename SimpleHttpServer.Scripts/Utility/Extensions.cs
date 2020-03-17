@@ -1,66 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using LyxFramework.Jsons;
+using Framework.JavaScript;
 
 namespace SimpleHttpServer.Scripts.Utility
 {
     public static class Extensions
     {
-        public static TValue Find<TKey, TValue>(this IDictionary<TKey, TValue> kv, TKey key, TValue @default = default(TValue))
+        public static TValue Find<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue @default = default(TValue))
         {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             TValue value;
-            return kv.TryGetValue(key, out value) ? value : @default;
+            return source.TryGetValue(key, out value) ? value : @default;
         }
-        public static TValue Find<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> kv, TKey key, TValue @default = default(TValue))
+
+        public static TValue Find<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> source, TKey key, TValue @default = default(TValue))
         {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             TValue value;
-            return kv.TryGetValue(key, out value) ? value : @default;
+            return source.TryGetValue(key, out value) ? value : @default;
         }
 
-        public static T Find<T>(this IReadOnlyDictionary<string, Json> kv, string key, T @default = default(T))
+        public static T Find<T>(this IReadOnlyDictionary<string, Json> kv, string source, T @default = default(T))
         {
             if (kv == null)
                 throw new ArgumentNullException(nameof(kv));
 
             Json value;
-            return kv.TryGetValue(key, out value) ? JsonSerializer.Deserialize<T>(value) : @default;
+            return kv.TryGetValue(source, out value) ? JsonSerializer.Deserialize<T>(value) : @default;
         }
-        public static bool TryGet<T>(this IReadOnlyDictionary<string, Json> kv, string key, out T value)
+
+        public static bool TryGet<T>(this IReadOnlyDictionary<string, Json> source, string key, out T value)
         {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             Json json;
-            if (!kv.TryGetValue(key, out json))
-            {
-                value = default(T);
-                return false;
-            }
-
-            value = JsonSerializer.Deserialize<T>(json);
-            return true;
-        }
-        public static T Find<T>(this IDictionary<string, Json> kv, string key, T @default = default(T))
-        {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
-
-            Json value;
-            return kv.TryGetValue(key, out value) ? JsonSerializer.Deserialize<T>(value) : @default;
-        }
-        public static bool TryGet<T>(this IDictionary<string, Json> kv, string key, out T value)
-        {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
-
-            Json json;
-            if (!kv.TryGetValue(key, out json))
+            if (!source.TryGetValue(key, out json))
             {
                 value = default(T);
                 return false;
@@ -70,34 +49,60 @@ namespace SimpleHttpServer.Scripts.Utility
             return true;
         }
 
-        public static T Find<T>(this IReadOnlyDictionary<string, string> kv, string key, T @default = default(T))
+        public static T Find<T>(this IDictionary<string, Json> source, string key, T @default = default(T))
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            Json value;
+            return source.TryGetValue(key, out value) ? JsonSerializer.Deserialize<T>(value) : @default;
+        }
+
+        public static bool TryGet<T>(this IDictionary<string, Json> source, string key, out T value)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            Json json;
+            if (!source.TryGetValue(key, out json))
+            {
+                value = default(T);
+                return false;
+            }
+
+            value = JsonSerializer.Deserialize<T>(json);
+            return true;
+        }
+
+        public static T Find<T>(this IReadOnlyDictionary<string, string> source, string key, T @default = default(T))
             where T : IConvertible
         {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
-            string value;
-            if (!kv.TryGetValue(key, out value))
+            string content;
+            if (!source.TryGetValue(key, out content))
                 return @default;
 
             var type = typeof(T);
             if (type.IsEnum)
             {
                 var underlyingType = Enum.GetUnderlyingType(type);
-                var val = Convert.ChangeType(value, underlyingType);
+                var val = Convert.ChangeType(content, underlyingType);
                 return (T)Enum.ToObject(type, val);
             }
 
-            return (T)Convert.ChangeType(value, type);
+            return (T)Convert.ChangeType(content, type);
         }
-        public static bool TryGet<T>(this IReadOnlyDictionary<string, string> kv, string key, out T value)
+
+        public static bool TryGet<T>(this IReadOnlyDictionary<string, string> source, string key, out T value)
             where T : IConvertible
         {
-            if (kv == null)
-                throw new ArgumentNullException(nameof(kv));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
-            string str;
-            if (!kv.TryGetValue(key, out str))
+            string content;
+            if (!source.TryGetValue(key, out content))
             {
                 value = default(T);
                 return false;
@@ -107,12 +112,12 @@ namespace SimpleHttpServer.Scripts.Utility
             if (type.IsEnum)
             {
                 var underlyingType = Enum.GetUnderlyingType(type);
-                var val = Convert.ChangeType(str, underlyingType);
+                var val = Convert.ChangeType(content, underlyingType);
                 value = (T)Enum.ToObject(type, val);
             }
             else
             {
-                value = (T)Convert.ChangeType(str, typeof(T));
+                value = (T)Convert.ChangeType(content, typeof(T));
             }
             return true;
         }

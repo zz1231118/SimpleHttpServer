@@ -8,7 +8,7 @@ namespace SimpleHttpServer.Utility
         public const string Binary = "application/octet-stream";
         public const string Unknown = "application/x-";
 
-        private static Dictionary<string, string> _kv = new Dictionary<string, string>()
+        private static Dictionary<string, string> dictionary = new Dictionary<string, string>()
         {
             ["0.001"] = "application/x-001",
             ["0.323"] = "text/h323",
@@ -363,8 +363,9 @@ namespace SimpleHttpServer.Utility
             if (!postfix.StartsWith("."))
                 postfix = "." + postfix;
 
-            _kv[postfix] = value;
+            dictionary[postfix] = value;
         }
+
         public static string GetContentType(string postfix)
         {
             if (postfix == null)
@@ -374,7 +375,7 @@ namespace SimpleHttpServer.Utility
                 postfix = "." + postfix;
 
             string value;
-            return _kv.TryGetValue(postfix, out value) ? value : Unknown;
+            return dictionary.TryGetValue(postfix, out value) ? value : Unknown;
         }
     }
 }

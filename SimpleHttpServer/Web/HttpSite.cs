@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using LyxFramework.Configuration;
-using LyxFramework.Configuration.Hocon;
-using LyxFramework.Log;
-using SimpleHttpServer.Web.Bundles;
+using Framework.Configuration;
+using Framework.Configuration.Hocon;
+using Framework.Log;
 using SimpleHttpServer.Web.Routes;
 using SimpleHttpServer.Utility;
+using SimpleHttpServer.Web.Bundles;
 using SimpleHttpServer.Web.Processors;
 
 #if UserDefined
@@ -19,22 +19,25 @@ using System.Net;
 
 namespace SimpleHttpServer.Web
 {
-    public class HttpSite : MarshalByRefObject, IHttpSite
+    internal class HttpSite : MarshalByRefObject, IHttpSite
     {
         private const string BundlesProperty = "Bundles";
         private const string HostsProperty = "Hosts";
         private const string RootProperty = "Root";
+        private const string IndicesProperty = "Indices";
         private const string NotFoundProperty = "NotFound";
         private const string ProcessorsProperty = "Processors";
 
+        private readonly ILogger logger;
+        private readonly Config conf;
         private HttpListener httpListener;
-        private Config conf;
-        private bool activated;
+        private bool isActivated;
         private string root;
         private string notFound;
+        private IReadOnlyList<string> indices;
         private DirectoryInfo baseDir;
         private List<Processor> processors = new List<Processor>();
-        private List<BundleActivator> bundles = new List<BundleActivator>();
+        private List<BundleActivator> bundleActivators = new List<BundleActivator>();
 
         public HttpSite(Config conf)
         {
@@ -42,6 +45,12 @@ namespace SimpleHttpServer.Web
                 throw new ArgumentNullException(nameof(conf));
 
             this.conf = conf;
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider<FileLoggerProvider>();
+            Logger.LoggerFactory = loggerFactory;
+
+            logger = Logger.GetLogger<HttpSite>();
+
             root = conf.GetString(RootProperty);
             notFound = conf.GetString(NotFoundProperty);
             if (notFound != null && !notFound.StartsWith(HttpUtility.ForwardSlashString))
@@ -55,96 +64,64 @@ namespace SimpleHttpServer.Web
             {
                 baseDir.Create();
             }
-        }
 
-        public bool Activated => activated;
-        public string BaseDirectory => baseDir.FullName;
-        public Config Config => conf;
-
-        public sealed override object InitializeLifetimeService()
-        {
-            return null;
-        }
-
-        public void Start()
-        {
-            if (activated)
-                throw new InvalidOperationException();
-
-            LogManager.Assign(FileLogFactory.Default);
-
-            activated = true;
-            httpListener = new HttpListener();
-
-            var hosts = conf.GetStringList(HostsProperty);
-            foreach (var host in hosts)
+            if (conf.HasPath(BundlesProperty))
             {
-                httpListener.Prefixes.Add(host);
-            }
-
-            LoadProcessors();
-            LoadBundles();
-            foreach (var bundle in bundles)
-            {
-                bundle.OnStart();
-            }
-
-            httpListener.Start();
-            PostAccept();
-        }
-        public void Stop()
-        {
-            if (!activated)
-                return;
-
-            activated = false;
-            httpListener.Stop();
-            httpListener.Close();
-            foreach (var bundle in bundles)
-            {
-                bundle.OnStop();
-            }
-
-            LogManager.Shutdown();
-        }
-
-        private void LoadProcessors()
-        {
-            var hconf = conf.GetConfig(ProcessorsProperty);
-            var obj = hconf.Root.GetObject();
-            foreach (var val in obj.Items.Values)
-            {
-                var acf = new Config(new HoconRoot(val));
-                var processor = Processor.Parse(acf);
-                processors.Add(processor);
-            }
-        }
-        private void LoadBundles()
-        {
-            var hconf = conf.GetConfig(BundlesProperty);
-            if (hconf != null)
-            {
-                var obj = hconf.Root.GetObject();
-                foreach (var val in obj.Items.Values)
+                var bconf = conf.GetConfig(BundlesProperty);
+                var bobj = bconf.Root.GetObject();
+                foreach (var val in bobj.Items.Values)
                 {
                     var acf = new Config(new HoconRoot(val));
-                    var bundle = BundleActivator.Parse(acf);
-                    bundle.Initialize(this);
-                    bundles.Add(bundle);
+                    var bundleActivator = BundleActivator.Parse(acf);
+                    bundleActivator.Config = acf;
+                    bundleActivator.Site = this;
+                    bundleActivators.Add(bundleActivator);
+                }
+            }
+            if (conf.HasPath(ProcessorsProperty))
+            {
+                var hconf = conf.GetConfig(ProcessorsProperty);
+                var hobj = hconf.Root.GetObject();
+                foreach (var val in hobj.Items.Values)
+                {
+                    var acf = new Config(new HoconRoot(val));
+                    var processor = Processor.Parse(acf);
+                    processor.Config = acf;
+                    processor.Site = this;
+                    processors.Add(processor);
                 }
             }
         }
+
+        public bool IsActivated => isActivated;
+
+        public string BaseDirectory => baseDir.FullName;
+
+        public Config Config => conf;
 
         private void PostAccept()
         {
             httpListener.BeginGetContext(new AsyncCallback(ProcessAccept), null);
         }
+
         private void ProcessAccept(IAsyncResult ar)
         {
-            var context = httpListener.EndGetContext(ar);
+            HttpListenerContext context;
+
+            try
+            {
+                context = httpListener.EndGetContext(ar);
+            }
+            catch (ObjectDisposedException)
+            {
+                //被释放了
+                return;
+            }
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(SetupContext), context);
             PostAccept();
         }
+
         private void SetupContext(object obj)
         {
             try
@@ -156,54 +133,56 @@ namespace SimpleHttpServer.Web
             { }
             catch (Exception ex)
             {
-                LogManager.Error.Log("{0} error:{1}", nameof(ProcessAccept), ex);
+                logger.Error("{0} error:{1}", nameof(ProcessAccept), ex);
             }
         }
+
         private void SetupResponse(HttpListenerContext httpContext)
         {
             var request = httpContext.Request;
             var response = httpContext.Response;
             var rawUrl = request.RawUrl;
+            httpContext.Response.KeepAlive = false;
             if (RouteManager.TryGet(rawUrl, out IRouteHandler routeHandler))
             {
                 rawUrl = routeHandler.GetRawUrl(rawUrl);
             }
-            if (rawUrl.EndsWith(HttpUtility.ForwardSlashString))
-            {
-                rawUrl += "index.html";
-            }
-            if (rawUrl.StartsWith(HttpUtility.ForwardSlashString))
+            if (rawUrl != HttpUtility.ForwardSlashString && rawUrl.StartsWith(HttpUtility.ForwardSlashString))
             {
                 rawUrl = rawUrl.TrimStart(HttpUtility.ForwardSlashChar);
             }
-            if (TryGetProcessor(rawUrl, out Processor processor))
+            try
             {
-                try
+                if (rawUrl.EndsWith(HttpUtility.ForwardSlashString))
                 {
-                    var context = new HttpContext(this, httpContext, rawUrl);
-                    processor.Handle(this, context);
+                    string url;
+                    for (int i = 0; i < indices.Count; i++)
+                    {
+                        url = rawUrl + indices[i];
+                        if (TryExecuteProcessor(httpContext, url))
+                        {
+                            goto EndResponse;
+                        }
+                    }
                 }
-                catch (FileNotFoundException)
+                else if (TryExecuteProcessor(httpContext, rawUrl))
                 {
-                    goto NotFound;
+                    goto EndResponse;
                 }
-                catch (Exception ex)
-                {
-                    //500
-                    var encoding = request.ContentEncoding ?? Encoding.UTF8;
-                    var bytes = encoding.GetBytes(ex.Message);
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response.ContentEncoding = encoding;
-                    response.OutputStream.Write(bytes, 0, bytes.Length);
-                }
-
+            }
+            catch (Exception ex)
+            {
+                //500
+                var encoding = request.ContentEncoding ?? Encoding.UTF8;
+                var bytes = encoding.GetBytes(ex.Message);
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.ContentEncoding = encoding;
+                response.OutputStream.Write(bytes, 0, bytes.Length);
                 goto EndResponse;
             }
 
             //404
-            NotFound:
-            rawUrl = Path.Combine(baseDir.FullName, notFound.TrimStart(HttpUtility.ForwardSlashChar));
-            if (notFound != null && File.Exists(rawUrl))
+            if (notFound != null && File.Exists(Path.Combine(baseDir.FullName, notFound.TrimStart(HttpUtility.ForwardSlashChar))))
             {
                 response.Redirect(notFound);
                 response.StatusCode = (int)HttpStatusCode.Redirect;
@@ -215,13 +194,84 @@ namespace SimpleHttpServer.Web
 
             //End
             EndResponse:
-            httpContext.Response.KeepAlive = false;
             httpContext.Response.Close();
         }
+
+        private bool TryExecuteProcessor(HttpListenerContext httpContext, string rawUrl)
+        {
+            if (TryGetProcessor(rawUrl, out Processor processor))
+            {
+                var context = new HttpContext(this, httpContext, rawUrl);
+                processor.Handle(context);
+                return true;
+            }
+
+            return false;
+        }
+
         private bool TryGetProcessor(string rawUrl, out Processor processor)
         {
-            processor = processors.Find(p => p.IsMath(rawUrl));
+            processor = processors.Find(p => p.IsMath(this, rawUrl));
             return (processor != null);
+        }
+
+        public sealed override object InitializeLifetimeService()
+        {
+            return null;
+        }
+
+        public void Start()
+        {
+            if (isActivated)
+                throw new InvalidOperationException();
+
+            isActivated = true;
+            httpListener = new HttpListener();
+            indices = conf.GetStringArray(IndicesProperty) ?? new string[0];
+            foreach (var host in conf.GetStringArray(HostsProperty))
+            {
+                httpListener.Prefixes.Add(host);
+            }
+
+            try
+            {
+                foreach (var bundleActivator in bundleActivators)
+                {
+                    bundleActivator.OnStart();
+                }
+                foreach (var processor in processors)
+                {
+                    processor.OnStart();
+                }
+
+                httpListener.Start();
+            }
+            catch (Exception ex)
+            {
+                throw new SiteInitializationException(BaseDirectory, ex);
+            }
+
+            PostAccept();
+        }
+
+        public void Stop()
+        {
+            if (!isActivated)
+                return;
+
+            isActivated = false;
+            httpListener.Stop();
+            httpListener.Close();
+            foreach (var processor in processors)
+            {
+                processor.OnStop();
+            }
+            foreach (var bundleActivator in bundleActivators)
+            {
+                bundleActivator.OnStop();
+            }
+
+            Logger.Flush();
         }
     }
 }

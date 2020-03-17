@@ -1,0 +1,45 @@
+<style>
+	.pm-label { float: left; padding-top: 7px; text-align: right; }
+	.pm-content { width:350px; }
+	.pm-button { margin-left: 10px; }
+	.wui-combo-box-input select { width: 105px; }
+	.wui-combo-box-input input { padding-left: 113px; }
+</style>
+
+<div class="wui-container-fluid">
+	<div class="wui-panel" style="width: 100%;">
+		<div class="wui-panel-heading">
+			<span class="wui-panel-title">邀请码 列表</span>
+		</div>
+		<div class="wui-panel-body">
+			<div class="wui-fieldset wui-mb20 wui-pb15">
+				<div class="wui-legend">操作</div>
+				<div class="wui-horizontal">
+					<label class="pm-label">数量：</label>
+					<input id="build_count" type="number" class="wui-input pm-content" value="1" min="1" style="display: inline-block;" />
+					<button id="btn-build" class="wui-btn wui-btn-default pm-button">生成</a>
+				</div>
+			</div>
+			<div class="wui-fieldset wui-mb20 wui-pb15">
+				<div class="wui-legend">列表</div>
+				<table id='dataview' class="wui-table">
+					<thead>
+						<tr>
+							<th property="index" order="true">序号</th>
+							<th property="ID" primary="true">标识符</th>
+							<th property="Code">邀请码</th>
+							<th property="Birth">生成时间</th>
+							<th property="Available">是否可用</th>
+							<th property="UseTime">使用时间</th>
+							<th property="Account">使用账号</th>
+							<th property="operate">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+	</div>
+</div>

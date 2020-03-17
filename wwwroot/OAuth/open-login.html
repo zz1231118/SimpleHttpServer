@@ -5,16 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 		<title>OAuth</title>
-		<link rel="stylesheet" type="text/css" href="/static/css/simple-img.css" />
-        <link rel="stylesheet" type="text/css" href="/static/css/simple-style.css" />
-        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+		<link rel="stylesheet" type="text/css" href="/library/static/css/simple-img.css" />
+        <link rel="stylesheet" type="text/css" href="/library/static/css/simple-style.css" />
+        <link rel="stylesheet" type="text/css" href="/library/static/css/wui.css" />
 
-        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.js"></script>
-        <script type="text/javascript" charset="utf-8" src="/static/js/jquery.md5.js"></script>
-        <script type="text/javascript" charset="utf-8" src="/static/js/security.js"></script>
-        <script type="text/javascript" charset="utf-8" src="/static/js/uri.js"></script>
-        <script type="text/javascript" charset="utf-8" src="/static/js/core.js"></script>
-        <script type="text/javascript" charset="utf-8" src="/static/js/navbar.js?notCheckLogin=true"></script>
+        <script type="text/javascript" charset="utf-8" src="/library/static/js/akky.js"></script>
         <style>
             .pm-label { margin-left:25px; width: 50px; float: left; padding-top: 5px; text-align: right; }
             .pm-content { width:260px; }
@@ -29,7 +24,7 @@
             }
         </style>
 	</head>
-	<body>
+	<body style="margin: 0; padding: 0;">
         <div class="header navbar-fixed-top">
             <div id="nav-home" class="nav-logo">
                 <a class="logo-inner" href="/index.html" title="爱扑网络">
@@ -37,38 +32,41 @@
                     <span id="nav-home-title" class="logo-text">爱扑网络</span>
                 </a>
             </div>
-            <ul id="nav-user" class="nav-user"></ul>
+            <ul id="nav-user" class="nav-user">
+                <li class="nav-user-li"><a href="/wiki.html" target="_blank"><i class="nav-icon icon-book icon-white"></i> 帮助文档</a></li>
+                <li class="nav-user-li"><a href="/register.html" target="_blank"><i class="nav-icon icon-th-large icon-white"></i> 注册</a></li>
+            </ul>
         </div>
 
-		<div class="container-fluid">
-            <div class="panel" style="width: 400px;">
-                <div class="panel-heading">
-                    <span class="panel-title">登录授权</span>
+		<div class="wui-container-fluid">
+            <div class="wui-panel" style="width: 400px; margin: 0 auto;">
+                <div class="wui-panel-heading">
+                    <span class="wui-panel-title">登录授权</span>
                 </div>
-                <div class="panel-body">
+                <div class="wui-panel-body">
                     <div style="margin-bottom: 20px;">
                         <div style="display: block; width: 210px; margin: 0 auto;">
                             <img id="app-icon" style="margin-right: 5px;" />
                             <img src="/static/img/interchange.png" />
-                            <img src="/static/img/logo.png" style="margin-left: 5px;" />
+                            <img src="/static/img/picatown.png" style="margin-left: 5px;" />
                         </div>
                     </div>
                     <div class="form-horizontal">
                         <span class="pm-label">名称：</span>
-                        <input id="app_name" class="control-input pm-content" readonly type="text" />
+                        <input id="app_name" class="wui-input pm-content" readonly type="text" />
                     </div>
                     <div class="form-horizontal">
                         <span class="pm-label">账号：</span>
-                        <input id="user_name" class="control-input pm-content" type="text" />
+                        <input id="user_name" class="wui-input pm-content" type="text" />
                     </div>
                     <div class="form-horizontal">
                         <span class="pm-label">密码：</span>
-                        <input id="user_pwd" class="control-input pm-content" type="password" />
+                        <input id="user_pwd" class="wui-input pm-content" type="password" />
                     </div>
                     <hr class="mt10 mb15">
                     <div class="form-horizontal">
                         <b class="pm-label"></b>
-                        <button id="btn_login" type="button" class="control-button btn-info" onclick="login();" disabled="true">登录</button>
+                        <button id="btn_login" type="button" class="wui-btn wui-btn-default" onclick="login();" disabled="true">登录</button>
                     </div>
                 </div>
             </div>
@@ -108,7 +106,13 @@
                     window.close();
                 }
             }
-            $.ready(function() {
+            akky.config({
+                baseUrl: '/static/js/',
+                paths: {
+                    static: '/library/static/js/',
+                }
+            });
+            akky.run(['static/jquery', 'core', 'uri', 'security'], ($, core, Uri, security) => {
                 if (!context.init()) {
                     close_window();
                     return;
@@ -118,7 +122,8 @@
                     close_window();
                     return;
                 }
-                Core.Auth.AppSummary({ app_id: context.app_id }, p => {
+                let btnLogin = $('#btn_login');
+                core.auth.AppSummary({ app_id: context.app_id }, p => {
                     if (!p.result) {
                         alert(p.data);
                         return;
@@ -134,49 +139,49 @@
 
                     $('#app-icon').attr('src', app.icon);
                     $('#app_name').val(app.name);
-                    $('#btn_login').attr('disabled', '');
+                    btnLogin.removeAttr('disabled', '');
+                });
+                btnLogin.click(() => {
+                    let user_name = $('#user_name');
+                    let user_pwd = $('#user_pwd');
+                    if (user_name.val() === "") {
+                        alert("账号不能为空!");
+                        return false;
+                    }
+                    if (user_pwd.val() === "") {
+                        alert("密码不能为空!");
+                        return false;
+                    }
+                    
+                    let credential = new security.ClientCredential(user_name.val(), user_pwd.val());
+                    let auth = credential.create();
+                    let param = {
+                        app_id: context.app_id,
+                        account: auth.account, 
+                        timestamp: auth.timestamp, 
+                        token: auth.token
+                    };
+                    core.auth.login(param, p => {
+                        switch (p.status) {
+                            case 0:
+                                let auth = p.data;
+                                window.location.href = context.redirect_uri + "?auth_token=" + auth.auth_token + "&state=" + context.state;
+                                break;
+                            case 5:
+                                if (confirm('您的资料不完整，无法登录，是否前往完善？')) {
+                                    window.location.href = '/index.html';
+                                } else {
+                                    alert('登录失败！');
+                                    close_window();
+                                }
+                                break;
+                            default:
+                                alert(p.data);
+                                break;
+                        }
+                    });
                 });
             });
-            function login() {
-                let user_name = $('#user_name');
-                let user_pwd = $('#user_pwd');
-                if (user_name.val() === "") {
-                    alert("账号不能为空!");
-                    return false;
-                }
-                if (user_pwd.val() === "") {
-                    alert("密码不能为空!");
-                    return false;
-                }
-                
-                let credential = new ClientCredential(user_name.val(), user_pwd.val());
-                let auth = credential.create();
-                let param = {
-                    app_id: context.app_id,
-                    account: auth.account, 
-                    timestamp: auth.timestamp, 
-                    token: auth.token
-                };
-                Core.Auth.Login(param, p => {
-                    switch (p.code) {
-                        case 0:
-                            let auth = p.data;
-                            window.location.href = context.redirect_uri + "?auth_token=" + auth.auth_token + "&state=" + context.state;
-                            break;
-                        case 5:
-                            if (confirm('您的资料不完整，无法登录，是否前往完善？')) {
-                                window.location.href = '/index.html';
-                            } else {
-                                alert('登录失败！');
-                                close_window();
-                            }
-                            break;
-                        default:
-                            alert(p.data);
-                            break;
-                    }
-                });
-            }
 		</script>
 	</body>
 </html>

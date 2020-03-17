@@ -2,7 +2,7 @@
 {
     public interface IHttpServer
     {
-        bool Activated { get; }
+        bool IsActivated { get; }
 
         void Start();
         void Stop();

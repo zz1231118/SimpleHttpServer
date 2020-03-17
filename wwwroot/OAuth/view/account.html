@@ -1,0 +1,68 @@
+<style>
+	.sky-checkbox { box-sizing: border-box; margin-top: 5px; margin-left: 0px; height: 20px; width: 20px; }
+	.pm-label { float: left; padding-top: 7px; text-align: right; }
+	.pm-content { width: 250px; }
+	.wpm-label { margin-left: 15px; width: 80px; }
+</style>
+
+<div class="wui-container-fluid">
+	<div class="wui-panel" style="width: 100%;">
+		<div class="wui-panel-heading">
+			<span class="wui-panel-title">帐号 列表</span>
+		</div>
+		<div class="wui-panel-body">
+			<div class="wui-fieldset wui-mb20 wui-pb15">
+				<div class="wui-legend">查询条件</div>
+				<div class="wui-horizontal">
+					<span class="pm-label">关键字：</span>
+					<div id="search-control" class="wui-horizontal pm-content"></div>
+				</div>
+			</div>
+			<table id='dataview' class="wui-table">
+				<thead>
+					<tr>
+						<th property="index" order="true">序号</th>
+						<th property="ID" primary="true">标识符</th>
+						<th property="Name">帐号</th>
+						<th property="password">密码</th>
+						<th property="Birth">创建时间</th>
+						<th property="OpenID">OpenID</th>
+						<th property="Nickname">昵称</th>
+						<th property="Realname">实名</th>
+						<th property="gender">性别</th>
+						<th property="Phone">手机</th>
+						<th property="AdminType">权限</th>
+						<th property="available">是否可用</th>
+						<th property="operate">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div id="_showalert" class="modal fade hide in" style="width: 400px;">
+	<div class="modal-header">
+		<span id="_showtitle">修改</span>
+		<a id="win-close" class="aui-close"></a>
+	</div>
+	<div id="_showbody" class="modal-body">
+		<div class="wui-horizontal">
+			<span class="pm-label wpm-label">帐号：</span>
+			<input id="win_name" type="text" class="wui-input pm-content" readonly="true" />
+		</div>
+		<div class="wui-horizontal">
+			<span class="pm-label wpm-label">权限：</span>
+			<input id="win_admin_type" type="number" class="wui-input pm-content" />
+		</div>
+		<div class="wui-horizontal">
+			<span class="pm-label wpm-label">是否可用：</span>
+			<input id="win_available" type="checkbox" class="sky-checkbox pm-control" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a id="win-submit" href="javascript: void(0);" class="wui-btn wui-btn-default">确定(OK)</a>
+	</div>
+</div>

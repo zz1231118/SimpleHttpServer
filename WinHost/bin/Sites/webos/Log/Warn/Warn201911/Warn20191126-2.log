@@ -1,0 +1,270 @@
+[21:50:19.566] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 尝试下载新的 URL file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos/Scripts.WebOS.dll。
+
+[21:50:30.755] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:34.002] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:34.770] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:35.303] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:35.493] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:35.675] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:35.869] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
+[21:50:36.034] ScriptProcessor file:D:\Svn\Apowo\SimpleHttpServer\wwwroot\webos\handler\AccountHandler.ashx error: System.IO.FileNotFoundException: 未能加载文件或程序集“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”或它的某一个依赖项。系统找不到指定的文件。
+文件名:“file:///D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll”
+   在 System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   在 System.Reflection.RuntimeAssembly.InternalLoadFrom(String assemblyFile, Evidence securityEvidence, Byte[] hashValue, AssemblyHashAlgorithm hashAlgorithm, Boolean forIntrospection, Boolean suppressSecurityChecks, StackCrawlMark& stackMark)
+   在 System.Reflection.Assembly.LoadFrom(String assemblyFile)
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.DllScriptAssembly.LoadAssembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\DllScriptAssembly.cs:行号 13
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.CreateValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 79
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.LazyInitValue() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 53
+   在 SimpleHttpServer.Scripts.Utility.Lazy`1.get_Value() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Utility\Lazy.cs:行号 42
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.get_Assembly() 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 34
+   在 SimpleHttpServer.Scripts.Domains.Assemblies.ScriptAssembly.CreateInstance(String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\Assemblies\ScriptAssembly.cs:行号 64
+   在 SimpleHttpServer.Scripts.Domains.HandleScriptDomain.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\Domains\HandleScriptDomain.cs:行号 74
+   在 SimpleHttpServer.Scripts.ScriptEngines.CreateInstance(String path, String typename, Object[] args) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptEngines.cs:行号 152
+   在 SimpleHttpServer.Scripts.ScriptProcessor.Handle(IHttpContext context) 位置 D:\Svn\Apowo\SimpleHttpServer\SimpleHttpServer.Scripts\ScriptProcessor.cs:行号 81
+
+=== 预绑定状态信息 ===
+日志: Where-ref 绑定。位置 = D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\Sites\webos\Scripts.WebOS.dll
+日志: Appbase = file:///D:/Svn/Apowo/SimpleHttpServer/WinHost/bin/Sites/webos
+日志: 初始 PrivatePath = NULL
+调用程序集: (Unknown)。
+===
+日志: 此绑定从 LoadFrom 加载上下文开始。
+警告: 将不在 LoadFrom 上下文中探测本机映像。仅在默认加载上下文中探测本机映像，例如，使用 Assembly.Load()。
+日志: 正在使用应用程序配置文件: D:\Svn\Apowo\SimpleHttpServer\WinHost\bin\WinHost.exe.Config
+日志: 使用主机配置文件: 
+日志: 使用 C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config 的计算机配置文件。
+日志: 相同的绑定已出现过，因 hr = 0x80070002 而失败。
+
