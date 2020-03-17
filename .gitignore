@@ -1,0 +1,11 @@
+.vs/
+packages/
+Scripts/OAuth/OAuth/bin/
+Scripts/OAuth/OAuth/obj/
+Scripts/OAuth/Scripts.OAuth/bin/
+Scripts/OAuth/Scripts.OAuth/obj/
+Scripts/OAuth/Scripts.OAuth.Entity/bin/
+Scripts/OAuth/Scripts.OAuth.Entity/obj/
+
+WinHost/bin/
+WinHost/obj/
