@@ -59,16 +59,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>setlocal enabledelayedexpansion
-set src_path=$(ProjectDir)bin\Debug
-for %25%25i in (Manager, OAuth) do (
-    set dst_path=$(ProjectDir)..\WinHost\bin\Sites\%25%25i
-    copy "$(TargetDir)OAuth.dll" "!dst_path!\OAuth.dll"
-    copy "$(TargetDir)OAuth.pdb" "!dst_path!\OAuth.pdb"
-
-    set dst_path=$(SolutionDir)SimpleWebService\bin\Sites\%25%25i
-    copy "$(TargetDir)OAuth.dll" "!dst_path!\OAuth.dll"
-    copy "$(TargetDir)OAuth.pdb" "!dst_path!\OAuth.pdb"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
