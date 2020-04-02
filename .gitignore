@@ -8,3 +8,9 @@ Scripts/OAuth/Scripts.OAuth.Entity/bin/
 Scripts/OAuth/Scripts.OAuth.Entity/obj/
 WinHost/bin/
 WinHost/obj/
+SimpleHttpServer.Scripts/bin/
+SimpleHttpServer.Scripts/obj/
+SimpleHttpServer/bin/
+SimpleHttpServer/obj/
+SimpleWebService/bin/
+SimpleWebService/obj/
